@@ -19,8 +19,8 @@ function App() {
           <Navbar />
           <div className="content">
             <Routes>
-              <Route exact path="/" element={<HomePage />}></Route>
               <Route exact path="/website" element={<HomePage />}></Route>
+              <Route exact path="/" element={<HomePage />}></Route>
               <Route path="/about" element={<HomePage />}></Route>
               <Route path="/writings" element={<WritingsPage />}></Route>
                 {/* <Route path="/blogs/:slug" element={<BlogDetails />} /> */}
