@@ -7,13 +7,30 @@ const BlogDetails = () => {
     const [blog, setBlog] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [activeMenuMainContent, setActiveMenuMainContent] = useState(null);
+
+    const toggleMenuMainContent = (menu) => {
+        setActiveMenuMainContent(activeMenuMainContent === menu ? null : menu);
+    };
+
+    const [activeMenuConclusion, setActiveMenuConclusion] = useState(null);
+
+    const toggleMenuConclusion = (menu) => {
+        setActiveMenuConclusion(activeMenuConclusion === menu ? null : menu);
+    };
+
+    const [activeMenuIntroduction, setActiveMenuIntroduction] = useState(null);
+
+    const toggleMenuIntro = (menu) => {
+        setActiveMenuIntroduction(activeMenuIntroduction === menu ? null : menu);
+    };
 
     // this function triggers when the component mounts
     // no need to mention the useEffect anywhere in the html
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/blogs/${slug}`);
+                const response = await fetch(`https://my-json-server.typicode.com/nishantb06/website/blogs/${slug}`);
                 if (!response.ok) {
                     throw new Error('Blog not found');
                 }
@@ -29,6 +46,12 @@ const BlogDetails = () => {
 
         fetchBlog();
     }, [slug]);  // when slug changes, this useEffect will run. this is a dependency array
+
+    // Add this style to remove bullet points
+    const noBulletStyle = {
+        listStyleType: 'none',
+        paddingLeft: 0
+    };
 
     if (loading) return <div className="text-center">Loading...</div>;
     if (error) return <div className="text-center text-red-500">{error}</div>;
@@ -54,24 +77,45 @@ const BlogDetails = () => {
                             <p className="menu-label">
                             Table of Contents
                             </p>
-                            <ul className="menu-list">
+                            <ul className="menu-list" style={noBulletStyle}>
                             <li>
-                                <a>Introduction</a>
-                                <ul className="is-hidden">
+                                <button 
+                                    onClick={() => toggleMenuIntro('manage-team')} 
+                                    className={`button is-text ${activeMenuIntroduction === 'manage-team' ? 'is-active' : ''}`}
+                                    aria-expanded={activeMenuIntroduction === 'manage-team'}
+                                    aria-controls="manage-team-submenu"
+                                >
+                                    Introduction
+                                </button>
+                                <ul className={activeMenuIntroduction === 'manage-team' ? '' : 'is-hidden'} style={noBulletStyle}>
                                 <li><a href="#subheading1-1">Subheading 1.1</a></li>
                                 <li><a href="#subheading1-2">Subheading 1.2</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a>Main Content</a>
-                                <ul className="is-hidden">
+                                <button 
+                                    onClick={() => toggleMenuMainContent('manage-team')} 
+                                    className={`button is-text ${activeMenuMainContent === 'manage-team' ? 'is-active' : ''}`}
+                                    aria-expanded={activeMenuMainContent === 'manage-team'}
+                                    aria-controls="manage-team-submenu"
+                                >
+                                    Main Content
+                                </button>
+                                <ul className={activeMenuMainContent === 'manage-team' ? '' : 'is-hidden'} style={noBulletStyle}>
                                 <li><a href="#subheading2-1">Subheading 2.1</a></li>
                                 <li><a href="#subheading2-2">Subheading 2.2</a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a>Conclusion</a>
-                                <ul className="is-hidden">
+                                <button 
+                                    onClick={() => toggleMenuConclusion('manage-team')} 
+                                    className={`button is-text ${activeMenuConclusion === 'manage-team' ? 'is-active' : ''}`}
+                                    aria-expanded={activeMenuConclusion === 'manage-team'}
+                                    aria-controls="manage-team-submenu"
+                                >
+                                    Conclusion
+                                </button>
+                                <ul className={activeMenuConclusion === 'manage-team' ? '' : 'is-hidden'} style={noBulletStyle}>
                                 <li><a href="#subheading3-1">Subheading 3.1</a></li>
                                 <li><a href="#subheading3-2">Subheading 3.2</a></li>
                                 </ul>

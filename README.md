@@ -91,3 +91,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
+npx json-server --watch src/data/blogs/sample_blog.json --port 8000 
+
+npm run start 
+
+npm run deploy or npm deploy to push to gh pages
