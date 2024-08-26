@@ -45,13 +45,6 @@ const BlogDetails = () => {
         fetchBlog();
     }, [slug]);  // when slug changes, this useEffect will run. this is a dependency array
 
-    // Add this style to remove bullet points
-    // const noBulletStyle = {
-    //     listStyleType: 'none',
-    //     paddingLeft: 0,
-    //     alignItems: 'left',
-    // };
-
     const paddingTitle = {
         paddingTop: '0rem',
         paddingBottom: '0rem',
