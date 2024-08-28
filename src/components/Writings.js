@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const Writings = () => {
     const [activeTab, setActiveTab] = useState('Blogs');
@@ -70,8 +70,14 @@ const Writings = () => {
                     </p>
                     <div className="pb-4"></div>
                     <div className="tags px-5 py-5">
-                        {tags.map((tag, index) => (
-                            <Link to={`/writings/tags/${tag}`} key={index} className="tag is-medium">{tag}</Link>
+                        {tags.map((tagName, index) => (
+                            <Link 
+                                to={`/writings/tags/${tagName}`} 
+                                key={index} 
+                                className={`tag is-medium is-hoverable is-warning is-light ${tag === tagName ? 'is-active' : ''}`}
+                            >
+                                {tagName}
+                            </Link>
                         ))}
                     </div>
                     {blogPosts.map((post, index) => (
@@ -85,13 +91,29 @@ const Writings = () => {
                             <h2 className="subtitle is-6">{post.subtitle}</h2>
                             <span className="is-size-6 pr-5">{post.date}</span>
                             {post.tags.map((postTag, tagIndex) => (
-                                <Link to={`/writings/tags/${postTag}`} key={tagIndex} className="tag is-normal is-link is-light mx-1">{postTag}</Link>
+                                <Link to={`/writings/tags/${postTag}`} key={tagIndex} className="tag is-normal is-hoverable is-warning is-light mx-1">{postTag}</Link>
                             ))}
                         </div>
                     ))}
                 </nav>
             </div>
             <style jsx>{`
+                // .tag {
+                //     background-color: #000000;
+                //     color: #ffffff;
+                // }
+                // .tag.is-hoverable:hover {
+                //     background-color: #363636;
+                //     color: #ffffff;
+                // }
+                .tag.is-active {
+                    background-color: #5d7638 ;
+                    color: #ffffff;
+                }
+                // .tag.is-active:hover {
+                //     background-color: #c0c357;
+                //     color: #ffffff;
+                // }
                 .blog-title-link {
                     display: inline-block;
                     transition: transform 0.2s ease-in-out;
