@@ -39,23 +39,25 @@ const Writings = () => {
                         </p>
                     </div>
                     <p className="panel-tabs">
-                        <a 
+                        <Link 
+                            to="/writings/blogs"
                             className={activeTab === 'Blogs' ? 'is-active' : ''}
                             onClick={() => setActiveTab('Blogs')}
                         >
                             Blogs
-                        </a>
-                        <a 
+                        </Link>
+                        <Link 
+                            to="/writings/short-articles"
                             className={activeTab === 'Short articles' ? 'is-active' : ''}
                             onClick={() => setActiveTab('Short articles')}
                         >
                             Short articles
-                        </a>
+                        </Link>
                     </p>
                     <div className="pb-4"></div>
                     <div className="tags px-5 py-5">
                         {tags.map((tag, index) => (
-                            <a key={index} className="tag is-medium">{tag}</a>
+                            <Link to={`/writings/tags/${tag}`} key={index} className="tag is-medium">{tag}</Link>
                         ))}
                     </div>
                     {blogPosts.map((post, index) => (
@@ -64,7 +66,7 @@ const Writings = () => {
                             <h2 className="subtitle is-6">{post.excerpt}</h2>
                             <span className="is-size-6 pr-5">{post.date}</span>
                             {post.tags.map((tag, tagIndex) => (
-                                <a key={tagIndex} className="tag is-normal is-link is-light">{tag}</a>
+                                <Link to={`/writings/tags/${tag}`} key={tagIndex} className="tag is-normal is-link is-light mx-1">{tag}</Link>
                             ))}
                         </div>
                     ))}

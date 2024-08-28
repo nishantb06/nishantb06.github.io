@@ -106,6 +106,113 @@
           ]
         }
       ]
+    },
+    {
+      "id": "quantisation-notes",
+      "title": "Quantisation Notes",
+      "subtitle": "Notes on Quantisation",
+      "slug": "quantisation-notes",
+      "author": "Nishant Bhansali",
+      "date": "2024-05-07",
+      "tags": ["one", "two", "three"],
+      "schema": [
+        {
+          "Introduction": [
+            "Subheading 1.1",
+            "Subheading 1.2"
+          ]
+        },
+        {
+          "Main Content": [
+            "Subheading 2.1",
+            "Subheading 2.2"
+          ]
+        },
+        {
+          "Conclusion": [
+            "Subheading 3.1",
+            "Subheading 3.2"
+          ]
+        }
+      ],
+      "content": [
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "Introduction"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat unde, ad obcaecati perferendis sequi enim saepe eaque..."
+        },
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "Section 2"
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "id": "subheadingM-1",
+          "content": "Subheading 2.1"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Content for subheading 2.1..."
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "id": "subheadingM-2",
+          "content": "Subheading 2.2"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Content for subheading 2.2..."
+        },
+        {
+          "type": "article",
+          "className": "message",
+          "content": [
+            {
+              "type": "div",
+              "className": "message-header",
+              "content": [
+                {
+                  "type": "p",
+                  "content": "Hello World"
+                },
+                {
+                  "type": "button",
+                  "className": "delete",
+                  "attributes": {
+                    "aria-label": "delete"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "div",
+              "className": "message-body",
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+            }
+          ]
+        },
+        {
+          "type": "article",
+          "className": "message is-warning",
+          "content": [
+            {
+              "type": "div",
+              "className": "message-body",
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+            }
+          ]
+        }
+      ]
     }
   ]
 }

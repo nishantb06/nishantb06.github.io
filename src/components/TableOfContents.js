@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const TableOfContents = ({ activeMenus, toggleMenu, blogSchema }) => {
     const noBulletStyle = {
@@ -15,12 +16,12 @@ const TableOfContents = ({ activeMenus, toggleMenu, blogSchema }) => {
                     const [sectionTitle, subheadings] = Object.entries(section)[0];
                     return (
                         <li key={index} style={noBulletStyle}>
-                            <a onClick={() => toggleMenu(sectionTitle)}>
+                            <Link to="#" onClick={() => toggleMenu(sectionTitle)}>
                                 {sectionTitle}
                                 <span className="icon is-small is-pulled-right">
                                     <i className={`fas fa-angle-${activeMenus[sectionTitle] ? 'down' : 'left'}`}></i>
                                 </span>
-                            </a>
+                            </Link>
                             {activeMenus[sectionTitle] && (
                                 <ul style={noBulletStyle}>
                                     {subheadings.map((subheading, subIndex) => (

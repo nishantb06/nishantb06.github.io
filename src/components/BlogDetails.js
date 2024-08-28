@@ -7,6 +7,7 @@ import TableOfContents from './TableOfContents';
 
 const BlogDetails = () => {
     const { slug } = useParams();
+    console.log(slug);
     const [blog, setBlog] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -28,7 +29,7 @@ const BlogDetails = () => {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await fetch(`https://my-json-server.typicode.com/nishantb06/website/blogs/${slug}`);
+                const response = await fetch(`http://localhost:8000/blogs/${slug}`);
                 if (!response.ok) {
                     throw new Error('Blog not found');
                 }
@@ -91,7 +92,7 @@ const BlogDetails = () => {
                                     </p>
                                     <div className="tags">
                                         {blog.tags.map((tag, index) => (
-                                            <a key={index} className="tag is-black">{tag}</a>
+                                            <a key={index} className="tag is-warning is-light">{tag}</a>
                                         ))}
                                     </div>
                                     <div className="pb-4">
