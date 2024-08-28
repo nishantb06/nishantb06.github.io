@@ -114,7 +114,7 @@
       "slug": "quantisation-notes",
       "author": "Nishant Bhansali",
       "date": "2024-05-07",
-      "tags": ["one", "two", "three"],
+      "tags": ["one", "two", "three", "quantisation"],
       "schema": [
         {
           "Introduction": [
@@ -237,6 +237,16 @@
           "type": "p",
           "className": "pb-4",
           "content": "In summary, tracing is about capturing the operations of a model to create a script representation for efficient inference, while quantization is about reducing the precision of the model's parameters and activations to improve performance and reduce memory footprint."
+        },
+        {
+          "type": "pre",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "code",
+              "content": "function helloWorld() \n\t{ console.log('Hello, World!'); }"
+            }
+          ]
         }
       ]
     }

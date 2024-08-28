@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import 'bulma/css/bulma.min.css';
 import React from 'react';
 import TableOfContents from './TableOfContents';
+import '../styles/CodeStyles.css';
 
 const BlogDetails = () => {
     const { slug } = useParams();

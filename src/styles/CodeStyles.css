@@ -1,0 +1,48 @@
+.code-block-wrapper {
+  position: relative;
+}
+
+.code-block {
+  background-color: #282c34;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.code-block code {
+  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.inline-code {
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  padding: 0.2em 0.4em;
+  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 0.9em;
+}
+
+.copy-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: #3273dc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.copy-button:hover {
+  background-color: #2366d1;
+}
+
+.copy-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(50, 115, 220, 0.5);
+}
