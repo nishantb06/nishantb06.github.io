@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useParams } from 'react-router-dom';
 
 const Writings = () => {
     const [activeTab, setActiveTab] = useState('Blogs');
     const [searchTerm, setSearchTerm] = useState('');
     const [blogPosts, setBlogPosts] = useState([]);
+    const { tag } = useParams();
 
     useEffect(() => {
         const fetchBlogPosts = async () => {
@@ -14,14 +15,19 @@ const Writings = () => {
                     throw new Error('Failed to fetch blog posts');
                 }
                 const data = await response.json();
-                setBlogPosts(data);
+                if (tag) {
+                    const filteredPosts = data.filter(post => post.tags.includes(tag.toLowerCase()));
+                    setBlogPosts(filteredPosts);
+                } else {
+                    setBlogPosts(data);
+                }
             } catch (error) {
                 console.error('Error fetching blog posts:', error);
             }
         };
 
         fetchBlogPosts();
-    }, []);
+    }, [tag]);
 
     const tags = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'quantisation'];
 
@@ -29,7 +35,9 @@ const Writings = () => {
         <section className="section">
             <div className="container">
                 <nav className="panel">
-                    <p className="panel-heading">Writings: ML, LLM's, MLOP's, Engineering</p>
+                    <p className="panel-heading">
+                        {tag ? `Writings tagged with "${tag}"` : 'Writings: ML, LLM\'s, MLOP\'s, Engineering'}
+                    </p>
                     <div className="panel-block">
                         <p className="control has-icons-left">
                             <input 
@@ -71,14 +79,13 @@ const Writings = () => {
                             <Link to={`/writings/blogs/${post.slug}`} className="title is-3 has-text-weight-medium">{post.title}</Link>
                             <h2 className="subtitle is-6">{post.subtitle}</h2>
                             <span className="is-size-6 pr-5">{post.date}</span>
-                            {post.tags.map((tag, tagIndex) => (
-                                <Link to={`/writings/tags/${tag}`} key={tagIndex} className="tag is-normal is-link is-light mx-1">{tag}</Link>
+                            {post.tags.map((postTag, tagIndex) => (
+                                <Link to={`/writings/tags/${postTag}`} key={tagIndex} className="tag is-normal is-link is-light mx-1">{postTag}</Link>
                             ))}
                         </div>
                     ))}
                 </nav>
             </div>
-            <Outlet />
         </section>
     );
 };
