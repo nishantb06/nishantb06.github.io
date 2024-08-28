@@ -5,6 +5,7 @@ const TableOfContents = ({ activeMenus, toggleMenu, blogSchema }) => {
     const noBulletStyle = {
         listStyleType: 'none',
         paddingLeft: 0,
+        marginLeft: 0,
         alignItems: 'left',
     };
 
