@@ -14,6 +14,16 @@ const DynamicElement = ({ element }) => {
 
   const ElementType = type;
 
+  if (type === 'ul' || type === 'ol') {
+    return (
+      <ElementType className={className} id={id} {...attributes}>
+        {content.map((item, index) => (
+          <li key={index}>{renderContent(item.content)}</li>
+        ))}
+      </ElementType>
+    );
+  }
+
   return (
     <ElementType className={className} id={id} {...attributes}>
       {renderContent(content)}
