@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TableOfContents = ({ activeMenus, toggleMenu }) => {
+const TableOfContents = ({ activeMenus, toggleMenu, blogSchema }) => {
     const noBulletStyle = {
         listStyleType: 'none',
         paddingLeft: 0,
@@ -11,22 +11,28 @@ const TableOfContents = ({ activeMenus, toggleMenu }) => {
         <aside className="menu">
             <p className="menu-label">Table of Contents</p>
             <ul className="menu-list" style={noBulletStyle}>
-                {['Introduction', 'Main Content', 'Conclusion'].map((section) => (
-                    <li key={section}>
-                        <button 
-                            onClick={() => toggleMenu(section)} 
-                            className={`button is-text ${activeMenus[section] ? 'is-active' : ''}`}
-                            aria-expanded={activeMenus[section]}
-                            aria-controls={`${section.toLowerCase()}-submenu`}
-                        >
-                            {section}
-                        </button>
-                        <ul className={activeMenus[section] ? '' : 'is-hidden'} style={noBulletStyle}>
-                            <li><a href={`#subheading${section.charAt(0)}-1`}>Subheading {section.charAt(0)}.1</a></li>
-                            <li><a href={`#subheading${section.charAt(0)}-2`}>Subheading {section.charAt(0)}.2</a></li>
-                        </ul>
-                    </li>
-                ))}
+                {blogSchema.map((section, index) => {
+                    const [sectionTitle, subheadings] = Object.entries(section)[0];
+                    return (
+                        <li key={index} style={noBulletStyle}>
+                            <a onClick={() => toggleMenu(sectionTitle)}>
+                                {sectionTitle}
+                                <span className="icon is-small is-pulled-right">
+                                    <i className={`fas fa-angle-${activeMenus[sectionTitle] ? 'down' : 'left'}`}></i>
+                                </span>
+                            </a>
+                            {activeMenus[sectionTitle] && (
+                                <ul style={noBulletStyle}>
+                                    {subheadings.map((subheading, subIndex) => (
+                                        <li key={subIndex} style={noBulletStyle}>
+                                            <a href={`#subheading-${index}-${subIndex}`}>{subheading}</a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </li>
+                    );
+                })}
             </ul>
         </aside>
     );
