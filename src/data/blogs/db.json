@@ -161,7 +161,7 @@
             },
             {
               "type": "li",
-              "content": "Optimizations: When you use torch.jit.script to script a model, PyTorch applies various optimizations to the script, such as constant folding and operator fusion, which can improve performance during inference."
+              "content": "Optimizations: When you use `torch.jit.script` to script a model, PyTorch applies various optimizations to the script, such as constant folding and operator fusion, which can improve performance during inference."
             },
             {
               "type": "li",
@@ -209,11 +209,11 @@
           "content": [
             {
               "type": "li",
-              "content": "torch.jit.trace: This function takes an input tensor and traces the operations that occur during the forward pass of the model. It records the operations as a ScriptModule, which can be used for inference. Tracing is useful for models that have fixed control flow (i.e., the execution of the model does not depend on dynamic conditions like loops or if statements)."
+              "content": "`torch.jit.trace`: This function takes an input tensor and traces the operations that occur during the forward pass of the model. It records the operations as a ScriptModule, which can be used for inference. Tracing is useful for models that have fixed control flow (i.e., the execution of the model does not depend on dynamic conditions like loops or if statements)."
             },
             {
               "type": "li",
-              "content": "torch.jit.script: This decorator converts a Python function into a ScriptModule, allowing for more flexibility in defining the model's forward method. It is used when the model has dynamic control flow."
+              "content": "`torch.jit.script`: This decorator converts a Python function into a ScriptModule, allowing for more flexibility in defining the model's forward method. It is used when the model has dynamic control flow."
             }
           ]
         },

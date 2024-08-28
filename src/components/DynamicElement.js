@@ -9,7 +9,20 @@ const DynamicElement = ({ element }) => {
         <DynamicElement key={index} element={item} />
       ));
     }
+    if (typeof content === 'string') {
+      return renderInlineCode(content);
+    }
     return content;
+  };
+
+  const renderInlineCode = (text) => {
+    const parts = text.split(/(`[^`]+`)/).filter(Boolean);
+    return parts.map((part, index) => {
+      if (part.startsWith('`') && part.endsWith('`')) {
+        return <code key={index}>{part.slice(1, -1)}</code>;
+      }
+      return part;
+    });
   };
 
   const ElementType = type;
