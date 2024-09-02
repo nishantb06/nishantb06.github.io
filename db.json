@@ -7,7 +7,7 @@
       "slug": "bigquery-rows-go",
       "author": "Author Name",
       "date": "2021-01-01",
-      "tags": ["one", "two", "three"],
+      "tags": ["One", "Two", "Three"],
       "schema": [
         {
           "Introduction": [
@@ -28,50 +28,227 @@
           ]
         }
       ],
-      "content": {
-        "Introduction": [
-          "Paragraph 1",
-          "Paragraph 2",
-          {
-            "Subheading 1.1": [
-              "Paragraph 1.1.1",
-              "Paragraph 1.1.2"
-            ],
-            "Subheading 1.2": [
-              "Paragraph 1.2.1",
-              "Paragraph 1.2.2"
-            ]
-          }
-        ],
-        "mainContent": [
-          "Paragraph 3",
-          "Paragraph 4",
-          {
-            "Subheading 2.1": [
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat unde, ad obcaecati perferendis sequienim saepe eaque. Fuga totam placeat, possimus ducimus suscipit eligendi porro, alias, rerum voluptatem illumexcepturi dicta aperiam sint! Illo tenetur sit reprehenderit, saepe quod, aspernatur voluptates quibusdam ipsam,modi deserunt reiciendis eius ad placeat quaerat! Sapiente ad quae sed sit molestiae praesentium! Amet modi adipisciquidem iure fugit ad voluptatem itaque repudiandae temporibus quod pariatur, delectus sequi neque deserunt quinumquam eos saepe facere voluptas aliquid perspiciatis accusamus sit! Asperiores atque molestias illo mollitiaquasi. Deserunt corporis molestias aspernatur obcaecati debitis officia mollitia, corrupti itaque totam rationeaperiam error magnam in aut sm illo esse in dolor vero magnam delectusquae deserunt laboriosam? Quos amet adipisci, deserunt cumque accusantium temporibus ullam nemo optio architectoreiciendis provident necessitatibus, quibusdam blanditiis repellendus a id distinctio expedita rerum ad magnam.",
-              "Paragraph 2.1.2"
-            ],
-            "Subheading 2.2": [
-              "Paragraph 2.2.1",
-              "Paragraph 2.2.2"
-            ]
-          }
-        ],
-        "Conclusion": [
-          "Paragraph 5",
-          "Paragraph 6",
-          {
-            "Subheading 3.1": [
-              "Paragraph 3.1.1",
-              "Paragraph 3.1.2"
-            ],
-            "Subheading 3.2": [
-              "Paragraph 3.2.1",
-              "Paragraph 3.2.2"
-            ]
-          }
-        ]
-      }
+      "content": [
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "Introduction"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat unde, ad obcaecati perferendis sequi enim saepe eaque..."
+        },
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "Section 2"
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "id": "subheadingM-1",
+          "content": "Subheading 2.1"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Content for subheading 2.1..."
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "id": "subheadingM-2",
+          "content": "Subheading 2.2"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Content for subheading 2.2..."
+        },
+        {
+          "type": "article",
+          "className": "message",
+          "content": [
+            {
+              "type": "div",
+              "className": "message-header",
+              "content": [
+                {
+                  "type": "p",
+                  "content": "Hello World"
+                },
+                {
+                  "type": "button",
+                  "className": "delete",
+                  "attributes": {
+                    "aria-label": "delete"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "div",
+              "className": "message-body",
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+            }
+          ]
+        },
+        {
+          "type": "article",
+          "className": "message is-warning",
+          "content": [
+            {
+              "type": "div",
+              "className": "message-body",
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quantisation-notes",
+      "title": "Quantisation Notes",
+      "subtitle": "Notes on Quantisation",
+      "slug": "quantisation-notes",
+      "author": "Nishant Bhansali",
+      "date": "2024-05-07",
+      "tags": ["one", "two", "three", "quantisation"],
+      "schema": [
+        {
+          "Introduction": [
+            "Optimization Methods",
+            "Benefits of Scripting Models"
+          ]
+        },
+        {
+          "Main Content": [
+            "Tracing vs Scripting",
+            "Quantization"
+          ]
+        }
+      ],
+      "content": [
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "Introduction"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "There are 4 methods to optimise a model, GPTQ, activation aware quantized training, bits and bytes , packages like huggingface optimum, or pytorch api itself."
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "id": "benefits-of-scripting",
+          "content": "Benefits of Scripting Models"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Scripting the model can make inference faster for a few reasons:"
+        },
+        {
+          "type": "ul",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "li",
+              "content": "Reduced Overhead: Scripted models can have lower overhead compared to their original Python counterparts because the script represents a more optimized version of the model's forward pass. This can lead to faster execution times."
+            },
+            {
+              "type": "li",
+              "content": "Optimizations: When you use `torch.jit.script` to script a model, PyTorch applies various optimizations to the script, such as constant folding and operator fusion, which can improve performance during inference."
+            },
+            {
+              "type": "li",
+              "content": "Parallelization: Scripted models can take advantage of parallelization opportunities more effectively, especially when deployed on hardware accelerators like GPUs, due to the way the operations are organized and optimized in the script."
+            },
+            {
+              "type": "li",
+              "content": "Serialization: Scripted models can be serialized and deserialized more efficiently, which is important for deployment scenarios where models need to be loaded quickly into memory."
+            },
+            {
+              "type": "li",
+              "content": "Platform Independence: Scripted models are platform-independent once they are compiled, meaning they can be executed on any platform that supports PyTorch without needing the original Python code, which can be beneficial for deployment in different environments."
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Overall, scripting a model can lead to faster inference times due to these optimizations and efficiencies, especially in production environments where speed and resource usage are critical."
+        },
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "Main Content"
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "id": "tracing-vs-scripting",
+          "content": "Tracing vs Scripting"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Tracing a model using torch.jit.trace and torch.jit.script and quantization are two distinct processes in PyTorch, each serving different purposes:"
+        },
+        {
+          "type": "h4",
+          "className": "subtitle",
+          "content": "Tracing:"
+        },
+        {
+          "type": "ol",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "li",
+              "content": "`torch.jit.trace`: This function takes an input tensor and traces the operations that occur during the forward pass of the model. It records the operations as a ScriptModule, which can be used for inference. Tracing is useful for models that have fixed control flow (i.e., the execution of the model does not depend on dynamic conditions like loops or if statements)."
+            },
+            {
+              "type": "li",
+              "content": "`torch.jit.script`: This decorator converts a Python function into a ScriptModule, allowing for more flexibility in defining the model's forward method. It is used when the model has dynamic control flow."
+            }
+          ]
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "id": "quantization",
+          "content": "Quantization"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Quantization is the process of converting a model to use fewer bits to represent weights and activations, usually from 32-bit floating point to 8-bit integers (or even lower bit representations). This can significantly reduce the model size and improve inference speed, especially on hardware that supports low-precision operations efficiently."
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "PyTorch provides tools like torch.quantization module to help with quantization, including functions to prepare the model for quantization (torch.quantization.prepare) and to actually quantize the model (torch.quantization.convert)."
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "In summary, tracing is about capturing the operations of a model to create a script representation for efficient inference, while quantization is about reducing the precision of the model's parameters and activations to improve performance and reduce memory footprint."
+        },
+        {
+          "type": "pre",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "code",
+              "content": "function helloWorld() \n\t{ console.log('Hello, World!'); }"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

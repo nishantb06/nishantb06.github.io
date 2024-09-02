@@ -10,7 +10,7 @@ const Writings = () => {
     useEffect(() => {
         const fetchBlogPosts = async () => {
             try {
-                const response = await fetch('http://localhost:8000/blogs');
+                const response = await fetch(`${process.env.REACT_APP_API_URL}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch blog posts');
                 }

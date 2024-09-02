@@ -30,7 +30,7 @@ const BlogDetails = () => {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/blogs/${slug}`);
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/${slug}`);
                 if (!response.ok) {
                     throw new Error('Blog not found');
                 }
