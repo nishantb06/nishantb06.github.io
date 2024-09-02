@@ -5,6 +5,7 @@ const Writings = () => {
     const [activeTab, setActiveTab] = useState('Blogs');
     const [searchTerm, setSearchTerm] = useState('');
     const [blogPosts, setBlogPosts] = useState([]);
+    const [tags, setTags] = useState([]);
     const { tag } = useParams();
 
     useEffect(() => {
@@ -21,6 +22,13 @@ const Writings = () => {
                 } else {
                     setBlogPosts(data);
                 }
+
+                // Extract unique tags
+                const uniqueTags = new Set();
+                data.forEach(post => {
+                    post.tags.forEach(tag => uniqueTags.add(tag));
+                });
+                setTags([...uniqueTags]);
             } catch (error) {
                 console.error('Error fetching blog posts:', error);
             }
@@ -28,8 +36,6 @@ const Writings = () => {
 
         fetchBlogPosts();
     }, [tag]);
-
-    const tags = ['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'quantisation'];
 
     return (
         <section className="section">

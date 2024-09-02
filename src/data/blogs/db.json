@@ -249,6 +249,143 @@
           ]
         }
       ]
+    },
+    {
+      "id": "dev-containers-vscode-docker",
+      "title": "Dev Containers: Open Vscode editor inside any Docker image",
+      "subtitle": "How to create a dev container",
+      "slug": "dev-containers-vscode-docker",
+      "author": "Your Name",
+      "date": "2023-10-01",
+      "tags": ["dev containers", "vscode", "docker"],
+      "schema": [
+        {
+          "Introduction": [
+            "Benefits of Dev Containers"
+          ]
+        },
+        {
+          "Main Content": [
+            "Step 1: Create config files",
+            "Step 2: Open dev container"
+          ]
+        }
+      ],
+      "content": [
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "Introduction"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Let's say you have a docker image for an application and you want to run some test or experiment/add some new feature to that application. Normally I would build that image locally and mount the application directory as volume when I run that container. But something better exists."
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Using Dev Containers is better because:"
+        },
+        {
+          "type": "ul",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "li",
+              "content": "It gives the VS code experience for any docker image."
+            },
+            {
+              "type": "li",
+              "content": "Different VS code extensions can be used here like Linting, Copilot etc."
+            },
+            {
+              "type": "li",
+              "content": "Allows reproducibility for any other developer."
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "[Video](https://www.youtube.com/watch?v=b1RavPr_878)"
+        },
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "How to create a dev container"
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "content": "Step 1: Create config files"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Open the command palette in VS Code by `CMD + Shift + p` or `Cntrl + Shft + p` if you are in Windows. Type this `Dev Containers: Add dev container config files`. Choose the language you want and any other functionality you want and press enter."
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "This will create a `devcontainer.json` file inside a `.devcontainer` folder in your root."
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "This file will look something like this:"
+        },
+        {
+          "type": "pre",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "code",
+              "content": "// For format details, see https://aka.ms/devcontainer.json. For config options, see the\n// README at: https://github.com/devcontainers/templates/tree/main/src/go\n{\n\t\"name\": \"Go\",\n\t// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile\n\t\"image\": \"mcr.microsoft.com/devcontainers/go:1-${templateOption:imageVariant}\"\n\n\t// Features to add to the dev container. More info: https://containers.dev/features.\n\t// \"features\": {},\n\n\t// Use 'forwardPorts' to make a list of ports inside the container available locally.\n\t// \"forwardPorts\": [],\n\n\t// Use 'postCreateCommand' to run commands after the container is created.\n\t// \"postCreateCommand\": \"go version\",\n\n\t// Configure tool-specific properties.\n\t// \"customizations\": {},\n\n\t// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.\n\t// \"remoteUser\": \"root\"\n}"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Here replace the name field to whatever is suitable and replace the image field by the name of your own custom image. Can see possible names by running `docker images` in your CLI."
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "💡 the image provided here is of native Golang, pulled from Microsoft container registry."
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Finally it should look something like this:"
+        },
+        {
+          "type": "pre",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "code",
+              "content": "// For format details, see https://aka.ms/devcontainer.json. For config options, see the\n// README at: https://github.com/devcontainers/templates/tree/main/src/go\n{\n\t\"name\": \"Go-dummy-app\",\n\t// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile\n\t// \"image\": \"mcr.microsoft.com/devcontainers/go:1-1.21-bullseye\",\n\t\"image\": \"dummy-app\"\n\n\t// Features to add to the dev container. More info: https://containers.dev/features.\n\t// \"features\": {},\n\n\t// Use 'forwardPorts' to make a list of ports inside the container available locally.\n\t// \"forwardPorts\": [],\n\n\t// Use 'postCreateCommand' to run commands after the container is created.\n\t// \"postCreateCommand\": \"go version\",\n\n\t// Configure tool-specific properties.\n\t// \"customizations\": {},\n\n\t// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.\n\t// \"remoteUser\": \"root\"\n}"
+            }
+          ]
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "content": "Step 2: Open dev container"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Again open Command palette and type `Dev Container: reopen in container`."
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "This will take a bit to reload and voila! you should be ready to go now."
+        }
+      ]
     }
   ]
 }
