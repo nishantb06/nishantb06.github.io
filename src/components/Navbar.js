@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logoImage from '../assets/logo-thing.png';
 
 const Navbar = () => {
     return (
         <nav className="navbar has-shadow is-white">
             <div className="navbar-brand">
                 <Link to="/" className="navbar-item">
-                    <img src={logoImage} alt="Logo" style={{maxHeight: 50}} className="py-2 px-2" />
+                    <span className="is-size-4 has-text-weight-bold" style={{ letterSpacing: '1px' }}>
+                        NishantBhansali
+                    </span>
                 </Link>
                 <button className="navbar-burger" id="burger" aria-label="menu" aria-expanded="false">
                     <span aria-hidden="true"></span>
