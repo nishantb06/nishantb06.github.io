@@ -11,25 +11,27 @@ import { BlogProvider } from './context/BlogContext';
 
 function App() {
   return (
-    <BlogProvider>
-      <div className="App">
-        <div className="container">
-          <Navbar />
-          <div className="content">
-            <Routes>
-              <Route exact path="/website" element={<HomePage />} />
-              <Route exact path="/" element={<HomePage />} />
-              <Route path="/about" element={<HomePage />} />
-              <Route path="/writings" element={<Writings />} />
-              <Route path="/writings/blogs/:slug" element={<BlogDetails />} />
-              <Route path="/writings/tags/:tag" element={<Writings />} />
-              <Route path="/prototypes" element={<PrototypesPage />} />
-            </Routes>
+    <Router>
+      <BlogProvider>
+        <div className="App">
+          <div className="container">
+            <Navbar />
+            <div className="content">
+              <Routes>
+                <Route exact path="/website" element={<HomePage />} />
+                <Route exact path="/" element={<HomePage />} />
+                <Route path="/about" element={<HomePage />} />
+                <Route path="/writings" element={<Writings />} />
+                <Route path="/writings/blogs/:slug" element={<BlogDetails />} />
+                <Route path="/writings/tags/:tag" element={<Writings />} />
+                <Route path="/prototypes" element={<PrototypesPage />} />
+              </Routes>
+            </div>
+            <Footer />
           </div>
-          <Footer />
         </div>
-      </div>
-    </BlogProvider>
+      </BlogProvider>
+    </Router>
   );
 }
 
