@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
     const socialLinks = [
-        { name: 'Twitter', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/twitter.svg', url: '#' },
-        { name: 'LinkedIn', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg', url: '#' },
-        { name: 'GitHub', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/github.svg', url: '#' },
-        { name: 'Kaggle', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/kaggle.svg', url: '#' },
-        { name: 'Gmail', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/gmail.svg', url: '#' },
+        { name: 'Twitter', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/twitter.svg', url: 'https://x.com/itsnishant14' },
+        { name: 'LinkedIn', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg', url: 'https://www.linkedin.com/in/nishantbhansali/' },
+        { name: 'GitHub', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/github.svg', url: 'https://github.com/nishantb06' },
+        { name: 'Kaggle', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/kaggle.svg', url: 'https://www.kaggle.com/nishantbhansali' },
+        { name: 'Gmail', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/gmail.svg', url: 'nbhansali06@gmail.com' },
     ];
 
     return (
