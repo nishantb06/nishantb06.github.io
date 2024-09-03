@@ -1,41 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { BlogContext } from '../context/BlogContext';
 
 const Writings = () => {
+    const { blogPosts, tags, loading, error } = useContext(BlogContext);
     const [activeTab, setActiveTab] = useState('Blogs');
     const [searchTerm, setSearchTerm] = useState('');
-    const [blogPosts, setBlogPosts] = useState([]);
-    const [tags, setTags] = useState([]);
     const { tag } = useParams();
 
-    useEffect(() => {
-        const fetchBlogPosts = async () => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch blog posts');
-                }
-                const data = await response.json();
-                if (tag) {
-                    const filteredPosts = data.filter(post => post.tags.includes(tag.toLowerCase()));
-                    setBlogPosts(filteredPosts);
-                } else {
-                    setBlogPosts(data);
-                }
+    const filteredPosts = tag
+        ? blogPosts.filter(post => post.tags.includes(tag.toLowerCase()))
+        : blogPosts;
 
-                // Extract unique tags
-                const uniqueTags = new Set();
-                data.forEach(post => {
-                    post.tags.forEach(tag => uniqueTags.add(tag));
-                });
-                setTags([...uniqueTags]);
-            } catch (error) {
-                console.error('Error fetching blog posts:', error);
-            }
-        };
-
-        fetchBlogPosts();
-    }, [tag]);
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
         <section className="section">
@@ -86,7 +64,7 @@ const Writings = () => {
                             </Link>
                         ))}
                     </div>
-                    {blogPosts.map((post, index) => (
+                    {filteredPosts.map((post, index) => (
                         <div key={index} className="px-6 py-5">
                             <Link 
                                 to={`/writings/blogs/${post.slug}`} 
@@ -104,22 +82,10 @@ const Writings = () => {
                 </nav>
             </div>
             <style jsx>{`
-                // .tag {
-                //     background-color: #000000;
-                //     color: #ffffff;
-                // }
-                // .tag.is-hoverable:hover {
-                //     background-color: #363636;
-                //     color: #ffffff;
-                // }
                 .tag.is-active {
                     background-color: #5d7638 ;
                     color: #ffffff;
                 }
-                // .tag.is-active:hover {
-                //     background-color: #c0c357;
-                //     color: #ffffff;
-                // }
                 .blog-title-link {
                     display: inline-block;
                     transition: transform 0.2s ease-in-out;

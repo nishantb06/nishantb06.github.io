@@ -6,10 +6,12 @@ import HomePage from "./pages/Homepage";
 import PrototypesPage from "./pages/Prototypes";
 import BlogDetails from "./components/BlogDetails";
 import Writings from './components/Writings';
+import React from 'react';
+import { BlogProvider } from './context/BlogContext';
 
 function App() {
   return (
-    <Router>
+    <BlogProvider>
       <div className="App">
         <div className="container">
           <Navbar />
@@ -27,7 +29,7 @@ function App() {
           <Footer />
         </div>
       </div>
-    </Router>
+    </BlogProvider>
   );
 }
 
