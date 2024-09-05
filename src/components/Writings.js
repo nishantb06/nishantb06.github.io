@@ -12,9 +12,12 @@ const Writings = () => {
         ? blogPosts.filter(post => 
             post.tags.some(postTag => 
                 postTag.toLowerCase() === tag.toLowerCase()
-            )
+            ) && 
+            (activeTab === 'Blogs' ? !post.isShortArticle : post.isShortArticle)
           )
-        : blogPosts;
+        : blogPosts.filter(post => 
+            activeTab === 'Blogs' ? !post.isShortArticle : post.isShortArticle
+          );
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -42,14 +45,14 @@ const Writings = () => {
                     </div>
                     <p className="panel-tabs">
                         <Link 
-                            to="/writings/blogs"
+                            // to="/writings/blogs"
                             className={activeTab === 'Blogs' ? 'is-active' : ''}
                             onClick={() => setActiveTab('Blogs')}
                         >
                             Blogs
                         </Link>
                         <Link 
-                            to="/writings/short-articles"
+                            // to="/writings/short-articles"
                             className={activeTab === 'Short articles' ? 'is-active' : ''}
                             onClick={() => setActiveTab('Short articles')}
                         >
