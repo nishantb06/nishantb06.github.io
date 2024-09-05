@@ -42,7 +42,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "In this blog post, we'll explore how to push new rows into a BigQuery table using Go. BigQuery, a serverless and highly-scalable data warehouse, is a part of Google Cloud Platform (GCP). We will be using the `cloud.google.com/go/bigquery` package for Go to interact with BigQuery."
         },
         {
@@ -52,12 +51,10 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Before diving into the code, make sure you have the following set up:"
         },
         {
           "type": "ul",
-          "className": "pb-4",
           "content": [
             {
               "type": "li",
@@ -80,7 +77,6 @@
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -95,7 +91,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Let's break down the code you've provided:"
         },
         {
@@ -105,7 +100,6 @@
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -115,7 +109,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "The `SampleData` struct represents the structure of the data to be inserted into BigQuery. The struct tags (`bigquery:\"name\"`, `bigquery:\"value\"`, and `bigquery:\"time\"`) provide metadata to the BigQuery API, mapping the fields of the struct to the corresponding columns in the BigQuery table."
         },
         {
@@ -125,7 +118,6 @@
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -135,7 +127,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "The `bigquery.NewClient` function is used to create a new BigQuery client. It takes the context (`ctx`), project ID, and options (in this case, the path to the JSON credentials file)."
         },
         {
@@ -145,7 +136,6 @@
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -155,7 +145,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Here, we specify the dataset and table within BigQuery where we want to insert the data."
         },
         {
@@ -165,7 +154,6 @@
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -175,7 +163,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "We retrieve the schema (metadata) of the specified table. The schema includes information about the columns and their types."
         },
         {
@@ -185,7 +172,6 @@
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -195,7 +181,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "An inserter is created for the table, which will be used to insert data."
         },
         {
@@ -205,7 +190,6 @@
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -215,7 +199,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Sample data is created using the `SampleData` struct. Note that even if the column datatype is `timestamp` in BigQuery, we have to push a string with proper formatting from our side, which is why we are not using a `time.Time` datatype for this field and using `string` instead."
         },
         {
@@ -225,7 +208,6 @@
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -235,7 +217,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "An array of data items is created to be inserted into the table. The data is then inserted into the specified table using the `Put` method of the inserter."
         },
         {
@@ -245,7 +226,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "In this blog post, we've covered the basics of pushing new rows into a BigQuery table using Go. Understanding the structure of your data, creating a BigQuery client, and utilising the provided libraries for interaction are crucial steps in achieving successful data insertion. This example can be extended for more complex scenarios, such as streaming data or updating existing records. Make sure to check the official documentation for more details and advanced usage."
         }
       ]
@@ -281,7 +261,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "There are 4 methods to optimise a model, GPTQ, activation aware quantized training, bits and bytes , packages like huggingface optimum, or pytorch api itself."
         },
         {
@@ -292,12 +271,10 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Scripting the model can make inference faster for a few reasons:"
         },
         {
           "type": "ul",
-          "className": "pb-4",
           "content": [
             {
               "type": "li",
@@ -323,7 +300,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Overall, scripting a model can lead to faster inference times due to these optimizations and efficiencies, especially in production environments where speed and resource usage are critical."
         },
         {
@@ -339,7 +315,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Tracing a model using torch.jit.trace and torch.jit.script and quantization are two distinct processes in PyTorch, each serving different purposes:"
         },
         {
@@ -349,7 +324,6 @@
         },
         {
           "type": "ol",
-          "className": "pb-4",
           "content": [
             {
               "type": "li",
@@ -369,22 +343,18 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Quantization is the process of converting a model to use fewer bits to represent weights and activations, usually from 32-bit floating point to 8-bit integers (or even lower bit representations). This can significantly reduce the model size and improve inference speed, especially on hardware that supports low-precision operations efficiently."
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "PyTorch provides tools like torch.quantization module to help with quantization, including functions to prepare the model for quantization (torch.quantization.prepare) and to actually quantize the model (torch.quantization.convert)."
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "In summary, tracing is about capturing the operations of a model to create a script representation for efficient inference, while quantization is about reducing the precision of the model's parameters and activations to improve performance and reduce memory footprint."
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -424,17 +394,14 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Let's say you have a docker image for an application and you want to run some test or experiment/add some new feature to that application. Normally I would build that image locally and mount the application directory as volume when I run that container. But something better exists."
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Using Dev Containers is better because:"
         },
         {
           "type": "ul",
-          "className": "pb-4",
           "content": [
             {
               "type": "li",
@@ -452,7 +419,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "[Video](https://www.youtube.com/watch?v=b1RavPr_878)"
         },
         {
@@ -467,22 +433,18 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Open the command palette in VS Code by `CMD + Shift + p` or `Cntrl + Shft + p` if you are in Windows. Type this `Dev Containers: Add dev container config files`. Choose the language you want and any other functionality you want and press enter."
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "This will create a `devcontainer.json` file inside a `.devcontainer` folder in your root."
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "This file will look something like this:"
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -492,22 +454,18 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Here replace the name field to whatever is suitable and replace the image field by the name of your own custom image. Can see possible names by running `docker images` in your CLI."
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "💡 the image provided here is of native Golang, pulled from Microsoft container registry."
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Finally it should look something like this:"
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -522,12 +480,10 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Again open Command palette and type `Dev Container: reopen in container`."
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "This will take a bit to reload and voila! you should be ready to go now."
         }
       ]
@@ -558,7 +514,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "Git stash is a powerful feature that allows you to temporarily store your uncommitted changes and revert your working directory to a clean state."
         },
         {
@@ -568,12 +523,10 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "To stash your changes, simply run:"
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -588,12 +541,10 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "To apply your stashed changes, use:"
         },
         {
           "type": "pre",
-          "className": "pb-4",
           "content": [
             {
               "type": "code",
@@ -603,7 +554,6 @@
         },
         {
           "type": "p",
-          "className": "pb-4",
           "content": "This quick tip can help you manage your work-in-progress more effectively!"
         }
       ]

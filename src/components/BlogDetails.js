@@ -59,7 +59,7 @@ const BlogDetails = () => {
                         <li><Link to="/" className="has-text-grey"></Link></li>
                         <li><Link to="/about" className="has-text-grey">Home</Link></li>
                         <li><Link to="/writings" className="has-text-grey">Blogs</Link></li>
-                        <li><Link to="#" className="is-active">{blog.title}</Link></li>
+                        <li><Link to="#" className="has-text-black">{blog.title}</Link></li>
                     </ul>
                 </nav>
             </div>
@@ -74,20 +74,22 @@ const BlogDetails = () => {
                                 blogSchema={blog.schema} 
                             />
                         </div>
-                        <div className="column is-10">
-                            <p className="is-size-5">{blog.date} </p>
-                            <h1 className="title is-1 pb-0 mb-0" style={paddingTitle}>
-                                {blog.title}
-                            </h1>
-                            <p className="subtitle is-3" style={paddingTitle}>
-                                {blog.subtitle}
-                            </p>
-                            <div className="tags">
-                                {blog.tags.map((tag, index) => (
-                                    <Link to={`/writings/tags/${encodeURIComponent(tag)}`} key={index} className="tag is-warning is-light">{tag}</Link>
-                                ))}
+                        <div className="column is-8">
+                            <div className="has-background-light p-4">
+                            <span className="is-size-5">{blog.date} </span>
+                                <h1 className="title is-1 pb-0 mb-0" style={paddingTitle}>
+                                    {blog.title}
+                                </h1>
+                                <p className="subtitle is-3" style={paddingTitle}>
+                                    {blog.subtitle}
+                                </p>
+                                <div className="tags">
+                                    {blog.tags.map((tag, index) => (
+                                        <Link to={`/writings/tags/${encodeURIComponent(tag)}`} key={index} className="tag is-warning is-light">{tag}</Link>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="pb-4"></div>
+                            {/* <div className="pb-4"></div> */}
                             {blogContent.map((element, index) => (
                                 <DynamicElement 
                                     key={index} 
@@ -95,6 +97,9 @@ const BlogDetails = () => {
                                     sectionTitle={element.sectionTitle}
                                 />
                             ))}
+                        </div>
+                        <div className="column is-2">
+                            {/* fill anything here later */}
                         </div>
                     </div>
                 </div>
