@@ -46,14 +46,14 @@ const Writings = () => {
                     <p className="panel-tabs">
                         <Link 
                             // to="/writings/blogs"
-                            className={activeTab === 'Blogs' ? 'is-active' : ''}
+                            className={activeTab === 'Blogs' ? 'is-active' : 'has-text-black'}
                             onClick={() => setActiveTab('Blogs')}
                         >
                             Blogs
                         </Link>
                         <Link 
                             // to="/writings/short-articles"
-                            className={activeTab === 'Short articles' ? 'is-active' : ''}
+                            className={activeTab === 'Short articles' ? 'is-active' : 'has-text-black'}
                             onClick={() => setActiveTab('Short articles')}
                         >
                             Short articles
