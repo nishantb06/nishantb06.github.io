@@ -17,3 +17,9 @@ code {
 .navbar-brand .navbar-item {
   font-family: 'Playfair Display', serif;
 }
+
+.navbar-item.is-active {
+  background-color: transparent !important;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
