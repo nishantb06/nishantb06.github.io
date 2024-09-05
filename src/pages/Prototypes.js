@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import { Link } from "react-router-dom";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const StyledCard = styled(Link)`
   display: block;
@@ -19,40 +19,91 @@ const StyledTitle = styled.p`
   }
 `;
 
+const CardInformation = {
+  1: {
+    title: "Newspaper UI",
+    description: "Trying to recreate a newspaper UI.",
+    image: "https://picsum.photos/seed/1/400/300",
+    slug: "newspaper",
+  },
+  2: {
+    title: "Prototype 2",
+    description: "This is the second prototype",
+    image: "https://picsum.photos/seed/2/400/300",
+    slug: "prototype-2",
+  },
+  3: {
+    title: "Prototype 3",
+    description: "This is the third prototype",
+    image: "https://picsum.photos/seed/3/400/300",
+    slug: "prototype-3",
+  },
+  4: {
+    title: "Prototype 4",
+    description: "This is the fourth prototype",
+    image: "https://picsum.photos/seed/4/400/300",
+    slug: "prototype-4",
+  },
+  5: {
+    title: "Prototype 5",
+    description: "This is the fifth prototype",
+    image: "https://picsum.photos/seed/5/400/300",
+    slug: "prototype-5",
+  },
+  6: {
+    title: "Prototype 6",
+    description: "This is the sixth prototype",
+    image: "https://picsum.photos/seed/6/400/300",
+    slug: "prototype-6",
+  },
+  7: {
+    title: "Prototype 7",
+    description: "This is the seventh prototype",
+    image: "https://picsum.photos/seed/7/400/300",
+    slug: "prototype-7",
+  },
+};
+
 const PrototypesPage = () => {
-    return (
-        <div>
-            <section className="section">
-                <div className="container">
-                    <div className="columns is-multiline is-variable is-3" style={{ margin: -0.75 + 'rem' }}>
-                        {[...Array(7)].map((_, index) => (
-                            <div key={index} className="column is-one-third" style={{ padding: 0.75 + 'rem' }}>
-                                <StyledCard to={`/prototypes/${index + 1}`} className="card">
-                                    <div className="card-image">
-                                        <figure className="image is-4by3">
-                                            <img src={`https://picsum.photos/seed/${index}/400/300`} alt="Placeholder image" />
-                                        </figure>
-                                    </div>
-                                    <div className="card-content">
-                                        <div className="media">
-                                            <div className="media-content">
-                                                <StyledTitle className="title is-4">Prototype {index + 1}</StyledTitle>
-                                                <p className="subtitle is-6">Subtitle</p>
-                                            </div>
-                                        </div>
-                                        <div className="content">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Phasellus nec iaculis mauris.
-                                        </div>
-                                    </div>
-                                </StyledCard>
-                            </div>
-                        ))}
+  return (
+    <div>
+      <section className="section">
+        <div className="container">
+          <div
+            className="columns is-multiline is-variable is-3"
+            style={{ margin: -0.75 + "rem" }}
+          >
+            {Object.values(CardInformation).map((card, index) => (
+              <div
+                key={index}
+                className="column is-one-third"
+                style={{ padding: 0.75 + "rem" }}
+              >
+                <StyledCard to={`/prototypes/${card.slug}`} className="card">
+                  <div className="card-image">
+                    <figure className="image is-4by3">
+                      <img src={card.image} alt={card.title} />
+                    </figure>
+                  </div>
+                  <div className="card-content">
+                    <div className="media">
+                      <div className="media-content">
+                        <StyledTitle className="title is-4">
+                          {card.title}
+                        </StyledTitle>
+                        <p className="subtitle is-6">{card.description}</p>
+                      </div>
                     </div>
-                </div>
-            </section>
+                    <div className="content">{card.description}</div>
+                  </div>
+                </StyledCard>
+              </div>
+            ))}
+          </div>
         </div>
-    );
-}
+      </section>
+    </div>
+  );
+};
 
 export default PrototypesPage;
