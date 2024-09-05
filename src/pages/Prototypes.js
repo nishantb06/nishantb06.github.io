@@ -1,54 +1,56 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
+import styled from 'styled-components';
+
+const StyledCard = styled(Link)`
+  display: block;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.05);
+  }
+  color: inherit;
+  text-decoration: none;
+`;
+
+const StyledTitle = styled.p`
+  transition: font-size 0.3s ease-in-out;
+  &:hover {
+    font-size: 1.25rem;
+  }
+`;
 
 const PrototypesPage = () => {
-    const [activeMenu, setActiveMenu] = useState(null);
-
-    const toggleMenu = (menu) => {
-        setActiveMenu(activeMenu === menu ? null : menu);
-    };
-
     return (
         <div>
-            <h1>Prototypes</h1>
-            <p>Coming soon...</p>
-            <div className="container px-2">
-                <aside className="menu">
-                    <p className="menu-label">General</p>
-                    <ul className="menu-list">
-                        <li><Link to="/dashboard">Dashboard</Link></li>
-                        <li><Link to="/customers">Customers</Link></li>
-                    </ul>
-                    <p className="menu-label">Administration</p>
-                    <ul className="menu-list">
-                        <li><Link to="/team-settings">Team Settings</Link></li>
-                        <li>
-                            <button 
-                                onClick={() => toggleMenu('manage-team')} 
-                                className={`button is-text ${activeMenu === 'manage-team' ? 'is-active' : ''}`}
-                                aria-expanded={activeMenu === 'manage-team'}
-                                aria-controls="manage-team-submenu"
-                            >
-                                Manage Your Team
-                            </button>
-                            <ul id="manage-team-submenu" className={activeMenu === 'manage-team' ? '' : 'is-hidden'}>
-                                <li><Link to="/members">Members</Link></li>
-                                <li><Link to="/plugins">Plugins</Link></li>
-                                <li><Link to="/add-member">Add a member</Link></li>
-                            </ul>
-                        </li>
-                        <li><Link to="/invitations">Invitations</Link></li>
-                        <li><Link to="/cloud-storage">Cloud Storage Environment Settings</Link></li>
-                        <li><Link to="/authentication">Authentication</Link></li>
-                    </ul>
-                    <p className="menu-label">Transactions</p>
-                    <ul className="menu-list">
-                        <li><Link to="/payments">Payments</Link></li>
-                        <li><Link to="/transfers">Transfers</Link></li>
-                        <li><Link to="/balance">Balance</Link></li>
-                    </ul>
-                </aside>
-            </div>
+            <section className="section">
+                <div className="container">
+                    <div className="columns is-multiline">
+                        {[...Array(7)].map((_, index) => (
+                            <div key={index} className="column is-one-third">
+                                <StyledCard to={`/prototype/${index + 1}`} className="card">
+                                    <div className="card-image">
+                                        <figure className="image is-4by3">
+                                            <img src={`https://picsum.photos/seed/${index}/400/300`} alt="Placeholder image" />
+                                        </figure>
+                                    </div>
+                                    <div className="card-content">
+                                        <div className="media">
+                                            <div className="media-content">
+                                                <StyledTitle className="title is-4">Prototype {index + 1}</StyledTitle>
+                                                <p className="subtitle is-6">Subtitle</p>
+                                            </div>
+                                        </div>
+                                        <div className="content">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                            Phasellus nec iaculis mauris.
+                                        </div>
+                                    </div>
+                                </StyledCard>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
         </div>
     );
 }
