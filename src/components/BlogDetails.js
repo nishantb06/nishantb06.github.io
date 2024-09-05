@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { BlogContext } from '../context/BlogContext';
 import DynamicElement from './DynamicElement';
@@ -14,6 +14,8 @@ const BlogDetails = () => {
         'Main Content': false,
         Conclusion: false,
     });
+    const [currentSection, setCurrentSection] = useState('');
+    const [blogContent, setBlogContent] = useState([]);
 
     const toggleMenu = (menu) => {
         setActiveMenus(prevState => ({
@@ -23,6 +25,22 @@ const BlogDetails = () => {
     };
 
     const blog = blogPosts.find(post => post.slug === slug);
+
+    useEffect(() => {
+        if (blog) {
+            let section = '';
+            const processedContent = blog.content.map((element, index) => {
+                if (element.type === 'h2') {
+                    section = element.content;
+                }
+                return {
+                    ...element,
+                    sectionTitle: section
+                };
+            });
+            setBlogContent(processedContent);
+        }
+    }, [blog]);
 
     const paddingTitle = {
         paddingTop: '0rem',
@@ -71,8 +89,12 @@ const BlogDetails = () => {
                                 ))}
                             </div>
                             <div className="pb-4"></div>
-                            {blog.content.map((element, index) => (
-                                <DynamicElement key={index} element={element} />
+                            {blogContent.map((element, index) => (
+                                <DynamicElement 
+                                    key={index} 
+                                    element={element} 
+                                    sectionTitle={element.sectionTitle}
+                                />
                             ))}
                         </div>
                     </div>

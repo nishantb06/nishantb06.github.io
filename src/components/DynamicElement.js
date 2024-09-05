@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css'; // You can choose a different style
 
-const DynamicElement = ({ element }) => {
-  const { type, className, id, content, attributes } = element;
+const DynamicElement = ({ element, sectionTitle }) => {
+  const { type, className, content, attributes } = element;
   const codeRef = useRef(null);
   const [copied, setCopied] = useState(false);
 
@@ -45,7 +45,18 @@ const DynamicElement = ({ element }) => {
     });
   };
 
+  const generateId = (text) => {
+    return text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  };
+
   const ElementType = type;
+
+  let id;
+  if (type === 'h2') {
+    id = generateId(content);
+  } else if (type === 'h3' || type === 'h4') {
+    id = generateId(`${sectionTitle}-${content}`);
+  }
 
   if (type === 'ul' || type === 'ol') {
     return (

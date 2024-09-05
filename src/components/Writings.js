@@ -86,7 +86,7 @@ const Writings = () => {
                             >
                                 {post.title}
                             </Link>
-                            <h2 className="subtitle is-6">{post.subtitle}</h2>
+                            <p className="subtitle is-5 mb-2 mt-2">{post.subtitle}</p>
                             <span className="is-size-6 pr-5">{post.date}</span>
                             {post.tags.map((postTag, tagIndex) => (
                                 <Link 
