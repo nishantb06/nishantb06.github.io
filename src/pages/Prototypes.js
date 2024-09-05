@@ -23,7 +23,7 @@ const CardInformation = {
   1: {
     title: "Newspaper UI",
     description: "Trying to recreate a newspaper UI.",
-    image: "https://picsum.photos/seed/1/400/300",
+    image: "https://imgs.search.brave.com/gGkg8K3BgUark6UWZhHPaLneipPLalWWYUphYFeZaW4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by92aW50YWdlLW5l/d3NwYXBlci1ub3N0/YWxnaWEtY2xhc3Np/Yy1qb3VybmFsaXNt/LWNvbmNlcHRfMjcx/NDEwLTU5ODgwLmpw/Zz9zaXplPTYyNiZl/eHQ9anBn",
     slug: "newspaper",
   },
   2: {
