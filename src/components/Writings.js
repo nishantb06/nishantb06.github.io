@@ -34,7 +34,7 @@ const Writings = () => {
                             <input 
                                 className="input" 
                                 type="text" 
-                                placeholder="Search" 
+                                placeholder="Search (Coming soon ...)" 
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
