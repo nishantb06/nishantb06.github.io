@@ -1,0 +1,70 @@
+{
+      "id": "quick-tip-git-stash",
+      "title": "Quick Tip: Using Git Stash",
+      "subtitle": "Temporarily store your changes with Git Stash",
+      "slug": "quick-tip-git-stash",
+      "author": "Nishant Bhansali",
+      "date": "2024-05-10",
+      "tags": ["git", "quick tip"],
+      "isShortArticle": true,
+      "schema": [
+        {
+          "Main Content": [
+            "What is Git Stash?",
+            "How to use Git Stash",
+            "Applying Stashed Changes"
+          ]
+        }
+      ],
+      "content": [
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "What is Git Stash?"
+        },
+        {
+          "type": "p",
+          "content": "Git stash is a powerful feature that allows you to temporarily store your uncommitted changes and revert your working directory to a clean state."
+        },
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "How to use Git Stash"
+        },
+        {
+          "type": "p",
+          "content": "To stash your changes, simply run:"
+        },
+        {
+          "type": "pre",
+          "content": [
+            {
+              "type": "code",
+              "content": "git stash"
+            }
+          ]
+        },
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "Applying Stashed Changes"
+        },
+        {
+          "type": "p",
+          "content": "To apply your stashed changes, use:"
+        },
+        {
+          "type": "pre",
+          "content": [
+            {
+              "type": "code",
+              "content": "git stash apply"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "content": "This quick tip can help you manage your work-in-progress more effectively!"
+        }
+      ]
+    }
