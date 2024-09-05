@@ -9,7 +9,11 @@ const Writings = () => {
     const { tag } = useParams();
 
     const filteredPosts = tag
-        ? blogPosts.filter(post => post.tags.includes(tag.toLowerCase()))
+        ? blogPosts.filter(post => 
+            post.tags.some(postTag => 
+                postTag.toLowerCase() === tag.toLowerCase()
+            )
+          )
         : blogPosts;
 
     if (loading) return <div>Loading...</div>;
@@ -54,9 +58,16 @@ const Writings = () => {
                     </p>
                     <div className="pb-4"></div>
                     <div className="tags px-5 py-5">
+                        <Link 
+                            to="/writings"
+                            key="all-tags"
+                            className={`tag is-medium is-hoverable is-warning is-light ${!tag ? 'is-active' : ''}`}
+                        >
+                            All
+                        </Link>
                         {tags.map((tagName, index) => (
                             <Link 
-                                to={`/writings/tags/${tagName}`} 
+                                to={`/writings/tags/${encodeURIComponent(tagName)}`} 
                                 key={index} 
                                 className={`tag is-medium is-hoverable is-warning is-light ${tag === tagName ? 'is-active' : ''}`}
                             >
@@ -75,7 +86,13 @@ const Writings = () => {
                             <h2 className="subtitle is-6">{post.subtitle}</h2>
                             <span className="is-size-6 pr-5">{post.date}</span>
                             {post.tags.map((postTag, tagIndex) => (
-                                <Link to={`/writings/tags/${postTag}`} key={tagIndex} className="tag is-normal is-hoverable is-warning is-light mx-1">{postTag}</Link>
+                                <Link 
+                                    to={`/writings/tags/${encodeURIComponent(postTag)}`} 
+                                    key={tagIndex} 
+                                    className="tag is-normal is-hoverable is-warning is-light mx-1"
+                                >
+                                    {postTag}
+                                </Link>
                             ))}
                         </div>
                     ))}
