@@ -2,30 +2,35 @@
   "blogs": [
     {
       "id": "bigquery-rows-go",
-      "title": "Blog Post Title",
-      "subtitle": "Blog Post Subtitle",
+      "title": "Pushing New Rows to BigQuery Using Go",
+      "subtitle": "A Guide to Inserting Data into BigQuery Tables with Go",
       "slug": "bigquery-rows-go",
-      "author": "Author Name",
-      "date": "2021-01-01",
-      "tags": ["One", "Two", "Three"],
+      "author": "Nishant Bhansali",
+      "date": "2024-03-15",
+      "tags": ["Go", "BigQuery", "Google Cloud Platform", "Data Insertion"],
       "schema": [
         {
-          "Introduction": [
-            "Subheading 1.1",
-            "Subheading 1.2"
+          "Introduction": []
+        },
+        {
+          "Prerequisites": []
+        },
+        {
+          "Template": []
+        },
+        {
+          "Understanding the Code": [
+            "Struct Definition",
+            "Client Creation",
+            "Table Specification",
+            "Metadata Retrieval",
+            "Inserter Creation",
+            "Data Preparation",
+            "Data Insertion"
           ]
         },
         {
-          "Main Content": [
-            "Subheading 2.1",
-            "Subheading 2.2"
-          ]
-        },
-        {
-          "Conclusion": [
-            "Subheading 3.1",
-            "Subheading 3.2"
-          ]
+          "Conclusion": []
         }
       ],
       "content": [
@@ -37,73 +42,210 @@
         {
           "type": "p",
           "className": "pb-4",
-          "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat unde, ad obcaecati perferendis sequi enim saepe eaque..."
+          "content": "In this blog post, we'll explore how to push new rows into a BigQuery table using Go. BigQuery, a serverless and highly-scalable data warehouse, is a part of Google Cloud Platform (GCP). We will be using the `cloud.google.com/go/bigquery` package for Go to interact with BigQuery."
         },
         {
           "type": "h2",
           "className": "title",
-          "content": "Section 2"
-        },
-        {
-          "type": "h3",
-          "className": "title",
-          "id": "subheadingM-1",
-          "content": "Subheading 2.1"
+          "content": "Prerequisites"
         },
         {
           "type": "p",
           "className": "pb-4",
-          "content": "Content for subheading 2.1..."
+          "content": "Before diving into the code, make sure you have the following set up:"
         },
         {
-          "type": "h3",
-          "className": "title",
-          "id": "subheadingM-2",
-          "content": "Subheading 2.2"
-        },
-        {
-          "type": "p",
+          "type": "ul",
           "className": "pb-4",
-          "content": "Content for subheading 2.2..."
-        },
-        {
-          "type": "article",
-          "className": "message",
           "content": [
             {
-              "type": "div",
-              "className": "message-header",
-              "content": [
-                {
-                  "type": "p",
-                  "content": "Hello World"
-                },
-                {
-                  "type": "button",
-                  "className": "delete",
-                  "attributes": {
-                    "aria-label": "delete"
-                  }
-                }
-              ]
+              "type": "li",
+              "content": "A GCP project with BigQuery enabled"
             },
             {
-              "type": "div",
-              "className": "message-body",
-              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+              "type": "li",
+              "content": "Service account credentials in a JSON file"
+            },
+            {
+              "type": "li",
+              "content": "Go installed on your machine"
             }
           ]
         },
         {
-          "type": "article",
-          "className": "message is-warning",
+          "type": "h2",
+          "className": "title",
+          "content": "Template"
+        },
+        {
+          "type": "pre",
+          "className": "pb-4",
           "content": [
             {
-              "type": "div",
-              "className": "message-body",
-              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
+              "type": "code",
+              "content": "package main\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"log\"\n\t\"time\"\n\n\t\"cloud.google.com/go/bigquery\"\n\t\"google.golang.org/api/option\"\n)\n\n// SampleData represents the structure of the data to be inserted into BigQuery.\ntype SampleData struct {\n\tName  string  `bigquery:\"name\"`   // Name of the data\n\tValue float32 `bigquery:\"value\"`  // Value of the data\n\tTime  string  `bigquery:\"time\"`   // Time when the data was recorded\n}\n\nvar credentialsFile = \"path-to-credentials.json\" // Path to the JSON credentials file\n\n// BatchPushToBigQuery is a function that inserts data into BigQuery in batches.\nfunc BatchPushToBigQuery() {\n\tctx := context.Background()\n\n\t// Create a new BigQuery client using the provided credentials file\n\tclient, err := bigquery.NewClient(ctx, \"your-project-id\", option.WithCredentialsFile(credentialsFile))\n\tif err != nil {\n\t\tlog.Fatalf(\"Failed to create BigQuery client: %v\", err)\n\t}\n\n\tdataset := client.Dataset(\"dataset-name\") // Specify the dataset name\n\ttable := dataset.Table(\"table-name\")     // Specify the table name\n\n\t// Retrieve the schema for the specified table\n\tmeta, err := table.Metadata(ctx)\n\tif err != nil {\n\t\tlog.Fatalf(\"Failed to get table meta data: %v\", err)\n\t}\n\n\t// Print the schema of the table\n\tfor _, field := range meta.Schema {\n\t\tfmt.Printf(\"Field Name: %s, Field Type: %s\\n\", field.Name, field.Type)\n\t}\n\n\t// Create sample data to be inserted into the table\n\tdata := SampleData{\n\t\tName:  \"nishant\",\n\t\tValue: 123.123,\n\t\tTime:  time.Now().Format(time.RFC3339),\n\t}\n\n\tdata2 := SampleData{\n\t\tName:  \"nishant2\",\n\t\tValue: 123.123,\n\t\tTime:  time.Now().Format(time.RFC3339),\n\t}\n\n\tinserter := table.Inserter() // Create an inserter for the table\n\titems := []*SampleData{\n\t\t&data,\n\t\t&data2,\n\t}\n\n\t// Insert the data into the table\n\tif err := inserter.Put(ctx, items); err != nil {\n\t\tlog.Fatalf(\"Failed to insert data: %v\", err)\n\t}\n\n\tfmt.Println(\"Data inserted successfully!\")\n}"
             }
           ]
+        },
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "Understanding the Code"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Let's break down the code you've provided:"
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "content": "Struct Definition"
+        },
+        {
+          "type": "pre",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "code",
+              "content": "type SampleData struct {\n    Name  string  `bigquery:\"name\"`   // Name of the data\n    Value float32 `bigquery:\"value\"`  // Value of the data\n    Time  string  `bigquery:\"time\"`   // Time when the data was recorded\n}"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "The `SampleData` struct represents the structure of the data to be inserted into BigQuery. The struct tags (`bigquery:\"name\"`, `bigquery:\"value\"`, and `bigquery:\"time\"`) provide metadata to the BigQuery API, mapping the fields of the struct to the corresponding columns in the BigQuery table."
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "content": "Client Creation"
+        },
+        {
+          "type": "pre",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "code",
+              "content": "client, err := bigquery.NewClient(ctx, \"your-project-id\", option.WithCredentialsFile(credentialsFile))"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "The `bigquery.NewClient` function is used to create a new BigQuery client. It takes the context (`ctx`), project ID, and options (in this case, the path to the JSON credentials file)."
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "content": "Table Specification"
+        },
+        {
+          "type": "pre",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "code",
+              "content": "dataset := client.Dataset(\"dataset-name\")\ntable := dataset.Table(\"table-name\")"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Here, we specify the dataset and table within BigQuery where we want to insert the data."
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "content": "Metadata Retrieval"
+        },
+        {
+          "type": "pre",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "code",
+              "content": "meta, err := table.Metadata(ctx)"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "We retrieve the schema (metadata) of the specified table. The schema includes information about the columns and their types."
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "content": "Inserter Creation"
+        },
+        {
+          "type": "pre",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "code",
+              "content": "inserter := table.Inserter()"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "An inserter is created for the table, which will be used to insert data."
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "content": "Data Preparation"
+        },
+        {
+          "type": "pre",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "code",
+              "content": "data := SampleData{\n    Name:  \"nishant\",\n    Value: 123.123,\n    Time:  time.Now().Format(time.RFC3339),\n}"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "Sample data is created using the `SampleData` struct. Note that even if the column datatype is `timestamp` in BigQuery, we have to push a string with proper formatting from our side, which is why we are not using a `time.Time` datatype for this field and using `string` instead."
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "content": "Data Insertion"
+        },
+        {
+          "type": "pre",
+          "className": "pb-4",
+          "content": [
+            {
+              "type": "code",
+              "content": "items := []*SampleData{\n    &data,\n    &data2,\n}\n\nif err := inserter.Put(ctx, items); err != nil {\n    log.Fatalf(\"Failed to insert data: %v\", err)\n}"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "An array of data items is created to be inserted into the table. The data is then inserted into the specified table using the `Put` method of the inserter."
+        },
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "Conclusion"
+        },
+        {
+          "type": "p",
+          "className": "pb-4",
+          "content": "In this blog post, we've covered the basics of pushing new rows into a BigQuery table using Go. Understanding the structure of your data, creating a BigQuery client, and utilising the provided libraries for interaction are crucial steps in achieving successful data insertion. This example can be extended for more complex scenarios, such as streaming data or updating existing records. Make sure to check the official documentation for more details and advanced usage."
         }
       ]
     },
