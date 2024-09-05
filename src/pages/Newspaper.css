@@ -5,6 +5,10 @@
     padding: 20px;
     background-color: #f9f7f1;
     color: #333;
+    background-image: url('https://images.unsplash.com/photo-1532386236358-a33d8a9434e3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1978&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 header {
@@ -35,7 +39,7 @@ main {
     margin-bottom: 30px;
 }
 
-.column {
+.column-news {
     flex: 1;
     padding: 0 15px;
     border-right: 1px solid #ccc;
@@ -92,4 +96,11 @@ p {
 .grid-columns article {
     border: 1px solid #ccc;
     padding: 15px;
+}
+
+.content-wrapper {
+    background-color: rgba(249, 247, 241, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
