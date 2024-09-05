@@ -9,6 +9,7 @@ import BlogDetails from "./components/BlogDetails";
 import Writings from './components/Writings';
 import React from 'react';
 import { BlogProvider } from './context/BlogContext';
+import Newspaper from "./pages/Newspaper";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/writings/tags/:tag" element={<Writings />} />
                 <Route path="/prototypes" element={<PrototypesPage />} />
                 <Route path="/prototypes/:id" element={<PrototypeDetail />} />
+                <Route path="/prototypes/newspaper" element={<Newspaper />} />
               </Routes>
             </div>
             <Footer />
