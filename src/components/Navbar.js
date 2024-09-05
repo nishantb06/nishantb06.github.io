@@ -25,9 +25,9 @@ const Navbar = () => {
 
             <div className="navbar-menu" id="nav-links">
                 <div className="navbar-end">
-                    <Link to="/about" className={`navbar-item is-hoverable ${isActive('/about')}`}>About me</Link>
+                    <Link to="/about" className={`navbar-item is-hoverable ${isActive('/about')}`}>Me</Link>
                     <Link to="/writings" className={`navbar-item ${isActive('/writings')}`}>Writing</Link>
-                    <Link to="/prototypes" className={`navbar-item ${isActive('/prototypes')}`}>Prototypes</Link>
+                    <Link to="/prototypes" className={`navbar-item ${isActive('/prototypes')}`}>Portfolio</Link>
                 </div>
             </div>
         </nav>

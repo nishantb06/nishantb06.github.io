@@ -27,7 +27,7 @@ const PrototypesPage = () => {
                     <div className="columns is-multiline">
                         {[...Array(7)].map((_, index) => (
                             <div key={index} className="column is-one-third">
-                                <StyledCard to={`/prototype/${index + 1}`} className="card">
+                                <StyledCard to={`/prototypes/${index + 1}`} className="card">
                                     <div className="card-image">
                                         <figure className="image is-4by3">
                                             <img src={`https://picsum.photos/seed/${index}/400/300`} alt="Placeholder image" />

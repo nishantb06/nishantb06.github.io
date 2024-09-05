@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from "./pages/Homepage";
 import PrototypesPage from "./pages/Prototypes";
+import PrototypeDetail from "./pages/PrototypeDetail";
 import BlogDetails from "./components/BlogDetails";
 import Writings from './components/Writings';
 import React from 'react';
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/writings/blogs/:slug" element={<BlogDetails />} />
                 <Route path="/writings/tags/:tag" element={<Writings />} />
                 <Route path="/prototypes" element={<PrototypesPage />} />
+                <Route path="/prototypes/:id" element={<PrototypeDetail />} />
               </Routes>
             </div>
             <Footer />
