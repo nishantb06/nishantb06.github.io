@@ -24,9 +24,9 @@ const PrototypesPage = () => {
         <div>
             <section className="section">
                 <div className="container">
-                    <div className="columns is-multiline">
+                    <div className="columns is-multiline is-variable is-3" style={{ margin: -0.75 + 'rem' }}>
                         {[...Array(7)].map((_, index) => (
-                            <div key={index} className="column is-one-third">
+                            <div key={index} className="column is-one-third" style={{ padding: 0.75 + 'rem' }}>
                                 <StyledCard to={`/prototypes/${index + 1}`} className="card">
                                     <div className="card-image">
                                         <figure className="image is-4by3">
