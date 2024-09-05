@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { BlogContext } from '../context/BlogContext';
 import DynamicElement from './DynamicElement';
 import TableOfContents from './TableOfContents';
@@ -14,7 +14,6 @@ const BlogDetails = () => {
         'Main Content': false,
         Conclusion: false,
     });
-    const [currentSection, setCurrentSection] = useState('');
     const [blogContent, setBlogContent] = useState([]);
 
     const toggleMenu = (menu) => {
@@ -57,10 +56,10 @@ const BlogDetails = () => {
             <div className="section pt-4 pb-0">
                 <nav className="breadcrumb has-succeeds-separator">
                     <ul className="container is-size-12">
-                        <li><a href="" className="has-text-grey"></a></li>
-                        <li><a href="/about" className="has-text-grey">Home</a></li>
-                        <li><a href="/writings" className="has-text-grey">Blogs</a></li>
-                        <li><a href="" className="is-active">{blog.title}</a></li>
+                        <li><Link to="/" className="has-text-grey"></Link></li>
+                        <li><Link to="/about" className="has-text-grey">Home</Link></li>
+                        <li><Link to="/writings" className="has-text-grey">Blogs</Link></li>
+                        <li><Link to="#" className="is-active">{blog.title}</Link></li>
                     </ul>
                 </nav>
             </div>
@@ -85,7 +84,7 @@ const BlogDetails = () => {
                             </p>
                             <div className="tags">
                                 {blog.tags.map((tag, index) => (
-                                    <a key={index} className="tag is-warning is-light">{tag}</a>
+                                    <Link to={`/writings/tags/${encodeURIComponent(tag)}`} key={index} className="tag is-warning is-light">{tag}</Link>
                                 ))}
                             </div>
                             <div className="pb-4"></div>
