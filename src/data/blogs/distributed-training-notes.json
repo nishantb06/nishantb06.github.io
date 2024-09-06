@@ -1,0 +1,146 @@
+{
+  "id": "distributed-training-notes",
+  "title": "Distributed Training Notes",
+  "subtitle": "Understanding Data Parallel and Distributed Data Parallel training",
+  "slug": "distributed-training-notes",
+  "author": "Your Name",
+  "date": "2024-05-07",
+  "tags": ["distributed training", "pytorch", "deep learning"],
+  "isShortArticle": false,
+  "schema": [
+    {
+      "Main Content": [
+        "Data Parallel",
+        "Distributed Data Parallel",
+        "Learning Rate Adjustment",
+        "Resources"
+      ]
+    }
+  ],
+  "content": [
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Data Parallel"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "Each GPU holds the full copy of the model"
+        },
+        {
+          "type": "li",
+          "content": "Each GPU/Process/worker gets a different copy of the data to train on"
+        },
+        {
+          "type": "li",
+          "content": "After each backward pass, the master node will average out the model parameters. This averaged model will be shared between the workers again."
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Distributed Data Parallel"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "After a forward pass, gradients are calculated for each worker"
+        },
+        {
+          "type": "li",
+          "content": "The master node then averages out the gradients, calculates the new model weights, and shares these with the workers"
+        },
+        {
+          "type": "li",
+          "content": "An algorithm called all-reduce is used to collect and average out the gradients"
+        },
+        {
+          "type": "li",
+          "content": "DDP is preferred over DP in most cases"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Learning Rate Adjustment"
+    },
+    {
+      "type": "p",
+      "content": "When scaling from a single node with a single worker to multiple nodes with multiple GPUs, the learning rate typically needs to be adjusted. A common approach is to scale the learning rate linearly with the number of GPUs."
+    },
+    {
+      "type": "p",
+      "content": "For example, if the original learning rate on a single GPU was 0.0001, and you scale up to 4 nodes with 2 GPUs per node (total of 8 GPUs), you might increase the learning rate by a factor of 8:"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "New learning rate = 0.0001 * 8 = 0.0008"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "However, this is a guideline, and the actual adjustment factor may vary based on your specific setup and requirements. It's often necessary to experimentally determine the optimal learning rate for your distributed training configuration."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Resources"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": [
+            {
+              "type": "a",
+              "content": "Lie Mao's Blog",
+              "href": "https://leimao.github.io/blog/PyTorch-Distributed-Training/"
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "content": [
+            {
+              "type": "a",
+              "content": "Lambda Labs Guide",
+              "href": "https://lambdalabs.com/blog/multi-node-pytorch-distributed-training-guide#launch-multi-node-pytorch-distributed-applications"
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "content": [
+            {
+              "type": "a",
+              "content": "PyTorch Tutorials",
+              "href": "https://pytorch.org/tutorials/intermediate/dist_tuto.html"
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "content": [
+            {
+              "type": "a",
+              "content": "My blog on Medium",
+              "href": "https://medium.com/@nishantbhansali80/data-parallel-with-pytorch-on-cpus-3e89312db6c0"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

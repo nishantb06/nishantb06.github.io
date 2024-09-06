@@ -3,6 +3,7 @@ import bigQueryRowsGo from '../data/blogs/bigquery-rows-go.json';
 import quantisationNotes from '../data/blogs/quantisation-notes.json';
 import quickTipGitStash from '../data/blogs/quick-tip-git-stash.json';
 import devContainersVscodeDocker from '../data/blogs/dev-containers-vscode-docker.json';
+import distributedTrainingNotes from '../data/blogs/distributed-training-notes.json';
 
 export const BlogContext = createContext();
 
@@ -18,7 +19,8 @@ export const BlogProvider = ({ children }) => {
                 bigQueryRowsGo,
                 quantisationNotes,
                 quickTipGitStash,
-                devContainersVscodeDocker
+                devContainersVscodeDocker,
+                distributedTrainingNotes,
             ];
 
             setBlogPosts(posts);

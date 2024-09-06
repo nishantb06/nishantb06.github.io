@@ -62,7 +62,13 @@ const DynamicElement = ({ element, sectionTitle }) => {
     return (
       <ElementType className={className} id={id} {...attributes}>
         {content.map((item, index) => (
-          <li key={index}>{renderContent(item.content)}</li>
+          <li key={index}>
+            {Array.isArray(item.content) && item.content[0].type === 'a' ? (
+              <a href={item.content[0].href}>{item.content[0].content}</a>
+            ) : (
+              renderContent(item.content)
+            )}
+          </li>
         ))}
       </ElementType>
     );
