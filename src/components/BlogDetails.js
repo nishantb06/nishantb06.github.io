@@ -76,7 +76,7 @@ const BlogDetails = () => {
                         </div>
                         <div className="column is-8">
                             <div className="has-background-light p-4">
-                            <span className="is-size-5">{blog.date} </span>
+                                <span className="is-size-5">{blog.date} </span>
                                 <h1 className="title is-1 pb-0 mb-0" style={paddingTitle}>
                                     {blog.title}
                                 </h1>
@@ -89,7 +89,6 @@ const BlogDetails = () => {
                                     ))}
                                 </div>
                             </div>
-                            {/* <div className="pb-4"></div> */}
                             {blogContent.map((element, index) => (
                                 <DynamicElement 
                                     key={index} 

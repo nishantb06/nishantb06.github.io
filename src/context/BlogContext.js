@@ -1,4 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
+import bigQueryRowsGo from '../data/blogs/bigquery-rows-go.json';
+import quantisationNotes from '../data/blogs/quantisation-notes.json';
+import quickTipGitStash from '../data/blogs/quick-tip-git-stash.json';
+import devContainersVscodeDocker from '../data/blogs/dev-containers-vscode-docker.json';
 
 export const BlogContext = createContext();
 
@@ -9,29 +13,27 @@ export const BlogProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchBlogPosts = async () => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch blog posts');
-                }
-                const data = await response.json();
-                setBlogPosts(data);
+        try {
+            const posts = [
+                bigQueryRowsGo,
+                quantisationNotes,
+                quickTipGitStash,
+                devContainersVscodeDocker
+            ];
 
-                // Extract unique tags
-                const uniqueTags = new Set();
-                data.forEach(post => {
-                    post.tags.forEach(tag => uniqueTags.add(tag));
-                });
-                setTags([...uniqueTags]);
-                setLoading(false);
-            } catch (error) {
-                setError(error.message);
-                setLoading(false);
-            }
-        };
+            setBlogPosts(posts);
 
-        fetchBlogPosts();
+            // Extract unique tags
+            const uniqueTags = new Set();
+            posts.forEach(post => {
+                post.tags.forEach(tag => uniqueTags.add(tag));
+            });
+            setTags([...uniqueTags]);
+            setLoading(false);
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+        }
     }, []);
 
     return (

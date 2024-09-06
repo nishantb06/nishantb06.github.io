@@ -226,5 +226,5 @@
           "type": "p",
           "content": "In this blog post, we've covered the basics of pushing new rows into a BigQuery table using Go. Understanding the structure of your data, creating a BigQuery client, and utilising the provided libraries for interaction are crucial steps in achieving successful data insertion. This example can be extended for more complex scenarios, such as streaming data or updating existing records. Make sure to check the official documentation for more details and advanced usage."
         }
-      ]
-    }
+  ]
+}
