@@ -1,137 +1,124 @@
 {
-  "id": "quantisation-notes",
-  "title": "Quantisation Notes",
-  "subtitle": "Notes on Quantisation",
-  "slug": "quantisation-notes",
-  "author": "Nishant Bhansali",
-  "date": "2024-05-07",
-  "tags": [
-    "quantisation",
-    "pytorch"
-  ],
-  "isShortArticle": false,
-  "schema": [
-    {
-      "Introduction": [
-        "Optimization Methods",
-        "Benefits of Scripting Models"
-      ]
-    },
-    {
-      "Main Content": [
-        "Tracing vs Scripting",
-        "Quantization"
-      ]
-    }
-  ],
-  "content": [
-    {
-      "type": "h2",
-      "className": "title",
-      "content": "Introduction"
-    },
-    {
-      "type": "p",
-      "content": "There are 4 methods to optimise a model, GPTQ, activation aware quantized training, bits and bytes , packages like huggingface optimum, or pytorch api itself."
-    },
-    {
-      "type": "h3",
-      "className": "title",
-      "id": "benefits-of-scripting",
-      "content": "Benefits of Scripting Models"
-    },
-    {
-      "type": "p",
-      "content": "Scripting the model can make inference faster for a few reasons:"
-    },
-    {
-      "type": "ul",
-      "content": [
+      "id": "dev-containers-vscode-docker",
+      "title": "Dev Containers: Open Vscode editor inside any Docker image",
+      "subtitle": "How to create a dev container",
+      "slug": "dev-containers-vscode-docker",
+      "author": "Your Name",
+      "date": "2023-10-01",
+      "tags": ["dev containers", "vscode", "docker"],
+      "isShortArticle": false,
+      "schema": [
         {
-          "type": "li",
-          "content": "Reduced Overhead: Scripted models can have lower overhead compared to their original Python counterparts because the script represents a more optimized version of the model's forward pass. This can lead to faster execution times."
+          "Introduction": [
+            "Benefits of Dev Containers"
+          ]
         },
         {
-          "type": "li",
-          "content": "Optimizations: When you use `torch.jit.script` to script a model, PyTorch applies various optimizations to the script, such as constant folding and operator fusion, which can improve performance during inference."
-        },
-        {
-          "type": "li",
-          "content": "Parallelization: Scripted models can take advantage of parallelization opportunities more effectively, especially when deployed on hardware accelerators like GPUs, due to the way the operations are organized and optimized in the script."
-        },
-        {
-          "type": "li",
-          "content": "Serialization: Scripted models can be serialized and deserialized more efficiently, which is important for deployment scenarios where models need to be loaded quickly into memory."
-        },
-        {
-          "type": "li",
-          "content": "Platform Independence: Scripted models are platform-independent once they are compiled, meaning they can be executed on any platform that supports PyTorch without needing the original Python code, which can be beneficial for deployment in different environments."
+          "Main Content": [
+            "Step 1: Create config files",
+            "Step 2: Open dev container"
+          ]
         }
-      ]
-    },
-    {
-      "type": "p",
-      "content": "Overall, scripting a model can lead to faster inference times due to these optimizations and efficiencies, especially in production environments where speed and resource usage are critical."
-    },
-    {
-      "type": "h2",
-      "className": "title",
-      "content": "Main Content"
-    },
-    {
-      "type": "h3",
-      "className": "title",
-      "id": "tracing-vs-scripting",
-      "content": "Tracing vs Scripting"
-    },
-    {
-      "type": "p",
-      "content": "Tracing a model using torch.jit.trace and torch.jit.script and quantization are two distinct processes in PyTorch, each serving different purposes:"
-    },
-    {
-      "type": "h4",
-      "className": "subtitle",
-      "content": "Tracing:"
-    },
-    {
-      "type": "ol",
+      ],
       "content": [
         {
-          "type": "li",
-          "content": "`torch.jit.trace`: This function takes an input tensor and traces the operations that occur during the forward pass of the model. It records the operations as a ScriptModule, which can be used for inference. Tracing is useful for models that have fixed control flow (i.e., the execution of the model does not depend on dynamic conditions like loops or if statements)."
+          "type": "h2",
+          "className": "title",
+          "content": "Introduction"
         },
         {
-          "type": "li",
-          "content": "`torch.jit.script`: This decorator converts a Python function into a ScriptModule, allowing for more flexibility in defining the model's forward method. It is used when the model has dynamic control flow."
-        }
-      ]
-    },
-    {
-      "type": "h3",
-      "className": "title",
-      "id": "quantization",
-      "content": "Quantization"
-    },
-    {
-      "type": "p",
-      "content": "Quantization is the process of converting a model to use fewer bits to represent weights and activations, usually from 32-bit floating point to 8-bit integers (or even lower bit representations). This can significantly reduce the model size and improve inference speed, especially on hardware that supports low-precision operations efficiently."
-    },
-    {
-      "type": "p",
-      "content": "PyTorch provides tools like torch.quantization module to help with quantization, including functions to prepare the model for quantization (torch.quantization.prepare) and to actually quantize the model (torch.quantization.convert)."
-    },
-    {
-      "type": "p",
-      "content": "In summary, tracing is about capturing the operations of a model to create a script representation for efficient inference, while quantization is about reducing the precision of the model's parameters and activations to improve performance and reduce memory footprint."
-    },
-    {
-      "type": "pre",
-      "content": [
+          "type": "p",
+          "content": "Let's say you have a docker image for an application and you want to run some test or experiment/add some new feature to that application. Normally I would build that image locally and mount the application directory as volume when I run that container. But something better exists."
+        },
         {
-          "type": "code",
-          "content": "function helloWorld() \n\t{ console.log('Hello, World!'); }"
+          "type": "p",
+          "content": "Using Dev Containers is better because:"
+        },
+        {
+          "type": "ul",
+          "content": [
+            {
+              "type": "li",
+              "content": "It gives the VS code experience for any docker image."
+            },
+            {
+              "type": "li",
+              "content": "Different VS code extensions can be used here like Linting, Copilot etc."
+            },
+            {
+              "type": "li",
+              "content": "Allows reproducibility for any other developer."
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "content": "[Video](https://www.youtube.com/watch?v=b1RavPr_878)"
+        },
+        {
+          "type": "h2",
+          "className": "title",
+          "content": "How to create a dev container"
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "content": "Step 1: Create config files"
+        },
+        {
+          "type": "p",
+          "content": "Open the command palette in VS Code by `CMD + Shift + p` or `Cntrl + Shft + p` if you are in Windows. Type this `Dev Containers: Add dev container config files`. Choose the language you want and any other functionality you want and press enter."
+        },
+        {
+          "type": "p",
+          "content": "This will create a `devcontainer.json` file inside a `.devcontainer` folder in your root."
+        },
+        {
+          "type": "p",
+          "content": "This file will look something like this:"
+        },
+        {
+          "type": "pre",
+          "content": [
+            {
+              "type": "code",
+              "content": "// For format details, see https://aka.ms/devcontainer.json. For config options, see the\n// README at: https://github.com/devcontainers/templates/tree/main/src/go\n{\n\t\"name\": \"Go\",\n\t// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile\n\t\"image\": \"mcr.microsoft.com/devcontainers/go:1-${templateOption:imageVariant}\"\n\n\t// Features to add to the dev container. More info: https://containers.dev/features.\n\t// \"features\": {},\n\n\t// Use 'forwardPorts' to make a list of ports inside the container available locally.\n\t// \"forwardPorts\": [],\n\n\t// Use 'postCreateCommand' to run commands after the container is created.\n\t// \"postCreateCommand\": \"go version\",\n\n\t// Configure tool-specific properties.\n\t// \"customizations\": {},\n\n\t// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.\n\t// \"remoteUser\": \"root\"\n}"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "content": "Here replace the name field to whatever is suitable and replace the image field by the name of your own custom image. Can see possible names by running `docker images` in your CLI."
+        },
+        {
+          "type": "p",
+          "content": "💡 the image provided here is of native Golang, pulled from Microsoft container registry."
+        },
+        {
+          "type": "p",
+          "content": "Finally it should look something like this:"
+        },
+        {
+          "type": "pre",
+          "content": [
+            {
+              "type": "code",
+              "content": "// For format details, see https://aka.ms/devcontainer.json. For config options, see the\n// README at: https://github.com/devcontainers/templates/tree/main/src/go\n{\n\t\"name\": \"Go-dummy-app\",\n\t// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile\n\t// \"image\": \"mcr.microsoft.com/devcontainers/go:1-1.21-bullseye\",\n\t\"image\": \"dummy-app\"\n\n\t// Features to add to the dev container. More info: https://containers.dev/features.\n\t// \"features\": {},\n\n\t// Use 'forwardPorts' to make a list of ports inside the container available locally.\n\t// \"forwardPorts\": [],\n\n\t// Use 'postCreateCommand' to run commands after the container is created.\n\t// \"postCreateCommand\": \"go version\",\n\n\t// Configure tool-specific properties.\n\t// \"customizations\": {},\n\n\t// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.\n\t// \"remoteUser\": \"root\"\n}"
+            }
+          ]
+        },
+        {
+          "type": "h3",
+          "className": "title",
+          "content": "Step 2: Open dev container"
+        },
+        {
+          "type": "p",
+          "content": "Again open Command palette and type `Dev Container: reopen in container`."
+        },
+        {
+          "type": "p",
+          "content": "This will take a bit to reload and voila! you should be ready to go now."
         }
       ]
     }
-  ]
-}
