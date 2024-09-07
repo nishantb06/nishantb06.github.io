@@ -1,0 +1,186 @@
+{
+  "id": "tmux-for-ml-engineers",
+  "title": "TMUX for Machine Learning Engineers",
+  "subtitle": "Efficient terminal management for ML workflows",
+  "slug": "tmux-for-ml-engineers",
+  "author": "Nishant Bhansali",
+  "date": "2022-10-16",
+  "tags": ["tmux", "machine learning", "terminal", "productivity"],
+  "isShortArticle": false,
+  "schema": [
+    {
+      "What is Tmux": []
+    },
+    {
+      "How ML Engineers use TMUX": []
+    },
+    {
+      "TMUX commands Cheatsheet": [
+        "Creating and managing terminals",
+        "Navigating within an active tmux session"
+      ]
+    }
+  ],
+  "content": [
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "What is Tmux"
+    },
+    {
+      "type": "p",
+      "content": "TMUX (Terminal Multiplexer) is a program which helps create and manage various terminal sessions created from a terminal itself. We can detach these newly created terminals which helps in asynchronously running multiple programs."
+    },
+    {
+      "type": "p",
+      "content": "These terminals will keep executing a particular command in the background until we explicitly stop it after attaching it to an active terminal session."
+    },
+    {
+      "type": "p",
+      "content": "We can create multiple terminal sessions and view and manage them in the same window by toggling between them. Each of these sessions can be detached similarly."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "How ML Engineers use TMUX"
+    },
+    {
+      "type": "p",
+      "content": "As ML Engineers, we often perform extensive training on cloud services like AWS or GCP. To do so, we SSH into the VM, giving us a terminal through which we run our training jobs."
+    },
+    {
+      "type": "p",
+      "content": "Often training a heavy ML model takes days. During this time, if the terminal is disconnected from the VM due to inconsistent network connection or simply if the PC goes into sleep mode, the terminal will disconnect, resulting in abruptly stopping our training job."
+    },
+    {
+      "type": "p",
+      "content": "This is why it's better to create a tmux terminal from our terminal, run the training job on this new terminal, and detach it. Now even if the terminal is disconnected from the VM, the training job won't stop unless either we stop the VM itself or in case of internet issues."
+    },
+    {
+      "type": "p",
+      "content": "We can also use terminal windows to manage our terminal commands better. For example, we can use a new terminal window for each of these jobs:"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "Git commands"
+        },
+        {
+          "type": "li",
+          "content": "Docker commands"
+        },
+        {
+          "type": "li",
+          "content": "To monitor all different processes. `htop -i`"
+        },
+        {
+          "type": "li",
+          "content": "To monitor all the GPU's through `nvidia-smi`"
+        },
+        {
+          "type": "li",
+          "content": "General commands like `ls` and `mv` and `pip installs`"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "TMUX commands Cheatsheet"
+    },
+    {
+      "type": "h3",
+      "className": "subtitle",
+      "content": "Creating and managing terminals"
+    },
+    {
+      "type": "p",
+      "content": "Below commands are for the root terminal:"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "`sudo apt-get install tmux`  Installing on Linux environment"
+        },
+        {
+          "type": "li",
+          "content": "`tmux ls` List all active sessions"
+        },
+        {
+          "type": "li",
+          "content": "`tmux attach -t <name>` Attach a detached session to the current terminal"
+        },
+        {
+          "type": "li",
+          "content": "`tmux kill-session -t <name>` Delete a terminal session"
+        },
+        {
+          "type": "li",
+          "content": "`tmux new -s <name>` Create a new terminal session"
+        },
+        {
+          "type": "li",
+          "content": "`tmux rename-session -t <name> <new-name>` Rename a terminal session"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "className": "subtitle",
+      "content": "Navigating within an active tmux session"
+    },
+    {
+      "type": "p",
+      "content": "These commands are for navigating your way through when you are inside an active tmux session:"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "`Ctrl + b` - This is prefix for any tmux terminal command"
+        },
+        {
+          "type": "li",
+          "content": "`Ctrl + b` + `%` Split panes horizontally"
+        },
+        {
+          "type": "li",
+          "content": "`Ctrl + b` + `—->`, `<-—` switch between right and left panes"
+        },
+        {
+          "type": "li",
+          "content": "`Ctrl + b` + `[` to enter scrolling mode, `q` to quit"
+        },
+        {
+          "type": "li",
+          "content": "`Ctrl + b`  + `d` Detach the terminal"
+        },
+        {
+          "type": "li",
+          "content": "`Ctrl + b`  + `c`  New terminal instance"
+        },
+        {
+          "type": "li",
+          "content": "`Ctrl + b` + `space` cycle through the terminal instances"
+        },
+        {
+          "type": "li",
+          "content": "`Ctrl + b` + `p` or `n` previous or next terminal instance"
+        },
+        {
+          "type": "li",
+          "content": "`Ctrl + b` + `x` kill current pane"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "A more extensive Cheatsheet can be found [here](https://tmuxcheatsheet.com/)"
+    }
+  ]
+}

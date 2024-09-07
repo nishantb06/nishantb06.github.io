@@ -1,0 +1,210 @@
+{
+  "id": "docker-cheatsheet",
+  "title": "Docker Cheatsheet",
+  "subtitle": "A comprehensive guide to Docker basics and commands",
+  "slug": "docker-cheatsheet",
+  "author": "Nishant Bhansali",
+  "date": "2022-09-11",
+  "tags": ["docker", "containerization", "devops"],
+  "isShortArticle": false,
+  "schema": [
+    {
+      "Introduction": []
+    },
+    {
+      "Definitions": [
+        "Image",
+        "Container",
+        "Dockerfile",
+        "Docker Registry",
+        "Docker Daemon",
+        "Docker Runtime",
+        "Docker Engine"
+      ]
+    },
+    {
+      "Commands": []
+    },
+    {
+      "How to make a DockerFile for ML projects": []
+    },
+    {
+      "Docker Errors and how to solve them": []
+    },
+    {
+      "How to mount a docker volume": []
+    }
+  ],
+  "content": [
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Introduction"
+    },
+    {
+      "type": "p",
+      "content": "The phrase 'But it works on my machine!!' is exactly the problem Docker solves. Docker allows us to share applications, including the operating system they were built on, along with all of the dependencies. This solves the issue of running applications across different environments."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Definitions"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "Image: An image is a template of our source code along with all dependencies"
+        },
+        {
+          "type": "li",
+          "content": "Container: A container is a running instance of an image. If an image is equivalent to a class, then a container is equivalent to an object of that class"
+        },
+        {
+          "type": "li",
+          "content": "Dockerfile: It is used to create the Docker Image"
+        },
+        {
+          "type": "li",
+          "content": "Docker Registry: A place where people can push their images to be accessed publicly. The most famous is DockerHub"
+        },
+        {
+          "type": "li",
+          "content": "Docker Daemon: Docker runs on a client-server architecture system. Docker Daemon is the server side of it"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Commands"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "Start a container from an already downloaded/built image:"
+        },
+        {
+          "type": "pre",
+          "content": [
+            {
+              "type": "code",
+              "content": "docker run -it <IMAGE_NAME>/<IMAGE ID>"
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "content": "List all running containers:"
+        },
+        {
+          "type": "pre",
+          "content": [
+            {
+              "type": "code",
+              "content": "docker ps"
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "content": "Build an image from a Dockerfile:"
+        },
+        {
+          "type": "pre",
+          "content": [
+            {
+              "type": "code",
+              "content": "docker build -t <IMAGE_NAME> ."
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "content": "List all images:"
+        },
+        {
+          "type": "pre",
+          "content": [
+            {
+              "type": "code",
+              "content": "docker images\ndocker images ls"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "How to make a DockerFile for ML projects"
+    },
+    {
+      "type": "p",
+      "content": "A Dockerfile is used to build a docker image which clones the contents of our project, sets up the base Operating systems and also downloads all the dependencies. Here are the steps to create one:"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "Create a file named Dockerfile and .Dockerignore file in the root of the project"
+        },
+        {
+          "type": "li",
+          "content": "Choose a base image, usually for python projects it is the Slim or the alpine Version taken from DockerHub"
+        },
+        {
+          "type": "li",
+          "content": "Set the Working directory in your image and give it a name"
+        },
+        {
+          "type": "li",
+          "content": "Copy the requirements.txt file to the working directory of the image"
+        },
+        {
+          "type": "li",
+          "content": "Install the dependencies via pip install -r requirements.txt"
+        },
+        {
+          "type": "li",
+          "content": "Copy all the project files"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Docker Errors and how to solve them"
+    },
+    {
+      "type": "p",
+      "content": "If you encounter the error 'Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?', simply restart Docker Desktop. This error may occur when the connection to the docker daemon is lost after a system restart."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "How to mount a docker volume"
+    },
+    {
+      "type": "p",
+      "content": "To mount the current volume to the desired location in the image, use the -v or --volume tag. For example:"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "docker run -it -v $(pwd):/workspace/project 63b0afa6efdc bash"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "This mounts the current directory to /workspace/project in the Docker container. Remember that the mount is two-way: changes in the Docker image will reflect in the local filesystem and vice versa."
+    }
+  ]
+}

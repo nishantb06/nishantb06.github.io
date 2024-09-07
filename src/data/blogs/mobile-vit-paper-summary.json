@@ -1,0 +1,156 @@
+{
+  "id": "mobile-vit-paper-summary",
+  "title": "Mobile-VIT [Paper Summary]",
+  "subtitle": "A review of the Mobile-VIT architecture for lightweight vision transformers",
+  "slug": "mobile-vit-paper-summary",
+  "author": "Nishant Bhansali",
+  "date": "2022-09-09",
+  "tags": ["machine learning", "computer vision", "mobile-vit", "paper summary"],
+  "isShortArticle": false,
+  "schema": [
+    {
+      "Observations": []
+    },
+    {
+      "Good things about the paper": [
+        "Significant contributions",
+        "Experiments with downstream tasks",
+        "Architecture simplicity",
+        "Fusion of attention and convolution"
+      ]
+    },
+    {
+      "Bad things about the paper": [
+        "Naming convention",
+        "Activation function choice",
+        "FLOPS reporting",
+        "Mobile device performance",
+        "Positional embedding"
+      ]
+    },
+    {
+      "Fun Fact": []
+    }
+  ],
+  "content": [
+    {
+      "type": "p",
+      "content": "[Papers With Code](https://paperswithcode.com/paper/mobilevit-light-weight-general-purpose-and)"
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Observations"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "There's a **global inductive bias** in CNN's (invariance to shift and scale) which is why CNN's have comparable performance w.r.t Transformers (Reference to this statement is in the Transformer survey paper). Transformer models overcome this with the help of extensive training regimes, large datasets and larger models. (It will be good if we mention this in the paper somewhere)"
+        },
+        {
+          "type": "li",
+          "content": "CoreML library was used to perform testing on iPhone 12"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Good things about the paper"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "The paper has two significant contributions:",
+          "children": [
+            {
+              "type": "ol",
+              "content": [
+                {
+                  "type": "li",
+                  "content": "A novel architecture which **combines convolution block from MobileNetV2 and the self attention block.** This is how it captures global and local dependencies"
+                },
+                {
+                  "type": "li",
+                  "content": "Introduces a **Multi-scale sampler for training efficiency.** Fine tuning on images with a larger resolution is a well-known method to boost training accuracy. Methods have also been known which can introduce larger resolution images during the training process itself. But these guys have written a new sampler which varies the batch size according to the size of the image. **Smaller images will have larger batch size and vice versa.** Every i'th iteration introduces a smaller batch but with a large batch size."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "content": "They have also experimented with MobileVIT as the backbone to downstream tasks like detection and segmentation, showing results like:",
+          "children": [
+            {
+              "type": "blockquote",
+              "content": "The performance of Deep-Lab-v3 is improved by 1.4%, and its size is reduced by 1.6× when MobileViT is used as a backbone instead of Mobile-Net-v2. Also, MobileViT gives competitive performance to model with ResNet-101 while requiring 9× fewer parameters; suggesting MobileViT is a powerful backbone."
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "content": "The architecture is simple itself. They start with a couple of Mobile-Net-v2 blocks which downsamples the input. After this, a Self attention layer is used on the processed feature map (note that the input shape is the same as the output shape for these layers). This output is then concatenated with the outputs from a parallel convolution operation. Then again point-wise convolutions are used on this concatenated layer. This whole process is used twice (two transformer layers only)"
+        },
+        {
+          "type": "li",
+          "content": "The idea of fusing attention and convolutional outputs with the help of another convolutional layer is interesting."
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Bad things about the paper"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "Just introducing transformer layers at two places in the model and then calling the model \"VIT\" makes little sense. It is clear that the model is Convolutional in nature. They have themselves mentioned that the significant amount of parameters come from these 2 layers. Also, there's no experiment to show that the model gets a boost in performance because of these 2 layers. For example, they can **replace the Attention layer and perform a couple of experiments to show that the model doesn't perform as good as it does with the attention layer**."
+        },
+        {
+          "type": "li",
+          "content": "They said they have used the swish activation function for the entire model. Yes, theoretically it's better than a simple linear activation function but for an architecture to be deployed on edge devices, it would be better to **add more parameters than to waste computation on a complex non-linear activation function**."
+        },
+        {
+          "type": "li",
+          "content": "The exact value of FLOPS is not mentioned for any variant of the model. They just mention that it is roughly half the FLOPS of DeIT on image-net dataset."
+        },
+        {
+          "type": "li",
+          "content": "The final paragraph of the paper labelled discussion mentions that even though the model is smaller than some well-known CNN's, on mobile devices:",
+          "children": [
+            {
+              "type": "blockquote",
+              "content": "This difference is primarily because of two reasons. First, **dedicated CUDA kernels exist for transformers on GPUs**, which are used out-of-the-box in ViTs to improve their scalability and efficiency on GPUs (e.g., Shoeybi et al., 2019; Lepikhin et al., 2021). Second, CNNs benefit from several device-level optimisations, including batch normalisation fusion with convolutional layers (Jacob et al., 2018). These optimisations improve latency and memory access. However, such dedicated and optimised operations for transformers are currently not available for mobile devices"
+            }
+          ]
+        },
+        {
+          "type": "li",
+          "content": "They haven't used positional embedding in their transformer layers"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Fun Fact"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "Layer Norms are used in transformer models because the batch size has to be kept too small because of the large size of transformer models. Batch size has to be kept extremely low (I have myself used 2 or 4 as batch-size), and as batch_norm is not that effective when batch size is so low. We use learning rate warmup for the same reason"
+        }
+      ]
+    }
+  ]
+}

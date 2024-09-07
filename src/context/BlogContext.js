@@ -4,6 +4,11 @@ import quantisationNotes from '../data/blogs/quantisation-notes.json';
 import quickTipGitStash from '../data/blogs/quick-tip-git-stash.json';
 import devContainersVscodeDocker from '../data/blogs/dev-containers-vscode-docker.json';
 import distributedTrainingNotes from '../data/blogs/distributed-training-notes.json';
+import selfSupervisedDescriptorImageCopyDetection from '../data/blogs/self-supervised-descriptor-image-copy-detection.json';
+import dockerCheatsheet from '../data/blogs/docker-cheatsheet.json';
+import tmuxForMlEngineers from '../data/blogs/tmux-for-ml-engineers.json';
+import mobileVITPaperSummary from '../data/blogs/mobile-vit-paper-summary.json';
+import torchServe from '../data/blogs/torchserve.json';
 
 export const BlogContext = createContext();
 
@@ -21,6 +26,11 @@ export const BlogProvider = ({ children }) => {
                 quickTipGitStash,
                 devContainersVscodeDocker,
                 distributedTrainingNotes,
+                selfSupervisedDescriptorImageCopyDetection,
+                dockerCheatsheet,
+                tmuxForMlEngineers,
+                mobileVITPaperSummary,
+                torchServe
             ];
 
             setBlogPosts(posts);

@@ -1,0 +1,120 @@
+{
+  "id": "self-supervised-descriptor-image-copy-detection",
+  "title": "A Self-Supervised Descriptor for Image Copy Detection - Review",
+  "subtitle": "An analysis of a novel approach to image copy detection using self-supervised learning",
+  "slug": "self-supervised-descriptor-image-copy-detection",
+  "author": "Nishant Bhansali",
+  "date": "2023-01-13",
+  "tags": ["machine learning", "computer vision", "self-supervised learning", "image copy detection"],
+  "isShortArticle": false,
+  "schema": [
+    {
+      "Introduction": []
+    },
+    {
+      "Good things about the paper": [
+        "Regularization term",
+        "Robust augmentations",
+        "GeM Pooling",
+        "Post-processing of descriptors"
+      ]
+    },
+    {
+      "Bad things about the paper": [
+        "Choice of base model",
+        "Potential for further improvements"
+      ]
+    },
+    {
+      "Conclusion": []
+    }
+  ],
+  "content": [
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Introduction"
+    },
+    {
+      "type": "p",
+      "content": "This blog post reviews the paper 'A Self-Supervised Descriptor for Image Copy Detection'. The authors have built upon the work of SimCLR and successfully tackled its limitations. This paper is worth reading for those looking to generate powerful embeddings/descriptors for their image datasets."
+    },
+    {
+      "type": "p",
+      "content": "Links: [Paper](https://arxiv.org/abs/2202.10261) | [Code](https://github.com/facebookresearch/sscd-copy-detection)"
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Good things about the paper"
+    },
+    {
+      "type": "h3",
+      "className": "subtitle",
+      "content": "Regularization term"
+    },
+    {
+      "type": "p",
+      "content": "The paper introduces a regularization term based on Entropy, which is used to make the descriptors more sparse. This means that negative images won't be as 'close' to each other as they used to be in SimCLR. By doing this, it overcomes a major drawback of SimCLR where a descriptor of size 128 was as efficient as a descriptor of size 512."
+    },
+    {
+      "type": "h3",
+      "className": "subtitle",
+      "content": "Robust augmentations"
+    },
+    {
+      "type": "p",
+      "content": "It adds more robust augmentations to its augmentation pipeline. The authors have also adapted the InfoNCE loss function to make it suitable for cut-mix/mixup augmentation."
+    },
+    {
+      "type": "h3",
+      "className": "subtitle",
+      "content": "GeM Pooling"
+    },
+    {
+      "type": "p",
+      "content": "The paper makes good use of GeM Pooling, which was heavily used in the Instance matching genre. Ablation studies also prove its importance."
+    },
+    {
+      "type": "h3",
+      "className": "subtitle",
+      "content": "Post-processing of descriptors"
+    },
+    {
+      "type": "p",
+      "content": "The post-processing of descriptors is very innovative. The use of whitening + L2 norm from the impressive FAISS library is something that warrants further investigation."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Bad things about the paper"
+    },
+    {
+      "type": "h3",
+      "className": "subtitle",
+      "content": "Choice of base model"
+    },
+    {
+      "type": "p",
+      "content": "The authors could have started with a more powerful model like ViT instead of a ResNet. It would be worth checking their code to see if it can be modified for 'plug n play' with different models. Encoders for transformers should be modified to give suitable descriptors, as Encoders are known for their pre-training capabilities and can be used for larger images as well."
+    },
+    {
+      "type": "h3",
+      "className": "subtitle",
+      "content": "Potential for further improvements"
+    },
+    {
+      "type": "p",
+      "content": "SWaV could also be an inspiration to build upon this paper as it uses clustering algorithms to provide training time labels. For a task of copy detection, this looks like a suitable approach."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Conclusion"
+    },
+    {
+      "type": "p",
+      "content": "Despite some areas for potential improvement, this paper presents a significant advancement in self-supervised learning for image copy detection. The innovative approaches to regularization, augmentation, and post-processing make it a valuable contribution to the field."
+    }
+  ]
+}

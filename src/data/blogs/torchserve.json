@@ -1,0 +1,148 @@
+{
+  "id": "deploying-models-torchserve",
+  "title": "Deploying Models at Scale using Torchserve",
+  "subtitle": "A comprehensive guide to scaling ML model deployment with Torchserve",
+  "slug": "deploying-models-torchserve",
+  "author": "Nishant Bhansali",
+  "date": "2024-03-31",
+  "tags": ["machine learning", "deployment", "torchserve", "pytorch", "scalability"],
+  "isShortArticle": false,
+  "schema": [
+    {
+      "Introduction": []
+    },
+    {
+      "What is TorchServe": []
+    },
+    {
+      "Problems that Torchserve tackles": [
+        "Model Endpoint Exposure",
+        "Process Management",
+        "Batching Functionality",
+        "Management APIs",
+        "Logging and Monitoring"
+      ]
+    },
+    {
+      "Advantages of TorchServe": [
+        "Handling Large Workloads",
+        "AWS Integration",
+        "Model Versioning",
+        "Performance Monitoring"
+      ]
+    },
+    {
+      "Conclusion": []
+    },
+    {
+      "Links": []
+    }
+  ],
+  "content": [
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Introduction"
+    },
+    {
+      "type": "p",
+      "content": "Imagine an AI application which needs to serve Millions of requests in a day. In the backend you have multiple ML models on which you need to perform inferencing, and the number of requests each model receives keeps changing throughout the day. Some models need a GPU to run on whereas other models are smaller and can run on the CPU only. Not just that, over a period of time, these models will need to be retrained and newer versions will have to be deployed. How do you manage the versions and dynamically swap out the old models?"
+    },
+    {
+      "type": "p",
+      "content": "Torchserve is one such open source tool, that can help you manage, speed up and monitor your Machine Learning Models in production!"
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "What is TorchServe"
+    },
+    {
+      "type": "p",
+      "content": "TorchServe is a flexible and easy to use tool for serving PyTorch machine learning (ML) models at scale. It is part of the PyTorch ecosystem and was developed in collaboration with AWS to facilitate the deployment of PyTorch models in production environments."
+    },
+    {
+      "type": "p",
+      "content": "TorchServe simplifies the process of deploying PyTorch models by providing a straightforward and standardized way to package and serve them. It supports multiple types of models, including those for image and text classification, object detection, and more."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Problems that Torchserve tackles"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "Torchserve exposes your Model as an endpoint. This makes other inferencing much simpler for the backend servers! Getting the scores or the class in which it belongs to is just one HTTP request away :)."
+        },
+        {
+          "type": "li",
+          "content": "The same model is loaded into multiple processes and these processes are managed by Torchserve's backend (which is written in Java). New processes are created and killed on the fly as the application continues to do its job in a production environment."
+        },
+        {
+          "type": "li",
+          "content": "Torchserve provides functionality for batching, this means higher throughput and efficient use of costly GPU's. This functionality can be customised according to your requirements. For example, after setting the batch size as 8 and a waitTime as 10 seconds, torchserve will wait for 10 seconds for the batch to fill up and then perform inferencing collectively on the batch. If after 10 seconds the batch is lets say filled only with 6 requests, it will perform inferencing with that batch size only. The best part is the batch inferencing is managed by torchserve, which means you don't write code to prepare a batch in your backend application first and therefore the endpoint remains the same as well!"
+        },
+        {
+          "type": "li",
+          "content": "Torchserve provides a good set of management API's, which allows you to change multiple configurations like BatchSize and number of workers on the fly. Along with logging, this functionality can be used to manage your Inference server even better."
+        },
+        {
+          "type": "li",
+          "content": "Logging of course integrates with Grafana and Prometheus."
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Advantages of TorchServe"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "TorchServe can handle large and diverse workloads. It can serve multiple models simultaneously, which makes it ideal for applications that require a variety of ML models to operate in real-time."
+        },
+        {
+          "type": "li",
+          "content": "It integrates seamlessly with AWS services, enabling developers to leverage the scalability and flexibility of the cloud."
+        },
+        {
+          "type": "li",
+          "content": "TorchServe's support for model versioning allows for A/B testing of different model versions to determine the most effective one."
+        },
+        {
+          "type": "li",
+          "content": "It provides robust metrics for monitoring your models, allowing you to track the performance of your models in real-time."
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Conclusion"
+    },
+    {
+      "type": "p",
+      "content": "In conclusion, TorchServe is not just a tool for serving PyTorch models, but a comprehensive solution for deploying ML models at scale. Its combination of flexibility, scalability, and robust features make it a game-changer in the deployment of ML models."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Links"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "[Torchserve Docs](https://pytorch.org/serve/)"
+        }
+      ]
+    }
+  ]
+}
