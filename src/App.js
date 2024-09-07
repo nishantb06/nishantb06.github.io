@@ -29,6 +29,7 @@ function App() {
                 <Route path="/prototypes" element={<PrototypesPage />} />
                 <Route path="/prototypes/:id" element={<PrototypeDetail />} />
                 <Route path="/prototypes/newspaper" element={<Newspaper />} />
+                <Route path="/prototypes/image-classifier" element={<Newspaper />} />
               </Routes>
             </div>
             <Footer />

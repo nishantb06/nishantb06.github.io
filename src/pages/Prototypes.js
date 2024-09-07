@@ -27,10 +27,10 @@ const CardInformation = {
     slug: "newspaper",
   },
   2: {
-    title: "Prototype 2",
+    title: "image classifier",
     description: "This is the second prototype",
     image: "https://picsum.photos/seed/2/400/300",
-    slug: "prototype-2",
+    slug: "image-classifier",
   },
   3: {
     title: "Prototype 3",
