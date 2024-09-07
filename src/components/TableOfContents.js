@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const TableOfContents = ({ activeMenus, toggleMenu, blogSchema, activeSection }) => {
+    const [activeSubSection, setActiveSubSection] = useState('');
+
     const noBulletStyle = {
         listStyleType: 'none',
         paddingLeft: 0,
@@ -12,6 +14,23 @@ const TableOfContents = ({ activeMenus, toggleMenu, blogSchema, activeSection })
     const generateId = (text) => {
         return text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     };
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const sections = document.querySelectorAll('h2, h3, h4');
+            let currentActiveSection = '';
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                if (window.pageYOffset >= sectionTop - 100) {
+                    currentActiveSection = section.id;
+                }
+            });
+            setActiveSubSection(currentActiveSection);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
         <aside className="menu sticky-toc">
@@ -25,7 +44,10 @@ const TableOfContents = ({ activeMenus, toggleMenu, blogSchema, activeSection })
                         <li key={index} style={noBulletStyle}>
                             <Link 
                                 to={`#${sectionId}`} 
-                                onClick={() => toggleMenu(sectionTitle)}
+                                onClick={() => {
+                                    toggleMenu(sectionTitle);
+                                    setActiveSubSection(sectionId);
+                                }}
                                 className={`toc-link ${isActive ? 'is-active' : ''}`}
                             >
                                 {sectionTitle}
@@ -37,11 +59,12 @@ const TableOfContents = ({ activeMenus, toggleMenu, blogSchema, activeSection })
                                 <ul style={noBulletStyle}>
                                     {subheadings.map((subheading, subIndex) => {
                                         const subheadingId = generateId(`${subheading}`);
-                                        const isSubActive = activeSection === subheadingId;
+                                        const isSubActive = activeSubSection === subheadingId;
                                         return (
                                             <li key={subIndex} style={noBulletStyle}>
                                                 <a 
                                                     href={`#${subheadingId}`}
+                                                    onClick={() => setActiveSubSection(subheadingId)}
                                                     className={`toc-link ${isSubActive ? 'is-active' : ''}`}
                                                 >
                                                     {subheading}
