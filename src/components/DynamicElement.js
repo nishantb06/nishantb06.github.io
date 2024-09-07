@@ -52,10 +52,8 @@ const DynamicElement = ({ element, sectionTitle }) => {
   const ElementType = type;
 
   let id;
-  if (type === 'h2') {
+  if (type === 'h2' || type === 'h3' || type === 'h4') {
     id = generateId(content);
-  } else if (type === 'h3' || type === 'h4') {
-    id = generateId(`${sectionTitle}-${content}`);
   }
 
   if (type === 'ul' || type === 'ol') {

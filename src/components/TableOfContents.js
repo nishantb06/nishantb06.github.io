@@ -36,7 +36,7 @@ const TableOfContents = ({ activeMenus, toggleMenu, blogSchema, activeSection })
                             {activeMenus[sectionTitle] && (
                                 <ul style={noBulletStyle}>
                                     {subheadings.map((subheading, subIndex) => {
-                                        const subheadingId = generateId(`${sectionTitle}-${subheading}`);
+                                        const subheadingId = generateId(`${subheading}`);
                                         const isSubActive = activeSection === subheadingId;
                                         return (
                                             <li key={subIndex} style={noBulletStyle}>
