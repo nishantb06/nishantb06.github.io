@@ -67,7 +67,7 @@ const BlogDetails = () => {
             <section className="section">
                 <div className="container">
                     <div className="columns">
-                        <div className="column is-2 has-shadow">
+                        <div className="column is-2 sticky-column">
                             <TableOfContents 
                                 activeMenus={activeMenus} 
                                 toggleMenu={toggleMenu} 
@@ -103,6 +103,19 @@ const BlogDetails = () => {
                     </div>
                 </div>
             </section>
+            <style jsx>{`
+                .sticky-column {
+                    position: sticky;
+                    top: 5rem;
+                    align-self: flex-start;
+                    max-height: calc(100vh - 2rem);
+                    overflow-y: auto;
+                }
+                .sticky-toc {
+                    position: sticky;
+                    top: 5rem;
+                }
+            `}</style>
         </>
     );
 }

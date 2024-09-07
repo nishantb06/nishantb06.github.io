@@ -14,7 +14,7 @@ const TableOfContents = ({ activeMenus, toggleMenu, blogSchema }) => {
     };
 
     return (
-        <aside className="menu">
+        <aside className="menu sticky-toc">
             <p className="menu-label">Table of Contents</p>
             <ul className="menu-list" style={noBulletStyle}>
                 {blogSchema.map((section, index) => {
