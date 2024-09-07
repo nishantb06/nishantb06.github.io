@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { BlogContext } from '../context/BlogContext';
 import DynamicElement from './DynamicElement';
@@ -15,6 +15,8 @@ const BlogDetails = () => {
         Conclusion: false,
     });
     const [blogContent, setBlogContent] = useState([]);
+    const [activeSection, setActiveSection] = useState('');
+    const contentRef = useRef(null);
 
     const toggleMenu = (menu) => {
         setActiveMenus(prevState => ({
@@ -40,6 +42,28 @@ const BlogDetails = () => {
             setBlogContent(processedContent);
         }
     }, [blog]);
+
+    useEffect(() => {
+        if (!contentRef.current) return; // Add this check
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setActiveSection(entry.target.id);
+                    }
+                });
+            },
+            { threshold: 0.5 }
+        );
+
+        const headings = contentRef.current.querySelectorAll('h2, h3, h4');
+        headings.forEach((heading) => observer.observe(heading));
+
+        return () => {
+            headings.forEach((heading) => observer.unobserve(heading));
+        };
+    }, [blogContent, contentRef.current]); // Add contentRef.current as a dependency
 
     const paddingTitle = {
         paddingTop: '0rem',
@@ -71,10 +95,11 @@ const BlogDetails = () => {
                             <TableOfContents 
                                 activeMenus={activeMenus} 
                                 toggleMenu={toggleMenu} 
-                                blogSchema={blog.schema} 
+                                blogSchema={blog.schema}
+                                activeSection={activeSection}
                             />
                         </div>
-                        <div className="column is-8">
+                        <div className="column is-8" ref={contentRef}>
                             <div className="has-background-light p-4">
                                 <span className="is-size-5">{blog.date} </span>
                                 <h1 className="title is-1 pb-0 mb-0" style={paddingTitle}>
@@ -114,6 +139,24 @@ const BlogDetails = () => {
                 .sticky-toc {
                     position: sticky;
                     top: 5rem;
+                }
+                .toc-link {
+                    color: inherit;
+                    text-decoration: none;
+                    display: block;
+                    padding: 0.5em 0.75em;
+                }
+                .toc-link:hover {
+                    background-color: transparent;
+                    color: inherit;
+                }
+                .toc-link.is-active {
+                    font-weight: bold;
+                    background-color: transparent;
+                    color: inherit;
+                }
+                .menu-list a {
+                    border-radius: 0;
                 }
             `}</style>
         </>

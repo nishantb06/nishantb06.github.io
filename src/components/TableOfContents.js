@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const TableOfContents = ({ activeMenus, toggleMenu, blogSchema }) => {
+const TableOfContents = ({ activeMenus, toggleMenu, blogSchema, activeSection }) => {
     const noBulletStyle = {
         listStyleType: 'none',
         paddingLeft: 0,
@@ -20,9 +20,14 @@ const TableOfContents = ({ activeMenus, toggleMenu, blogSchema }) => {
                 {blogSchema.map((section, index) => {
                     const [sectionTitle, subheadings] = Object.entries(section)[0];
                     const sectionId = generateId(sectionTitle);
+                    const isActive = activeSection === sectionId;
                     return (
                         <li key={index} style={noBulletStyle}>
-                            <Link to={`#${sectionId}`} onClick={() => toggleMenu(sectionTitle)}>
+                            <Link 
+                                to={`#${sectionId}`} 
+                                onClick={() => toggleMenu(sectionTitle)}
+                                className={`toc-link ${isActive ? 'is-active' : ''}`}
+                            >
                                 {sectionTitle}
                                 <span className="icon is-small is-pulled-right">
                                     <i className={`fas fa-angle-${activeMenus[sectionTitle] ? 'down' : 'left'}`}></i>
@@ -32,9 +37,15 @@ const TableOfContents = ({ activeMenus, toggleMenu, blogSchema }) => {
                                 <ul style={noBulletStyle}>
                                     {subheadings.map((subheading, subIndex) => {
                                         const subheadingId = generateId(`${sectionTitle}-${subheading}`);
+                                        const isSubActive = activeSection === subheadingId;
                                         return (
                                             <li key={subIndex} style={noBulletStyle}>
-                                                <a href={`#${subheadingId}`}>{subheading}</a>
+                                                <a 
+                                                    href={`#${subheadingId}`}
+                                                    className={`toc-link ${isSubActive ? 'is-active' : ''}`}
+                                                >
+                                                    {subheading}
+                                                </a>
                                             </li>
                                         );
                                     })}
