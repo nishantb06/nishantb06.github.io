@@ -1,0 +1,38 @@
+{
+  "id": "the-annotated-llama",
+  "title": "The Annotated Llama",
+  "subtitle": "An in-depth look at the Llama model architecture, including its components and design choices",
+  "slug": "the-annotated-llama",
+  "author": "Nishant Bhansali",
+  "date": "2023-04-15",
+  "tags": ["LLM's"],
+  "isShortArticle": false,
+  "schema": [
+    {
+      "Foreword": []
+    },
+    {
+      "Introduction": [
+        "LLM Scaling Laws",
+        "Datasets used",
+        "Architecture"
+      ]
+    },
+    {
+        "How to download the Weights on your Machine": []
+    },
+    {
+      "Code deep dive": [
+        {"Tokenizer": ["Byte pair encoding algorithm"]},
+        {"Model": ["Transformer()", "TransformerBlock()", "FeedForward()", "Attention()"]},
+        {"Generation": ["Sampling from top p probabilites", "Post Processing function"]}
+      ]
+    },
+    {
+      "Conclusion": []
+    }
+  ],
+  "content": [
+    
+  ]
+}
