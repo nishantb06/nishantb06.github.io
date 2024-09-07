@@ -1,6 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import meImage from '../assets/IMG_0840.jpg';
+import GitHubCalendar from 'react-github-calendar';
+import ReactTooltip from 'react-tooltip';
+import chroma from 'chroma-js';
+
+const customTheme = {
+  background: 'transparent',
+  text: '#000',
+  grade4: '#216e39',
+  grade3: '#30a14e',
+  grade2: '#40c463',
+  grade1: '#9be9a8',
+  grade0: '#ebedf0',
+};
 
 const HomePage = () => {
     const socialLinks = [
@@ -13,6 +26,7 @@ const HomePage = () => {
 
     return (
         <>
+            
             <section className="section">
                 <div className="container">
                     <div className="columns">
@@ -69,6 +83,9 @@ const HomePage = () => {
                                     ))}
                                 </footer>
                             </div>
+                            <GitHubCalendar username="nishantb06" theme={customTheme}>
+                                <ReactTooltip delayShow={50} html />
+                            </GitHubCalendar>
                         </div>
                     </div>
                 </div>
