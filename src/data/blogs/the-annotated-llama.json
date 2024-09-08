@@ -33,6 +33,31 @@
     }
   ],
   "content": [
-    
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Foreword"
+    },
+    {
+      "type": "p",
+      "content": "Welcome to **“The Annotated LLaMA”**"
+    },
+    {
+      "type": "p",
+      "content": "One of the most brilliant and well-explained articles I have read is [The Annotated Transformer](https://nlp.seas.harvard.edu/2018/04/03/attention.html) and the [Annotated DETR](https://amaarora.github.io/posts/2021-07-26-annotateddetr.html). It introduced **Attention** like no other post. The simple idea was to present an “annotated” version of the paper [Attention is all you need](https://arxiv.org/abs/1706.03762) along with code."
+    },
+    {
+      "type": "p",
+      "content": "I have tried to do something similar with the LLaMA models by Meta Research, without which the commercial use of many Large Language models would not have been possible."
+    },
+    {
+      "type": "p",
+      "content": "[arXiv](https://arxiv.org/abs/2302.13971v1) , [Official Code](https://github.com/facebookresearch/llama)"
+    },
+    {
+      "type": "img",
+      "src": "https://images.unsplash.com/photo-1589182337358-2cb63099350c?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=4800",
+      "alt": "Llama"
+    }
   ]
 }

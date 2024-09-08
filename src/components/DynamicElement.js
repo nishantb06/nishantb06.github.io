@@ -3,7 +3,7 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css'; // You can choose a different style
 
 const DynamicElement = ({ element, sectionTitle }) => {
-  const { type, className, content, attributes } = element;
+  const { type, className, content, attributes, src, alt } = element;
   const codeRef = useRef(null);
   const [copied, setCopied] = useState(false);
 
@@ -23,6 +23,39 @@ const DynamicElement = ({ element, sectionTitle }) => {
     }
   };
 
+  const renderInlineElements = (text) => {
+    const regex = /(`[^`]+`|\*\*[^*]+\*\*|\[([^\]]+)\]\(([^)]+)\))/g;
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+      if (lastIndex !== match.index) {
+        parts.push(text.slice(lastIndex, match.index));
+      }
+      parts.push(match[0]);
+      lastIndex = regex.lastIndex;
+    }
+
+    if (lastIndex !== text.length) {
+      parts.push(text.slice(lastIndex));
+    }
+    
+    return parts.map((part, index) => {
+      if (part.startsWith('`') && part.endsWith('`')) {
+        return <code key={index} className="inline-code">{part.slice(1, -1)}</code>;
+      }
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={index}>{part.slice(2, -2)}</strong>;
+      }
+      if (part.startsWith('[') && part.includes('](')) {
+        const [linkText, linkUrl] = part.slice(1, -1).split('](');
+        return <a key={index} href={linkUrl} target="_blank" rel="noopener noreferrer">{linkText}</a>;
+      }
+      return part;
+    });
+  };
+
   const renderContent = (content) => {
     if (Array.isArray(content)) {
       return content.map((item, index) => (
@@ -30,19 +63,9 @@ const DynamicElement = ({ element, sectionTitle }) => {
       ));
     }
     if (typeof content === 'string') {
-      return renderInlineCode(content);
+      return renderInlineElements(content);
     }
     return content;
-  };
-
-  const renderInlineCode = (text) => {
-    const parts = text.split(/(`[^`]+`)/).filter(Boolean);
-    return parts.map((part, index) => {
-      if (part.startsWith('`') && part.endsWith('`')) {
-        return <code key={index} className="inline-code">{part.slice(1, -1)}</code>;
-      }
-      return part;
-    });
   };
 
   const generateId = (text) => {
@@ -84,6 +107,25 @@ const DynamicElement = ({ element, sectionTitle }) => {
           </code>
         </pre>
       </div>
+    );
+  }
+
+  if (type === 'img') {
+    return (
+      <figure className="image" style={{ textAlign: 'center', margin: '2rem 0' }}>
+        <img 
+          src={src} 
+          alt={alt} 
+          className={className} 
+          {...attributes} 
+          style={{
+            maxWidth: '100%',
+            height: 'auto',
+            maxHeight: '400px',
+            objectFit: 'contain'
+          }}
+        />
+      </figure>
     );
   }
 

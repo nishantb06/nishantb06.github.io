@@ -105,7 +105,7 @@ const BlogDetails = () => {
                                 <h1 className="title is-1 pb-0 mb-0" style={paddingTitle}>
                                     {blog.title}
                                 </h1>
-                                <p className="subtitle is-3" style={paddingTitle}>
+                                <p className="subtitle is-4 my-3" style={paddingTitle}>
                                     {blog.subtitle}
                                 </p>
                                 <div className="tags">
