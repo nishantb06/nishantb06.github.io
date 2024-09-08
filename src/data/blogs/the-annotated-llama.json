@@ -722,6 +722,459 @@
     {
       "type": "p",
       "content": "Now lets dive deeper into the class `TransformerBlock()`"
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "TransformerBlock()"
+    },
+    {
+      "type": "p",
+      "content": "Complete Code"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "class TransformerBlock(nn.Module):\n    def __init__(self, layer_id: int, args: ModelArgs):\n        super().__init__()\n        self.n_heads = args.n_heads\n        self.dim = args.dim\n        self.head_dim = args.dim // args.n_heads\n        self.attention = Attention(args)\n        self.feed_forward = FeedForward(\n            dim=args.dim, hidden_dim=4 * args.dim, multiple_of=args.multiple_of\n            # 4096, 4 * 4096, 256\n        )\n        self.layer_id = layer_id\n        self.attention_norm = RMSNorm(args.dim, eps=args.norm_eps)\n        self.ffn_norm = RMSNorm(args.dim, eps=args.norm_eps)\n\n    def forward(\n        self,\n        x: torch.Tensor, # (1,8,4096)\n        start_pos: int, # 0 (initially)\n        freqs_cis: torch.Tensor, # (8, 64)\n        mask: Optional[torch.Tensor], # (1,1,8,8)\n    ):\n        # this is a skip connection\n        h = x + self.attention.forward(\n            self.attention_norm(x), start_pos, freqs_cis, mask\n            # (1,8,4096), 0, (1024, 64), (1,1,8,8)\n        ) # (1,8,4096)\n        out = h + self.feed_forward.forward(self.ffn_norm(h))\n        return out # (1,8,4096)"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "This class just encapsulates the attention layer and feed forward layer and the code for residual connection can also be seen here `(h = x + attention(x))`  and `out = h + feed_forward(h)`"
+    },
+    {
+      "type": "p",
+      "content": "A few things to note here"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "Normalisation (**RMSNorm**) is done to the input before it enters either the attention or the feed forward layer. In the original transformer paper, it was done after the layer."
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "RMSNorm()"
+    },
+    {
+      "type": "p",
+      "content": "Complete Code"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "class RMSNorm(torch.nn.Module):\n    def __init__(self, dim: int, eps: float = 1e-6):\n        super().__init__()\n        self.eps = eps\n        self.weight = nn.Parameter(torch.ones(dim))\n\n    def _norm(self, x):\n        return x * torch.rsqrt(x.pow(2).mean(-1, keepdim=True) + self.eps)\n\n    def forward(self, x):\n        output = self._norm(x.float()).type_as(x)\n        return output * self.weight"
+        }
+      ]
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "This Class performs the RMS normalization on the input tensor **`x`**."
+        },
+        {
+          "type": "li",
+          "content": "It computes the square of **`x`** using **`x.pow(2)`**, calculates the mean along the last dimension using **`mean(-1, keepdim=True)`**, and adds **`self.eps`** to the mean value for numerical stability."
+        },
+        {
+          "type": "li",
+          "content": "Then, it applies reciprocal square root (**`rsqrt`**) to the sum of the mean and **`self.eps`**."
+        },
+        {
+          "type": "li",
+          "content": "Finally, it multiplies **`x`** with the reciprocal square root to normalize the input."
+        },
+        {
+          "type": "li",
+          "content": "In short it is dividing the input by its L2 Norm of the last dimension (4096)"
+        },
+        {
+          "type": "li",
+          "content": "The normalization is computed using a learnable parameter **`self.weight`** and the **`eps`** value to ensure numerical stability. The module helps to normalize the input data and can be useful in certain neural network architectures to improve model performance and convergence."
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "FeedForward()"
+    },
+    {
+      "type": "p",
+      "content": "Complete Code"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "class FeedForward(nn.Module):\n    def __init__(\n        self,\n        dim: int, # 4096\n        hidden_dim: int, # 4 * 4096 = 16384\n        multiple_of: int, # 256\n    ):\n        super().__init__()\n        hidden_dim = int(2 * hidden_dim / 3) # 2 * 16384 / 3 = 10922\n        hidden_dim = multiple_of * ((hidden_dim + multiple_of - 1) // multiple_of) # 256 * (10922 + 256 - 1) // 256 = 11177\n\n        self.w1 = nn.Linear(dim, hidden_dim, bias=False) # (4096, 11177)\n        self.w2 = nn.Linear(hidden_dim, dim, bias=False) # (11177, 4096)\n        self.w3 = nn.Linear(dim, hidden_dim, bias=False) # (4096, 11177)\n\n    def forward(self, x):\n        return self.w2(F.silu(self.w1(x)) * self.w3(x)) # (1,8,4096)"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "In summary, the **`FeedForward`** module applies a series of linear transformations to the input tensor **`x`** using three linear layers (**`self.w1`**, **`self.w2`**, and **`self.w3`**) with appropriate dimensions. The intermediate activation function **`F.silu`** ([Sigmoid Linear unit](https://pytorch.org/docs/stable/generated/torch.nn.functional.silu.html)) is applied element-wise to introduce non-linearity."
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "Attention()"
+    },
+    {
+      "type": "p",
+      "content": "Complete Code"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "class Attention(nn.Module):\n    def __init__(self, args: ModelArgs):\n        super().__init__()\n\n        self.n_local_heads = args.n_heads // 1 # 32 // 1 = 32\n        self.head_dim = args.dim // args.n_heads # 4096 // 32 = 128\n\n        self.wq = nn.Linear(\n            args.dim,\n            args.n_heads * self.head_dim,\n            bias=False,\n        ) # (4096, 4096)\n        self.wk = nn.Linear(\n            args.dim,\n            args.n_heads * self.head_dim,\n            bias=False,\n        ) # (4096, 4096)\n        self.wv = nn.Linear(\n            args.dim,\n            args.n_heads * self.head_dim,\n            bias=False,\n        )  # (4096, 4096)\n        self.wo = nn.Linear(\n            args.n_heads * self.head_dim,\n            args.dim,\n            bias=False,\n        ) # (4096, 4096)\n        self.cache_k = torch.zeros(\n            (args.max_batch_size, args.max_seq_len, self.n_local_heads, self.head_dim)\n            # (1,1024,32,128)\n        )\n        self.cache_v = torch.zeros(\n            (args.max_batch_size, args.max_seq_len, self.n_local_heads, self.head_dim)\n            # (1,1024,32,128)\n        )\n        if hiq.get_env_bool(\"KV_CAHCHE_IN_GPU\", True):\n            self.cache_k = self.cache_k.cuda()\n            self.cache_v = self.cache_v.cuda()\n\n    def forward(\n        self,\n        x: torch.Tensor, # (1,8,4096)\n        start_pos: int, # 0 (initially)\n        freqs_cis: torch.Tensor,  # (8, 64)\n        mask: Optional[torch.Tensor],  # (1,1,8,8)\n    ):\n        bsz, seqlen, _ = x.shape\n        xq, xk, xv = self.wq(x), self.wk(x), self.wv(x)\n        # all of shape (1,8,4096)\n\n        xq = xq.view(bsz, seqlen, self.n_local_heads, self.head_dim) # (1,8,32,128) # (1,1,32,128)\n        xk = xk.view(bsz, seqlen, self.n_local_heads, self.head_dim) # (1,8,32,128) # (1,1,32,128)\n        xv = xv.view(bsz, seqlen, self.n_local_heads, self.head_dim) # (1,8,32,128) # (1,1,32,128)\n\n        xq, xk = apply_rotary_emb(xq, xk, freqs_cis=freqs_cis) # (1,8,32,128), (1,8,32,128)\n        # # (1,1,32,128), (1,1,32,128)\n\n        self.cache_k = self.cache_k.to(xq) # (1,1024,32,128) moved to the same device as xq\n        self.cache_v = self.cache_v.to(xq) # (1,1024,32,128) moved to the smae device as xq\n\n        self.cache_k[:bsz, start_pos : start_pos + seqlen] = xk # (1,1024,32,128)\n        self.cache_v[:bsz, start_pos : start_pos + seqlen] = xv # (1,1024,32,128)\n\n        keys = self.cache_k[:bsz, : start_pos + seqlen] # (1,start_pos + seqlen,32,128) or (1,8,32,128)\n        values = self.cache_v[:bsz, : start_pos + seqlen] # (1,start_pos + seqlen,32,128) or (1,8,32,128)\n        # in the next run it will be (1,9,32,128) \n\n        xq = xq.transpose(1, 2) # (1,32,8,128) -> (1,32,1,128)\n        keys = keys.transpose(1, 2) # (1,32,8,128) -> (1,32,9,128)\n        values = values.transpose(1, 2) # (1,32,8,128) -> (1,32,9,128)\n        scores = torch.matmul(xq, keys.transpose(2, 3)) / math.sqrt(self.head_dim) # (1,32,8,8)\n        # matrix multiply of (1,32,8,128) and (1,32,128,8) resulting in # (1,32,8,8)\n        # matrix multiply of (1,32,1,128) and (1,32,128,9) resulting in # (1,32,1,9)\n        if mask is not None: # (1,1,8,8) -> (1,1,1,1)\n            scores = scores + mask  # (bs, n_local_heads, slen, cache_len + slen) # (1,32,8,8) -> (1,32,1,9)\n        scores = F.softmax(scores.float(), dim=-1).type_as(xq) # (1,32,8,8) -> (1,32,1,9)\n        output = torch.matmul(scores, values)  # (bs, n_local_heads, slen, head_dim) # (1,32,8,128)\n        # matrix multiply of (1,32,8,8) and (1,32,8,128) resulting in (1,32,8,128)\n        # matrix multiply of (1,32,1,9) and (1,32,9,128) resulting in (1,32,1,128)\n        output = output.transpose(1, 2).contiguous().view(bsz, seqlen, -1) # (1,8,4096) -> (1,1,4096)\n\n        return self.wo(output) # (1,8,4096) x (4096,4096) -> (1,8,4096)\n        # (1,1,4096) x (4096,4096) -> (1,1,4096)"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "In summary, the **`Attention`** module implements the multi-head self-attention mechanism, which is a key component of transformer architectures. It processes the input tensor **`x`** through query, key, and value projections, applies rotary positional embeddings, and computes attention scores. The module also implements caching of key and value tensors to optimize performance in sequential processing scenarios."
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "The Multi Head Self Attention mechanism"
+    },
+    {
+      "type": "p",
+      "content": "The Self Attention operator generates a better representation of the input sequence, where each token/embedding at the nth position in the sequence condenses the knowledge of the sequence coming before it. This can be thought of as a weighted average of all the tokens coming before it."
+    },
+    {
+      "type": "p",
+      "content": "In the self attention mechanism, we gather information from the past in a data-dependent way. We first generate a query, key, and value from each token by multiplying each token by 3 separate weight matrices. This converts one token into 3 representations using a linear layer."
+    },
+    {
+      "type": "p",
+      "content": "The process then involves taking the scaled dot product of one query vector with each key vector, multiplying this scalar with its value vector, and adding all these value vectors to get the representation of the token for which the query vector was generated."
+    },
+    {
+      "type": "p",
+      "content": "This mechanism allows the new representation to include all of the value vectors weighted according to their relevant information. It effectively chooses what to include and how much knowledge to incorporate. The query vector can be thought of as \"what I'm looking for\", the key vector as \"what I contain\", and the value vector as \"if you find me interesting, here's what I will communicate to you\"."
+    },
+    {
+      "type": "p",
+      "content": "Multihead attention creates `n_head` different q,k,v vectors and lets them operate in parallel, similar to using multiple filters in CNNs. This allows different information and contexts to be learned in each head. The outputs are then concatenated and multiplied with another weight matrix, which is fed as input to the next attention layer."
+    },
+    {
+      "type": "blockquote",
+      "content": "It's not always necessary to prevent the current token from looking at future tokens, such as in encoders or sentiment analysis. That's why masking is used here to ensure that the value vectors for the tokens ahead in the sequence are not added to its value representation."
+    },
+    {
+      "type": "p",
+      "content": "Other excellent resources to understand the Attention mechanism are:"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "[Karpathy's NanoGPT tutorial](https://youtu.be/kCc8FmEb1nY)"
+        },
+        {
+          "type": "li",
+          "content": "[The annotated transformer](https://nlp.seas.harvard.edu/2018/04/03/attention.html)"
+        },
+        {
+          "type": "li",
+          "content": "[In depth transformers](https://transformer-circuits.pub/)"
+        },
+        {
+          "type": "li",
+          "content": "[Jay Allamar's Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "Caching in the attention mechanism"
+    },
+    {
+      "type": "p",
+      "content": "This concept was introduced in [this paper](https://arxiv.org/abs/2112.05682), which claims that the attention mechanism does not have to be an O(n^2) operation. Instead, by storing the key and value vectors in a cache generated in this sequence, we don't have to compute them again when we pass in the next input token."
+    },
+    {
+      "type": "p",
+      "content": "The paper states:"
+    },
+    {
+      "type": "blockquote",
+      "content": "First, we use an efficient implementation of the causal multi-head attention to reduce memory usage and runtime. This implementation, available in the [xformers](https://github.com/facebookresearch/xformers) library, is inspired by [Rabe and Staats (2021)](https://arxiv.org/abs/2112.05682) and uses the backward from Dao et al. (2022). This is achieved by not storing the attention weights and not computing the key/query scores that are masked due to the causal nature of the language modeling task."
+    },
+    {
+      "type": "p",
+      "content": "As you can see here, we simply query the cache to get the keys and values from the past:"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "keys = self.cache_k[:bsz, : start_pos + seqlen] # (1,start_pos + seqlen,32,128) or (1,8,32,128)\nvalues = self.cache_v[:bsz, : start_pos + seqlen] # (1,start_pos + seqlen,32,128) or (1,8,32,128)\n# in the next run it will be (1,9,32,128)"
+        }
+      ]
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "Masking in attention mechanism"
+    },
+    {
+      "type": "p",
+      "content": "During each forward run, if the seq_length passed in is more than 1, a mask is generated which is a tensor of shape (1,1,seq_length,seq_length). In this tensor, the upper triangle is filled with `-inf` and the lower triangle is filled with zeros. When the weight matrix is calculated (by multiplying keys and queries), this mask is added to the weight matrix. This makes the upper triangle of the weight matrix zero. When we take the softmax of this weight matrix, the `-inf` will convert to zeros and the rest of the values will be converted to probability values."
+    },
+    {
+      "type": "p",
+      "content": "This is done because we do not want the token at the nth position to contain information from the tokens ahead of itself. For predicting the next token, the embeddings after the starting_pos should not be \"visible\" to the previous_tokens. This mathematical trick is explained clearly in [Karpathy's tutorial](https://www.youtube.com/watch?v=kCc8FmEb1nY&t=2533s) on GPT."
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "Use of Rotary positional embeddings"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "def apply_rotary_emb(\n    xq: torch.Tensor, # (1,8,32,128)\n    xk: torch.Tensor, # (1,8,32,128)\n    freqs_cis: torch.Tensor, # (8,64)\n) -> Tuple[torch.Tensor, torch.Tensor]:\n    xq_ = torch.view_as_complex(xq.float().reshape(*xq.shape[:-1], -1, 2)) # (1,8,32,128) -> (1,8,32,64,2) -> (1,8,32,64)\n    xk_ = torch.view_as_complex(xk.float().reshape(*xk.shape[:-1], -1, 2)) # (1,8,32,128) -> (1,8,32,64,2) -> (1,8,32,64)\n    freqs_cis = reshape_for_broadcast(freqs_cis, xq_) # (1,8,1,64)\n    # Element-wise multiplication of 2 matrices which has complex numbers\n    xq_out = torch.view_as_real(xq_ * freqs_cis).flatten(3) # (1,8,32,64,2) -> (1,8,32,128) \n    xk_out = torch.view_as_real(xk_ * freqs_cis).flatten(3) # (1,8,32,64,2) -> (1,8,32,128)\n    return xq_out.type_as(xq), xk_out.type_as(xk) # (1,8,32,128), (1,8,32,128)"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "The positional embeddings are tensors of complex numbers of the form cos(theta) + i sin(theta). Here, we first convert the query and key vectors into their complex forms by reshaping them, and then element-wise multiplication with the positional embeddings is done. These complex-numbered tensors are then converted back to their real form and returned."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Generation"
+    },
+    {
+      "type": "p",
+      "content": "At the core of the generate.py is this logic:"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "bsz = len(prompts) # 1\nparams = self.model.params # those same ModelArgs\nassert bsz <= params.max_batch_size, (bsz, params.max_batch_size)\n\nprompt_tokens = [self.tokenizer.encode(x, bos=True, eos=False) for x in prompts]\n# [[1, 306, 4658, 278, 6593, 310, 2834, 338]]\n\nmin_prompt_size = min([len(t) for t in prompt_tokens]) # 8\nmax_prompt_size = max([len(t) for t in prompt_tokens]) # 8\n\ntotal_len = min(params.max_seq_len, max_gen_len + max_prompt_size) # 264\n\ntokens = torch.full((bsz, total_len), self.tokenizer.pad_id).cuda().long()\n# a tensor of size (1, 264) filled with -1's\n\nfor k, t in enumerate(prompt_tokens):\n    tokens[k, : len(t)] = torch.tensor(t).long()\n    # fill the first 8(length of prompt_tokens[0]) tokens of tokens with the prompt tokens\ninput_text_mask = tokens != self.tokenizer.pad_id # a tensor of size (1, 264) filled with True's ,\n# where tokens is not -1, other wise False\nstart_pos = min_prompt_size # 8\nprev_pos = 0\nfor cur_pos in range(start_pos, total_len):\n    i = tokens[:, prev_pos:cur_pos]\n    logits = self.model(i, prev_pos)\n    if temperature > 0:\n        probs = torch.softmax(logits / temperature, dim=-1)\n        next_token = sample_top_p(probs, top_p)\n    else:\n        next_token = torch.argmax(logits, dim=-1)\n    next_token = next_token.reshape(-1)\n    # only replace token if prompt has already been generated\n    next_token = torch.where(\n        input_text_mask[:, cur_pos], tokens[:, cur_pos], next_token\n    )\n    tokens[:, cur_pos] = next_token\n    prev_pos = cur_pos\n    \n    if self._should_stop(tokens, prompt_tokens, stop_ids, stop_words):\n        break"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "The `generate` function takes `prompts` as a list of strings. For example, let the prompt be \"**I believe the meaning of life is**\". `prompt_tokens` are generated through the tokenizer's encode function, and the minimum and maximum prompt sizes in the entire list of strings are calculated. In this case, both will be `8`."
+    },
+    {
+      "type": "p",
+      "content": "The maximum sequence length that can be passed to the transformer is `1024` (a fixed, predecided hyperparameter, also called the context length). We also don't want the output to be more than 256 tokens (again, a predetermined fixed hyperparameter)."
+    },
+    {
+      "type": "p",
+      "content": "Considering these two factors, the total length that will be generated is calculated by taking the minimum of `1024` and `256 + prompt_length`. In this case, it will be `264`."
+    },
+    {
+      "type": "p",
+      "content": "A tensor is created where the initial few values are our original `prompt_tokens` and the rest are filled with `pad_id (-1)`. Correspondingly, an `input_mask` of size (1, 264) is created, filled with True's where tokens are not -1, and False otherwise. In the future, only where the mask is -1 will be replaced with generated tokens."
+    },
+    {
+      "type": "p",
+      "content": "A loop is then run which iterates over the tokens. In the first pass, the entire prompt is fed into the model, with starting_pos as 0. From the next iteration onwards, only one token will be sent for forward pass to the model. This can be validated by checking the difference between the `prev_pos` and `cur_pos`. After the first iteration, the difference will always be 1."
+    },
+    {
+      "type": "blockquote",
+      "content": "Note that starting position is passed in to the transformer because that is used later in the caching in the self attention mechanism. And, after the first iteration as the sequence length will always be 1, there is no need for an attention mask."
+    },
+    {
+      "type": "p",
+      "content": "Regardless of the input size, the output will always be the logits of shape (1,32_000). Softmax is applied to convert them into probabilities, and finally, one token is sampled from the logits (considering it a multinomial distribution). As a new token is generated, it is added to the `tokens` variable depending on the input mask, until the tensor of shape 264 is completely filled. The loop might break in between if the model generates a token or a word that should not have been generated. `_should_stop()` takes care of this."
+    },
+    {
+      "type": "p",
+      "content": "After this, post-processing is done on the decoded tokens so that the output is more presentable and readable to the user. Let's look at three very important concepts here - **Temperature**, **Sampling from the top probabilities**, and the **post-processing function**."
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "The role of temperature"
+    },
+    {
+      "type": "p",
+      "content": "The temperature determines how greedy the generative model is."
+    },
+    {
+      "type": "p",
+      "content": "If the temperature is low, the probabilities to sample classes other than the one with the highest log probability will be small, and the model will probably output the most correct text, but rather boring, with small variation."
+    },
+    {
+      "type": "p",
+      "content": "If the temperature is high, the model can output, with rather high probability, other words than those with the highest probability. The generated text will be more diverse, but there is a higher possibility of grammar mistakes and generation of nonsense."
+    },
+    {
+      "type": "img",
+      "src": "https://i.imgur.com/HCS0swK.png",
+      "alt": "Temperature effect on categorical distribution"
+    },
+    {
+      "type": "p",
+      "content": "The difference between the low-temperature case (left) and the high-temperature (right) case for the categorical distribution is illustrated in the picture above, where the heights of the bars correspond to probabilities."
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "Sampling from top p probabilites"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "def sample_top_p(probs, # a tensor of size (1, 32_000) with softmax already applied\n                 p # 0.95\n                 ):\n    \"\"\" \n    In summary, the sample_top_p function performs top-p sampling on a given probability\n    distribution. It sorts the probabilities, computes the cumulative sum, applies a \n    threshold to remove tokens with cumulative probabilities exceeding the threshold, \n    normalizes the probabilities, samples a token using multinomial sampling, and returns \n    the sampled token index.\n\n    If the sum of probalities coming before a token is greater than p, then the token is\n    not considered for sampling. This is done by setting the probability of the token to 0.\n    \"\"\"\n    probs_sort, probs_idx = torch.sort(probs, dim=-1, descending=True)\n    probs_sum = torch.cumsum(probs_sort, dim=-1)\n    mask = probs_sum - probs_sort > p\n    probs_sort[mask] = 0.0\n    probs_sort.div_(probs_sort.sum(dim=-1, keepdim=True))\n    next_token = torch.multinomial(probs_sort, num_samples=1)\n    next_token = torch.gather(probs_idx, -1, next_token)\n    return next_token"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "The `sample_top_p` function is used to perform top-p sampling on a probability distribution. It takes two inputs:"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "`probs`: A tensor of size `(1, 32_000)` representing a probability distribution over 32,000 tokens. The softmax function has already been applied to convert the logits into probabilities."
+        },
+        {
+          "type": "li",
+          "content": "`p`: A float representing the threshold probability. Tokens with cumulative probabilities above this threshold will be considered for sampling."
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "Here's a step-by-step explanation of the function:"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "`probs_sort, probs_idx = torch.sort(probs, dim=-1, descending=True)`: The `probs` tensor is sorted in descending order along the last dimension (`dim=-1`). This sorts the probabilities from highest to lowest. `probs_sort` contains the sorted probabilities, and `probs_idx` contains the corresponding indices."
+        },
+        {
+          "type": "li",
+          "content": "`probs_sum = torch.cumsum(probs_sort, dim=-1)`: The cumulative sum of the sorted probabilities is computed along the last dimension using `torch.cumsum()`. This results in a tensor `probs_sum` where each element represents the cumulative sum of probabilities up to that point."
+        },
+        {
+          "type": "li",
+          "content": "`mask = probs_sum - probs_sort > p`: A boolean mask is created by comparing the difference between `probs_sum` and `probs_sort` with the threshold `p`. The mask will be `True` for tokens whose cumulative probability exceeds the threshold `p`."
+        },
+        {
+          "type": "li",
+          "content": "`probs_sort[mask] = 0.0`: The probabilities corresponding to the tokens that exceed the threshold are set to `0.0`. This effectively removes those tokens from consideration during sampling."
+        },
+        {
+          "type": "li",
+          "content": "`probs_sort.div_(probs_sort.sum(dim=-1, keepdim=True))`: The `probs_sort` tensor is divided by its sum along the last dimension (`dim=-1`). This normalizes the probabilities so that they sum up to 1, ensuring they form a valid probability distribution."
+        },
+        {
+          "type": "li",
+          "content": "`next_token = torch.multinomial(probs_sort, num_samples=1)`: Using `torch.multinomial()`, a single token is sampled from the probability distribution defined by `probs_sort`. The `num_samples` parameter is set to `1`, indicating that only one token is sampled."
+        },
+        {
+          "type": "li",
+          "content": "`next_token = torch.gather(probs_idx, -1, next_token)`: The sampled token index is obtained by using `torch.gather()` to gather the corresponding index from `probs_idx`. This ensures that the sampled token index matches the original indexing of the input tensor."
+        },
+        {
+          "type": "li",
+          "content": "`return next_token`: The sampled token index is returned as the output of the function."
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "In summary, the `sample_top_p` function performs top-p sampling on a given probability distribution. It sorts the probabilities, computes the cumulative sum, applies a threshold to remove tokens with cumulative probabilities exceeding the threshold, normalizes the probabilities, samples a token using multinomial sampling, and returns the sampled token index."
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "Post Processing function"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "def postprocessing(output_text, stop_words=None, threshold=10):\n    \n    sentences = output_text.split(\".\")\n    filtered_sentences = []\n    for sentence in sentences:\n        sentence = sentence.strip()\n        if len(sentence) > threshold and sentence[-1] == \".\":\n            filtered_sentences.append(sentence)\n    r = '.'.join(sentences).strip()\n    if stop_words:\n        for w in stop_words:\n            if r.endswith(w):\n                r = r[0:-len(w)].strip()\n    if r[-1] != '.':\n        r += '...'\n    return r"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "The `postprocessing` function takes an `output_text` string and performs some post-processing steps to clean and format the text. Let's break down the function step by step:"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "Splitting into sentences: The `output_text` string is split into sentences using the period (\".\") as the delimiter. This is done with the `split()` method, which returns a list of individual sentences."
+        },
+        {
+          "type": "li",
+          "content": "Filtering sentences: Each sentence is processed individually in a loop. First, any leading or trailing whitespace is removed by using the `strip()` method. Then, the length of the sentence is checked against the `threshold` value. If the sentence is longer than the threshold and ends with a period (indicating a complete sentence), it is considered valid and added to the `filtered_sentences` list."
+        },
+        {
+          "type": "li",
+          "content": "Joining filtered sentences: The `filtered_sentences` list is joined back into a single string using the period as the separator. This step is performed with the `join()` method, resulting in a string that contains only the valid sentences."
+        },
+        {
+          "type": "li",
+          "content": "Handling stop words: If the `stop_words` parameter is provided, the function checks if the resulting string `r` ends with any of the stop words. If a stop word is found at the end of the string, it is removed by slicing the string from the beginning up to the length of the stop word. The resulting string is then stripped of any leading or trailing whitespace."
+        },
+        {
+          "type": "li",
+          "content": "Ensuring sentence ending: Finally, the function checks if the resulting string `r` ends with a period. If it doesn't, a period and ellipsis (\"...\") are appended to the string."
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "The purpose of this post-processing function is to clean up the generated text and ensure that it contains valid and properly formatted sentences. It also provides the flexibility to handle specific cases such as removing stop words and enforcing proper sentence endings."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Conclusion"
+    },
+    {
+      "type": "p",
+      "content": "Thats it!! I know this was a long blog. We looked at why the LLaMA models are relevant in today's world, we dived deep into the tokenizer it uses, what architectural changes it included in the classic transformer models and what is the mechanism behind generating a new token. If stuck somewhere considering having a look at my [fork](https://github.com/nishantb06/pyllama) of Pyllama package. The code here is heavily commented and I'm sure this will help. Please reach out on twitter [@itsnishant14](https://twitter.com/itsnishant14) incase of any questions or discrepancies."
+    },
+    {
+      "type": "p",
+      "content": "Thanks for giving this a read :)"
     }
   ]
 }
