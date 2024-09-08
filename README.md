@@ -91,8 +91,15 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-npx json-server --watch src/data/blogs/sample_blog.json --port 8000 
+npx json-server --watch src/data/blogs/sample_blog.json --port 8000
 
-npm run start 
+npm run start
 
 npm run deploy or npm deploy to push to gh pages
+
+can render images like this also
+{
+"type": "img",
+"src": "https://images.unsplash.com/photo-1589182337358-2cb63099350c?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=4800",
+"alt": "Llama from Unsplash"
+},
