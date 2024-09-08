@@ -10,6 +10,7 @@ import tmuxForMlEngineers from '../data/blogs/tmux-for-ml-engineers.json';
 import mobileVITPaperSummary from '../data/blogs/mobile-vit-paper-summary.json';
 import torchServe from '../data/blogs/torchserve.json';
 import theAnnotatedLlama from '../data/blogs/the-annotated-llama.json';
+import workAtSharechat from '../data/blogs/work-at-sharechat.json';
 
 export const BlogContext = createContext();
 
@@ -32,7 +33,8 @@ export const BlogProvider = ({ children }) => {
                 tmuxForMlEngineers,
                 mobileVITPaperSummary,
                 torchServe,
-                theAnnotatedLlama
+                theAnnotatedLlama,
+                workAtSharechat
             ];
 
             setBlogPosts(posts);

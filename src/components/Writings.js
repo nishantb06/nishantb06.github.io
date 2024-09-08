@@ -60,7 +60,7 @@ const Writings = () => {
                         </Link>
                     </p>
                     <div className="pb-4"></div>
-                    <div className="tags px-5 py-5">
+                    <div className="tags px-5 py-5 is-flex is-flex-wrap-wrap">
                         <Link 
                             to="/writings"
                             key="all-tags"
