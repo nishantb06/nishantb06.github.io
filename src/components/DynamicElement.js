@@ -111,10 +111,11 @@ const DynamicElement = ({ element, sectionTitle }) => {
   }
 
   if (type === 'img') {
+    const imageSrc = src.startsWith('http') ? src : process.env.PUBLIC_URL + src;
     return (
       <figure className="image" style={{ textAlign: 'center', margin: '2rem 0' }}>
         <img 
-          src={src} 
+          src={imageSrc} 
           alt={alt} 
           className={className} 
           {...attributes} 

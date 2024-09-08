@@ -56,8 +56,310 @@
     },
     {
       "type": "img",
-      "src": "https://images.unsplash.com/photo-1589182337358-2cb63099350c?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=4800",
-      "alt": "Llama"
+      "src": "/blogs/images/llama.jpeg",
+      "alt": "Local Llama image"
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Introduction"
+    },
+    {
+      "type": "p",
+      "content": "Before Llama came there were a series of really good Large Language Models (LLM's) like Chinchilla, PaLM and GPT-3, only problem they were trained on proprietary data and were not accessible to the public for research or commercial use."
+    },
+    {
+      "type": "p",
+      "content": "On February 27, 2023, Facebook released a set of models called LLaMA models that had:"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "Performance comparable to State-of-the-art LLM models at that time"
+        },
+        {
+          "type": "li",
+          "content": "Trained entirely on Publicly available data"
+        },
+        {
+          "type": "li",
+          "content": "Sizes as small as 7B parameter to as Large as 65B parameters"
+        },
+        {
+          "type": "li",
+          "content": "Models were available publicly for research purposes only (Not for Commercial Use). Though these models were leaked later"
+        },
+        {
+          "type": "li",
+          "content": "Inference Code was Open sourced, (not the training code 😓)"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "With these models, they prove that:"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "It is possible to train SOTA LLM's without the use proprietary and inaccessible datasets"
+        },
+        {
+          "type": "li",
+          "content": "The performance of a model as small as 7B parameters will keep on increasing as with the size of the dataset it is trained on"
+        },
+        {
+          "type": "li",
+          "content": "They wanted to train and optimise a set of models for best possible performance at fixed Inference budgets, by training on more tokens than what is typically used"
+        }
+      ]
+    },
+    {
+      "type": "blockquote",
+      "content": "For instance, although [Hoffmann et al. (2022)](https://arxiv.org/abs/2203.15556) recommends training a 10B model on 200B tokens, we find that the performance of a 7B model continues to improve even after 1T tokens."
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "LLM Scaling Laws"
+    },
+    {
+      "type": "p",
+      "content": "Before we dive into training, it's important to cover how LLMs scale. Understanding scaling lets us effectively balance the size and complexity of your model and the size of the data you'll use to train it."
+    },
+    {
+      "type": "p",
+      "content": "Some relevant history here: OpenAI originally introduced \"the LLM scaling laws\" in 2020. They suggested that increasing model size was more important than scaling data size. This held for about two years before DeepMind suggested almost the polar opposite: that previous models were significantly undertrained and that increasing your foundational training datasets actually leads to better performance."
+    },
+    {
+      "type": "p",
+      "content": "That changed in 2022. Specifically, DeepMind put forward an alternative approach in their Training Compute-Optimal Large Language Models paper. They found that current LLMs are actually significantly undertrained. Put simply: these large models weren't trained on nearly enough data."
+    },
+    {
+      "type": "p",
+      "content": "Deepmind showcased this with a model called Chinchilla, which is a fourth the size of the Gopher model above but trained on 4.6x more data. At that reduced size but with far more training data, Chinchilla outperformed Gopher and other LLMs."
+    },
+    {
+      "type": "p",
+      "content": "DeepMind claims that the model size and the number of training tokens should instead increase at roughly the same rate to achieve optimal performance. If you get a 10x increase in compute, you should make your model 3.1x times bigger and the data you train over 3.1x bigger; if you get a 100x increase in compute, you should make your model 10x bigger and your data 10x bigger."
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "Datasets Used"
+    },
+    {
+      "type": "p",
+      "content": "The LLaMA models were pretrained on a massive dataset of approximately 4.3 TB. Here's a breakdown of the datasets used:"
+    },
+    {
+      "type": "img",
+      "src": "https://i.imgur.com/DhWpc17.png",
+      "alt": "Datasets used for LLaMA pretraining"
+    },
+    {
+      "type": "p",
+      "content": "Key points about the datasets:"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "Wikipedia and Books datasets were used for approximately 2 epochs"
+        },
+        {
+          "type": "li",
+          "content": "Other datasets were used for only 1 epoch"
+        },
+        {
+          "type": "li",
+          "content": "The total size of all datasets combined is about 4.3 TB"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "In summary, they trained a large transformer model on this extensive dataset using a standard optimizer (AdamW). This approach of using a large quantity of diverse, high-quality data for pretraining is crucial for achieving state-of-the-art performance in large language models."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Architecture"
+    },
+    {
+      "type": "p",
+      "content": "The LLaMA model introduced several major changes to the standard Transformer architecture:"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "Using RMSNorm instead of LayerNorm"
+        },
+        {
+          "type": "li",
+          "content": "Using Rotary Positional Embeddings (which are relative and not absolute)"
+        },
+        {
+          "type": "li",
+          "content": "Caching of keys and values during the attention mechanism"
+        },
+        {
+          "type": "li",
+          "content": "SwiGLU activation function"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "How to Download the Weights on Your Machine"
+    },
+    {
+      "type": "p",
+      "content": "The easiest way to download the weights on your machine is using the pyllama package. Here are the steps involved:"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "Fork the repository and git clone it to your system."
+        },
+        {
+          "type": "li",
+          "content": "Install the pyllama package with pip install pyllama -U"
+        },
+        {
+          "type": "li",
+          "content": "To download the 7B model, use python -m llama.download --model_size 7B"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "Note: Some users have reported issues where the download stops after a few minutes and needs to be restarted manually. If you encounter this problem, you can use a shell script to automate the process. Credit for this solution goes to a comment on this GitHub issue. Credits to this [comment](https://github.com/juncongmoo/pyllama/issues/104#issuecomment-1588856820) on this [issue](https://github.com/juncongmoo/pyllama/issues/104). "
+    },
+    {
+      "type": "p",
+      "content": "Here's a shell script that can help automate the download process and handle interruptions:"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "#!/bin/bash\n# Function to handle stopping the script\nfunction stop_script() {\n  echo \"Stopping the script.\"\n  exit 0\n}\n\n# Register the signal handler\ntrap stop_script SIGINT\n\nwhile true; do\n  # Run the command with a timeout of 200 seconds\n  timeout 200  python -m llama.download --model_size $1 --folder model\n\n  echo \"restart download\"\n  sleep 1  # Wait for 1 second before starting the next iteration\n# Wait for any key to be pressed within a 1-second timeout\n  read -t 1 -n 1 -s key\n  if [[ $key ]]; then\n    stop_script\n  fi\ndone"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "Save this script as 'llama_download.sh' and make it executable with 'chmod +x llama_download.sh'. You can then run it using:"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "bash llama_download.sh 7B"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "This script will continuously attempt to download the model, restarting if it encounters an interruption. You can stop the script at any time by pressing any key."
+    },
+    {
+      "type": "p",
+      "content": "After Successful Download"
+    },
+    {
+      "type": "p",
+      "content": "After a successful download, the directory structure will look like this:"
+    },
+    {
+      "type": "img",
+      "src": "https://i.imgur.com/LsIuE3c.png",
+      "alt": "Directory structure after successful download"
+    },
+    {
+      "type": "p",
+      "content": "Note that the size of this folder is **13 GB** !!!"
+    },
+    {
+      "type": "p",
+      "content": "The logs of a successful download will look like this:"
+    },
+    {
+      "type": "img",
+      "src": "https://i.imgur.com/YnhC8gG.png",
+      "alt": "Logs of a successful download"
+    },
+    {
+      "type": "p",
+      "content": "This is what the logs of a successful download will look like!"
+    },
+    {
+      "type": "h4",
+      "className": "title",
+      "content": "**Alternative Download Method and GPU Memory Usage**"
+    },
+    {
+      "type": "p",
+      "content": "Another method is to use the bittorrent link given in the readme of the pyllama repository."
+    },
+    {
+      "type": "p",
+      "content": "Size of the 7B model is 13GB (Unquantized). and running `nvidia-smi` told me that GPU memory usage is 13266MiB. Which is roughly 13.3 GB"
+    },
+    {
+      "type": "h4",
+      "className": "title",
+      "content": "chatgpt response to \"My GPU memory usage is 13266MiB. How to interpret this\""
+    },
+    {
+      "type": "p",
+      "content": "The GPU memory usage of 13266MiB indicates that a portion of the memory on your graphics processing unit (GPU) is currently in use. Here's how you can interpret this information:"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "GPU Memory: GPUs have their own dedicated memory (VRAM) that is used to store data for processing graphics-related tasks. This memory is separate from the system memory (RAM) used by your computer's CPU. The GPU memory usage refers to the amount of VRAM being utilized at a given time."
+        },
+        {
+          "type": "li",
+          "content": "Unit of Measurement: \"MiB\" stands for mebibyte, which is a binary multiple of a megabyte. It is often used in reference to memory sizes. One mebibyte is equal to 1,048,576 bytes."
+        },
+        {
+          "type": "li",
+          "content": "Memory Usage: In your case, the GPU memory usage is 13266MiB, which means that approximately 13,266 mebibytes or roughly 13.3 gigabytes (GB) of the GPU's memory is currently in use."
+        },
+        {
+          "type": "li",
+          "content": "Implications: The GPU memory usage indicates the amount of memory that your GPU is actively utilizing to store data for ongoing graphics-related operations. It could include textures, shaders, buffers, or other resources needed for rendering images, running computations, or performing other GPU-accelerated tasks."
+        },
+        {
+          "type": "li",
+          "content": "Considerations: The amount of GPU memory usage can vary depending on the applications or processes running on your system. Graphics-intensive tasks such as gaming, video editing, 3D rendering, or machine learning can consume a significant amount of GPU memory. Monitoring GPU memory usage can help you understand how much memory your applications or workloads require and whether you are approaching the limits of your GPU's available memory."
+        },
+        {
+          "type": "li",
+          "content": "Limits and Optimization: GPUs have a maximum memory capacity, and if the memory usage exceeds this limit, it can lead to performance issues or even crashes. It's important to ensure that your GPU has enough available memory for the tasks you want to perform. If you encounter limitations due to memory constraints, you may need to optimize your application, reduce the resolution of textures, or consider upgrading to a GPU with higher memory capacity."
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "Overall, the GPU memory usage of 13266MiB indicates that a significant portion of your GPU's memory is currently being utilized by active processes or applications."
     }
   ]
 }
