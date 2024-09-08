@@ -360,6 +360,368 @@
     {
       "type": "p",
       "content": "Overall, the GPU memory usage of 13266MiB indicates that a significant portion of your GPU's memory is currently being utilized by active processes or applications."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Code deep dive"
+    },
+    {
+      "type": "p",
+      "content": "In the official Code repository of LLama, the first thing that I noticed was that there were only 3 important code files. (This is obviously because they havent included the training code)"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "**llama/generation.py** : This file has a class which creates the pipeline for prompting (running inference) the model. This includes, sampling the top logits, custom stop function, pre and post processing of the input and output. [[code](https://github.com/facebookresearch/llama/blob/main/llama/generation.py)]"
+        },
+        {
+          "type": "li",
+          "content": "**llama/tokenizer.py** : Wraps the entencepeice tokenizer in a new class. [[code](https://github.com/facebookresearch/llama/blob/main/llama/tokenizer.py)]"
+        },
+        {
+          "type": "li",
+          "content": "**llama/model.py** : Holds the code for the transformer model [[code](https://github.com/facebookresearch/llama/blob/main/llama/model.py)]"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "Lets start with the code for the Tokenizer"
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Tokenizer"
+    },
+    {
+      "type": "p",
+      "content": "The job of the tokenizer is to assign an a numeric id to natural text. Which means after \"tokenizing\" this prompt - \"I believe the meaning of life is\" it will give us a tensor which looks like"
+    },
+    {
+      "type": "p",
+      "content": "`[[1, 306, 4658, 278, 6593, 310, 2834, 338]]` . The tokenizer is responsible for both encoding and decoding(coverting numeric id's) back to natural text. Also keep in mind that there is a tradoff between vocab size and the sequence length for a an input. What we want is a small enough vocab size which is representative of the entire corpus but also keeps the sequence length small. A large sequence lenght would mean more memory of the GPU consumed by the input!"
+    },
+    {
+      "type": "p",
+      "content": "As mentioned in the paper, they have used [sentencepeice's](https://github.com/google/sentencepiece) (Google's brainchild) implementation of the **Byte-Pair Encoding subword tokenization** algorithm, which means instead of encoding entire words they break it down into smaller syllabus. For example \"Tokenizer\" may be broken down into \"token\" and    \"-izer\" . In this way their vocabulary size is of 32,000 words. Similarly the entire coprus of text data consists of 1.4 Trillion tokens"
+    },
+    {
+      "type": "blockquote",
+      "content": "We tokenize the data with the byte- pair encoding (BPE) algorithm ([Sennrich et al., 2015](https://arxiv.org/abs/1508.07909)), using the implementation from Sentence- Piece ([Kudo and Richardson, 2018](https://arxiv.org/abs/1808.06226)). Notably, we split all numbers into individual digits, and fallback to bytes to decompose unknown UTF-8 characters"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "from sentencepiece import SentencePieceProcessor\nfrom logging import getLogger\nfrom typing import List\nimport os\n\nlogger = getLogger()\nclass Tokenizer:\n    def __init__(self, model_path: str):\n        # reload tokenizer\n        assert os.path.isfile(model_path), model_path\n        self.sp_model = SentencePieceProcessor(model_file=model_path)\n        logger.info(f\"Reloaded SentencePiece model from {model_path}\")\n\n        # BOS / EOS token IDs\n        self.n_words: int = self.sp_model.vocab_size() # 32,000\n        self.bos_id: int = self.sp_model.bos_id()\n        self.eos_id: int = self.sp_model.eos_id()\n        self.pad_id: int = self.sp_model.pad_id()\n        logger.info(\n            f\"#words: {self.n_words} - BOS ID: {self.bos_id} - EOS ID: {self.eos_id}\"\n        )\n        assert self.sp_model.vocab_size() == self.sp_model.get_piece_size()\n\n    def encode(self, s: str, bos: bool, eos: bool) -> List[int]:\n        assert type(s) is str\n        t = self.sp_model.encode(s)\n        if bos:\n            t = [self.bos_id] + t\n        if eos:\n            t = t + [self.eos_id]\n        return t\n\n    def decode(self, t: List[int]) -> str:\n        return self.sp_model.decode(t)"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "The Tokenizer class isn't all that complicated. The parameter `model_path` holds the path to the `tokenizer.model` file which was downloaded along with the model weights."
+    },
+    {
+      "type": "p",
+      "content": "In the given code, BOS (Beginning of Sentence), EOS (End of Sentence), and Pad IDs (Padding IDs) have the following significance:"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "BOS ID: The BOS ID represents the token ID for the \"Beginning of Sentence\" token. It is used to indicate the start of a sentence or sequence. In the code, the **`encode`** function checks if the **`bos`** flag is True. If it is, the BOS ID is added at the beginning of the tokenized sequence."
+        },
+        {
+          "type": "li",
+          "content": "EOS ID: The EOS ID represents the token ID for the \"End of Sentence\" token. It is used to indicate the end of a sentence or sequence. In the code, the **`encode`** function checks if the **`eos`** flag is True. If it is, the EOS ID is added at the end of the tokenized sequence."
+        },
+        {
+          "type": "li",
+          "content": "Pad ID: The Pad ID represents the token ID for the \"Padding\" token. Padding is often used to make all sequences in a batch have the same length. In the code, the Pad ID is retrieved from the SentencePiece model using **`self.sp_model.pad_id()`**. It is typically used during batching and padding sequences to ensure uniform dimensions."
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "The BOS and EOS IDs help in marking the boundaries of sentences or sequences, which can be useful for various natural language processing tasks such as machine translation, text generation, and language modeling. The Pad ID ensures that sequences are of the same length when batching, which is necessary for efficient computation in deep learning models."
+    },
+    {
+      "type": "blockquote",
+      "content": "Here the values of bos_id, eos_id and pad_id is (1,2 and -1 correspondingly). Can be checked after creating an object of the Tokenizer class."
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "Byte pair encoding algorithm (Not Necessary to understand LLaMA)"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "Personally, this a really smart,simple algorithm!!"
+        },
+        {
+          "type": "li",
+          "content": "First the entire corpus is divided into indiviudal characters and a counter is attached to each word, which indicates how many times the word has appeared in the corpus. Each character is now already a part of the Final Vocabulary"
+        },
+        {
+          "type": "li",
+          "content": "Then each word is divided into its characters and the pairwise occurence of each consecutive characters is counted. The most frequently occuring pair is added to the final corpus. In the sea of characters, wherever these 2 characters were occuring is combined into one and the process of counting the occurences of each pair is repeated and the most frequent one is added to the final Vocab."
+        },
+        {
+          "type": "li",
+          "content": "Honestly, just watch [this](https://www.youtube.com/watch?v=HEikzVL-lZU) video by hugging face if you didnt understand my explaination 😟"
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Model"
+    },
+    {
+      "type": "p",
+      "content": "Before we dive deeper into the architecure and the working of the LLaMA transformer model,It is important to know what the model args for the 7B parameter look like:"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "ModelArgs(\n\tdim=4096, # An internal dimension for the transformer architecture\n\tn_layers=32, # Number of transformer blocks\n\tn_heads=32, # Number of heads\n\tvocab_size=32000, # Vocab size of the tokenizer\n\tmultiple_of=256, # A param used in calculating the positional embeddings\n\tnorm_eps=1e-06, # eps value used when dividing by zero during Normalisation\n\tmax_batch_size=1, # Max batch size during inferencing\n\tmax_seq_len=1024, # input to the transformer model can be this long only\n)"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "In the code these params are stored in the `params.json` file, that was downloaded along with the checkpoint path"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "import json\nmax_seq_len = 1024\nmax_batch_size = 1\n\nwith open(Path(ckpt_dir) / \"params.json\", \"r\") as f:\n        params = json.loads(f.read())\n\n# create a model args object\n# ModelArgs is a a simple dataclass that contains the parameters for the model\nmodel_args: ModelArgs = ModelArgs(\n    max_seq_len=max_seq_len, max_batch_size=max_batch_size, **params\n)\nmodel_args.vocab_size = tokenizer.n_words\n\n# model is loaded through the checkpoint by \n# ckpt_dir is the path to the `7B` directory in the folder downloaded from the llama.download filea\ncheckpoints = sorted(Path(ckpt_dir).glob(\"*.pth\"))\nckpt_path = checkpoints[0]\ncheckpoint = torch.load(ckpt_path, map_location=\"cpu\")\n\nmodel = Transformer(model_args)\nmodel.load_state_dict(checkpoint, strict=False)"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "After the model is loaded you can count the parameters by"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "# count number of parameters in model\ndef count_parameters(model):\n    return sum(p.numel() for p in model.parameters() if p.requires_grad)\ncount_parameters(model)\n# Output\n# 6_738_415_616 (6.7 Billion)"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "Now, We can see that in the [llama/model.py](https://github.com/facebookresearch/llama/blob/main/llama/model.py) file, there are 5 Classes →"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "[RMSNorm()](https://github.com/facebookresearch/llama/blob/57b0eb62de0636e75af471e49e2f1862d908d9d8/llama/model.py#LL33C7-L33C14) : Defines the Normalisation technique used in the model"
+        },
+        {
+          "type": "li",
+          "content": "[Attention()](https://github.com/facebookresearch/llama/blob/57b0eb62de0636e75af471e49e2f1862d908d9d8/llama/model.py#L76) : Has the code for the MultiHead Self Attention Module"
+        },
+        {
+          "type": "li",
+          "content": "[FeedForward ()](https://github.com/facebookresearch/llama/blob/57b0eb62de0636e75af471e49e2f1862d908d9d8/llama/model.py#L153) : Has the code for the MLP attached after each attention layer"
+        },
+        {
+          "type": "li",
+          "content": "[TransformerBlock()](https://github.com/facebookresearch/llama/blob/57b0eb62de0636e75af471e49e2f1862d908d9d8/llama/model.py#L178) : Defines one transformer Block, there are total 32 of these in the architecture"
+        },
+        {
+          "type": "li",
+          "content": "[Transformer()](https://github.com/facebookresearch/llama/blob/57b0eb62de0636e75af471e49e2f1862d908d9d8/llama/model.py#L198) : Has the embedding layer and code for instantiating the TransformerBlocks"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "We'll go over each of these in detail"
+    },
+    {
+      "type": "h4",
+      "className": "title",
+      "content": "Transformer()"
+    },
+    {
+      "type": "p",
+      "content": "There are several variants of transformer language models. LLaMA is an **autoregressive, decoder-only transformer** language models, such as GPT-3. Auto regressive because this model predicts future values of a variable based on its own past values (A term taken from time series analysis). Decoder and Encoder are two parts of the transformer architecture. Encoder is used for building a good understanding of the data, whereas decoder is used for more supervised task like, next token prediction, which is what the LLaMA model does. It is one big model that predicts the next token based on the prompt (context) that we give it."
+    },
+    {
+      "type": "p",
+      "content": "This encoder starts with an Embedding Layer followed by Multiple residual blocks of Multi Head Self Attention and Feed Forward layers. Each residual block consists of an attention layer, followed by an MLP layer. Both the attention and MLP layers each \"read\" their input from the residual stream (by performing a linear projection), and then \"write\" their result to the residual stream by adding a linear projection back in. Each attention layer consists of multiple heads, which operate in parallel. RMS Normalisation technique is used before any attention layer or feed forward layer."
+    },
+    {
+      "type": "h4",
+      "className": "title",
+      "content": "Complete Code for Transformer()"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "class Transformer(nn.Module):\n    def __init__(self, params: ModelArgs):\n        super().__init__()\n        self.params = params # ModelArgs\n        self.vocab_size = params.vocab_size # 32_000\n        self.n_layers = params.n_layers # 32\n\n        self.tok_embeddings = nn.Embedding(params.vocab_size, params.dim) # (32_000, 4096)\n\n        self.layers = torch.nn.ModuleList()\n        for layer_id in range(params.n_layers):\n            self.layers.append(TransformerBlock(layer_id, params))\n\n        self.norm = RMSNorm(params.dim, eps=params.norm_eps) # shape of output is same as input\n        self.output = nn.Linear(params.dim, params.vocab_size, bias=False) # (4096, 32_000)\n\n        self.freqs_cis = precompute_freqs_cis(\n            self.params.dim // self.params.n_heads, self.params.max_seq_len * 2\n            # 4096 // 32 = 128, 1024 * 2\n        ) # torch.Size([2048, 64])\n\n    @torch.inference_mode()\n    def forward(self, tokens: torch.Tensor, start_pos: int):\n        _bsz, seqlen = tokens.shape # (1,8)\n        h = self.tok_embeddings(tokens) # (1,8,4096)\n        self.freqs_cis = self.freqs_cis.to(h.device)\n        freqs_cis = self.freqs_cis[start_pos : start_pos + seqlen] # torch.Size([1024, 64])\n\n        mask = None\n        if seqlen > 1:\n            mask = torch.full(\n                (1, 1, seqlen, seqlen), float(\"-inf\"), device=tokens.device\n            ) # (1,1,8,8) , filled with -inf\n            mask = torch.triu(mask, diagonal=start_pos + 1).type_as(h)\n            # (1,1,8,8) , filled with -inf, but only the upper triangle, lower triangle is 0\n            # diagnol = start_pos + 1, so the first 8 tokens are not masked, it basically pushes the diagonola above\n\n        for layer in self.layers:\n            h = layer(h, start_pos, freqs_cis, mask)\n        h = self.norm(h) # (1,8,4096)\n        output = self.output(h[:, -1, :])  # only compute last logits # (1, 4096) * (4096, 32_000) = (1, 32_000)\n        return output.float() # (1, 32_000)"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "The input to the transformer forward() function will always be a 2D tensor (batch-size,seq_len), in our case (1,8) . The batch size will always be fixed (1 for inferencing). For simplicity, lets take the batch size as 1 from here on. Seq-length will always keep on varying depending on the prompt, but after passing the prompt throught the transformer once, we only need to give it the next token predicted until the EOS token is predicted. So after the first iteration sequence length will always be 1. For now lets take the `seq_length` to be 1"
+    },
+    {
+      "type": "p",
+      "content": "The Emebdding layer ( self.tok_embeddings )is simply responsible for selecting the embeddings based on the indices passed as input to it. Therefore its size will always be (batch_size,seq_length,params.dim).  In our case, the output of the embedding layer becomes `(1,8,4096)` Note that the internal dimension used for 7B model is 4096."
+    },
+    {
+      "type": "p",
+      "content": "Lets look at the positional Embeddings used in this LLaMA architecture now."
+    },
+    {
+      "type": "h4",
+      "className": "title",
+      "content": "Rotary Positional Embeddings"
+    },
+    {
+      "type": "p",
+      "content": "`self.freq_cis` is a tensor (fixed and not a trainable parameter) given by the `precompute_freq_cis` function. Instead of using absolute or trainable positional encodings, LLaMA uses Rotary positional encodings, which are know to have faster convergence and better results on various sequence modelling tasks."
+    },
+    {
+      "type": "p",
+      "content": "Rotary encoding transforms pairs of features by rotating in the 2D plane. That is, it organizes the *d* features as 2*d* pairs. Each pair can be considered a coordinate in a 2D plane, and the encoding will rotate it by an angle depending on the position of the token."
+    },
+    {
+      "type": "p",
+      "content": "For now its enough to understand that the function returns a 2D tensor of shape (2048,64) or (2*max_seq_length , params.dim // n_heads), where each element is of the form"
+    },
+    {
+      "type": "img",
+      "src": "https://i.imgur.com/tPHF68t.png",
+      "alt": "iota3"
+    },
+    {
+      "type": "p",
+      "content": "Here `theta` is given by"
+    },
+    {
+      "type": "img",
+      "src": "https://i.imgur.com/6RifwFd.png",
+      "alt": "iota2"
+    },
+    {
+      "type": "h4",
+      "className": "title",
+      "content": "Code for generating positional embeddings"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "def precompute_freqs_cis(dim: int, end: int, theta: float = 10000.0):\n    freqs = 1.0 / (theta ** (torch.arange(0, dim, 2)[: (dim // 2)].float() / dim))\n    t = torch.arange(end, device=freqs.device)  # type: ignore\n    freqs = torch.outer(t, freqs).float()  # type: ignore\n    freqs_cis = torch.polar(torch.ones_like(freqs), freqs)  # complex64\n    return freqs_cis"
+        }
+      ]
+    },
+    {
+      "type": "h4",
+      "className": "title",
+      "content": "Here is a chatGPT generated response to what the `precompute_freq_cis()` does step by step"
+    },
+    {
+      "type": "p",
+      "content": "The function **`precompute_freqs_cis`** is used to precompute frequency sinusoids (**`freqs_cis`**) that are later used in the transformer architecture. These sinusoids play a role in applying rotational embeddings to the query and key representations, which is a technique used to introduce positional information to the transformer model. Let's break down the function step by step:"
+    },
+    {
+      "type": "ol",
+      "content": [
+        {
+          "type": "li",
+          "content": "**`freqs = 1.0 / (theta ** (torch.arange(0, dim, 2)[: (dim // 2)].float() / dim))`**:\n- **`torch.arange(0, dim, 2)[: (dim // 2)]`** generates a tensor of values **`[0, 2, 4, ..., dim-2]`**. It selects only the first **`dim // 2`** elements.\n- **`torch.arange(0, dim, 2)[: (dim // 2)].float() / dim`** divides the selected tensor by **`dim`** to obtain a range of values between 0 and 1.\n- **`(theta ** (torch.arange(0, dim, 2)[: (dim // 2)].float() / dim))`** raises **`theta`** to the power of each element in the range of values, resulting in a tensor of frequency factors.\n- **`1.0 / (theta ** (torch.arange(0, dim, 2)[: (dim // 2)].float() / dim))`** computes the reciprocal of each element in the tensor, resulting in a tensor of frequencies."
+        },
+        {
+          "type": "li",
+          "content": "**`t = torch.arange(end, device=freqs.device)`**:\n- **`torch.arange(end)`** generates a tensor with values ranging from 0 to **`end-1`**.\n- **`device=freqs.device`** ensures that the generated tensor is placed on the same device as the **`freqs`** tensor."
+        },
+        {
+          "type": "li",
+          "content": "**`freqs = torch.outer(t, freqs).float()`**:\n- **`torch.outer(t, freqs)`** computes the outer product between **`t`** and **`freqs`**, resulting in a 2D tensor where each element is the product of corresponding elements from **`t`** and **`freqs`**.\n- **`freqs = torch.outer(t, freqs).float()`** converts the resulting tensor to the **`float`** data type."
+        },
+        {
+          "type": "li",
+          "content": "**`freqs_cis = torch.polar(torch.ones_like(freqs), freqs)`**:\n- **`torch.ones_like(freqs)`** creates a tensor with the same shape as **`freqs`** and fills it with ones.\n- **`torch.polar(torch.ones_like(freqs), freqs)`** converts the ones tensor and **`freqs`** tensor to polar coordinates, resulting in a complex tensor **`freqs_cis`** where the magnitude is 1 and the phase is determined by the corresponding values in **`freqs`**."
+        },
+        {
+          "type": "li",
+          "content": "**`return freqs_cis`**: The function returns the computed frequency sinusoids **`freqs_cis`** as the final output."
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "Overall, the **`precompute_freqs_cis`** function is used to generate frequency sinusoids that are used in the transformer architecture to introduce positional information through rotational embeddings. These embeddings play a crucial role in capturing the relative positions of tokens within the input sequences, allowing the transformer to handle sequential data effectively."
+    },
+    {
+      "type": "p",
+      "content": "For better understanding refer to this annotated blog on [Rotaray Positional Embeddings](https://nn.labml.ai/transformers/rope/index.html) and the [original paper](https://arxiv.org/abs/2104.09864)."
+    },
+    {
+      "type": "p",
+      "content": "As to how these positional embeddings are used in the attention architecture, we'll come back to it later."
+    },
+    {
+      "type": "p",
+      "content": "The embeddings for the sequence, along with it's mask and starting position are fed to the 32 consecutive `TransformerBlock()` layers.  One thing to note here is that the input and output to the Attention layer  and the feed forward layer are always the same shape. Attention mechanism can be though of as how much more expressive you can make your sequence after each operation. Also Attention and feed forward layer are residual layers, which means that the the input to the attention layer is always added back to the output before they are collectively sent to the next attention layer."
+    },
+    {
+      "type": "p",
+      "content": "This is call Residual or Skip Connections and are done so as to allow the gradients to flow back more easily.  [[youtube video of Karpathy](https://www.youtube.com/watch?v=kCc8FmEb1nY&t=5208s) explaining this concept]"
+    },
+    {
+      "type": "p",
+      "content": "After passing the input through all the `TransformerBlocks()` layers, one final normalisation (RMSNorm) is done before using a Linear layer to predicting the next token for the given input sequence. The Linear layer is of shape `(4096,32_000)`."
+    },
+    {
+      "type": "p",
+      "content": "Only the last logits  `h[:, -1, :]` to the input sequence is used as. input the the linear layer. With the laws of matrix multiplication we can see that the output of the entire Transformer architecture will always be a tensor of shape `(1,32_000)` . `(1, 4096) * (4096, 32_000) = (1, 32_000)`. These logits represent the model's confidence scores for each token being the next token in the sequence."
+    },
+    {
+      "type": "p",
+      "content": "The logits produced by the output layer are typically passed through a softmax function to convert them into probabilities. The softmax function normalizes the logits and assigns a probability distribution over the vocabulary. The next token prediction is made by selecting the token with the highest probability as the predicted next token."
+    },
+    {
+      "type": "p",
+      "content": "The decision to use only the last logits as input to the output layer is a common practice in many sequence-to-sequence tasks. The intuition behind this is that the last hidden state of the sequence, after undergoing multiple layers of attention and transformation, is expected to contain the most relevant and comprehensive information for generating the final output."
+    },
+    {
+      "type": "p",
+      "content": "By selecting the last hidden state, the model effectively focuses on the most recent context and conditions the output generation on the entire input sequence while taking advantage of the context modeling capabilities of the Transformer decoder."
+    },
+    {
+      "type": "p",
+      "content": "However, it's important to note that without the full context of the previous hidden states, the model may lose some information that could potentially be useful for certain tasks. Different model architectures or downstream tasks may require different strategies for leveraging the entire sequence of hidden states, and the choice of using only the last logits depends on the specific requirements of the task at hand."
+    },
+    {
+      "type": "p",
+      "content": "Now lets dive deeper into the class `TransformerBlock()`"
     }
   ]
 }

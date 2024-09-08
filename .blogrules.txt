@@ -1,0 +1,123 @@
+To convert blogs which are present in markdown format to json format. these are the following rules you have to follow:
+
+1. "# <TITLE> " Single '#' followed by a space and then the title will be represented like this: 
+{
+    "type": "h2",
+    "className": "title",
+    "content": "<TITLE>"
+},
+2. "## <TITLE> " Double '#' followed by a space and then the title will be represented like this:
+{
+    "type": "h2",
+    "className": "title",
+    "content": "<TITLE>"
+},
+3. "### <TITLE> " Triple '#' followed by a space and then the title will be represented like this:
+{
+    "type": "h4",
+    "className": "title",
+    "content": "<TITLE>"
+}
+4. Bold text inside the paragraph will be represented like this:
+{
+    "type": "p",
+    "content": "**<TEXT>**"
+},
+5. Italic text inside the paragraph will be represented like this:
+{
+    "type": "p",
+    "content": "*<TEXT>*"
+},
+6. Inline code will be represented like this:
+{
+    "type": "p",
+    "content": "`<TEXT>`"
+},
+7. Inline code links will be represented like this:
+{
+    "type": "p",
+    "content": "[<TEXT>](<LINK>)"
+},
+8. Blockquote will be represented like this:
+{
+    "type": "blockquote",
+    "content": "<TEXT>"
+},
+9. Images can be represented like this:
+{
+    "type": "img",
+    "src": "<IMAGE_URL>",
+    "alt": "<IMAGE_ALT_TEXT>"
+} or {
+    "type": "img",
+    "src": "/blogs/images/<IMAGE_NAME.png/jpg/jpeg>",
+    "alt": "<IMAGE_ALT_TEXT>"
+}
+10. List items will be represented like this:
+{
+    "type": "li",
+    "content": "<TEXT>"
+}
+11. Unordered list will be represented like this:
+{
+    "type": "ul",
+    "content": [
+        {
+            "type": "li",
+            "content": "<TEXT>"
+        }
+    ]
+}
+12. Ordered list will be represented like this:
+{
+    "type": "ol",
+    "content": [
+        {
+            "type": "li",
+            "content": "<TEXT>"
+        }
+    ]
+}
+Example :
+{
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "Using RMSNorm instead of LayerNorm"
+        },
+        {
+          "type": "li",
+          "content": "Using Rotary Positional Embeddings (which are relative and not absolute)"
+        },
+        {
+          "type": "li",
+          "content": "Caching of keys and values during the attention mechanism"
+        },
+        {
+          "type": "li",
+          "content": "SwiGLU activation function"
+        }
+    ]
+},
+
+13. Code blocks will be represented like this:
+{
+    "type": "pre",
+    "content": [
+        {
+            "type": "code",
+            "content": "<CODE>"
+        }
+    ]
+}
+Example :
+{
+    "type": "pre",
+    "content": [
+        {
+            "type": "code",
+            "content": "type SampleData struct {\n    Name  string  `bigquery:\"name\"`   // Name of the data\n    Value float32 `bigquery:\"value\"`  // Value of the data\n    Time  string  `bigquery:\"time\"`   // Time when the data was recorded\n}"
+    }
+    ]
+}
