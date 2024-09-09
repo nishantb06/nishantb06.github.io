@@ -8,6 +8,9 @@ const Writings = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const { tag } = useParams();
 
+    // Sort function for blog posts
+    const sortByDate = (a, b) => new Date(b.date) - new Date(a.date);
+
     const filteredPosts = tag
         ? blogPosts.filter(post => 
             post.tags.some(postTag => 
@@ -18,6 +21,9 @@ const Writings = () => {
         : blogPosts.filter(post => 
             activeTab === 'Blogs' ? !post.isShortArticle : post.isShortArticle
           );
+
+    // Sort the filtered posts by date
+    const sortedPosts = filteredPosts.sort(sortByDate);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -78,7 +84,7 @@ const Writings = () => {
                             </Link>
                         ))}
                     </div>
-                    {filteredPosts.map((post, index) => (
+                    {sortedPosts.map((post, index) => (
                         <div key={index} className="px-6 py-5">
                             <Link 
                                 to={`/writings/blogs/${post.slug}`} 
