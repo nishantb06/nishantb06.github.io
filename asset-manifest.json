@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/website/static/css/main.ba58f797.css",
-    "main.js": "/website/static/js/main.f9c09552.js",
-    "static/js/453.b03e3c98.chunk.js": "/website/static/js/453.b03e3c98.chunk.js",
-    "static/media/annie-spratt-BIn3m_DDSJE-unsplash.jpg": "/website/static/media/annie-spratt-BIn3m_DDSJE-unsplash.0afccc180f0aaf489773.jpg",
-    "static/media/IMG_0840.jpg": "/website/static/media/IMG_0840.ac1fd992de83ce2b393b.jpg",
-    "index.html": "/website/index.html",
-    "main.ba58f797.css.map": "/website/static/css/main.ba58f797.css.map",
-    "main.f9c09552.js.map": "/website/static/js/main.f9c09552.js.map",
-    "453.b03e3c98.chunk.js.map": "/website/static/js/453.b03e3c98.chunk.js.map"
+    "main.css": "/static/css/main.c188bb95.css",
+    "main.js": "/static/js/main.32e138c8.js",
+    "static/js/453.d6b5bf43.chunk.js": "/static/js/453.d6b5bf43.chunk.js",
+    "static/media/annie-spratt-BIn3m_DDSJE-unsplash.jpg": "/static/media/annie-spratt-BIn3m_DDSJE-unsplash.0afccc180f0aaf489773.jpg",
+    "static/media/IMG_0840.jpg": "/static/media/IMG_0840.ac1fd992de83ce2b393b.jpg",
+    "index.html": "/index.html",
+    "main.c188bb95.css.map": "/static/css/main.c188bb95.css.map",
+    "main.32e138c8.js.map": "/static/js/main.32e138c8.js.map",
+    "453.d6b5bf43.chunk.js.map": "/static/js/453.d6b5bf43.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ba58f797.css",
-    "static/js/main.f9c09552.js"
+    "static/css/main.c188bb95.css",
+    "static/js/main.32e138c8.js"
   ]
 }
