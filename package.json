@@ -1,8 +1,8 @@
 {
-  "name": "website",
+  "name": "nishantb06.github.io",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://nishantb06.github.io/website",
+  "homepage": "https://nishantb06.github.io",
   "dependencies": {
     "@tensorflow-models/mobilenet": "^2.1.1",
     "@tensorflow/tfjs": "^4.21.0",
