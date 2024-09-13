@@ -33,10 +33,10 @@ const CardInformation = {
     slug: "image-classifier",
   },
   3: {
-    title: "Prototype 3",
+    title: "Hugging Face Embeded space check",
     description: "This is the third prototype",
     image: "https://picsum.photos/seed/3/400/300",
-    slug: "prototype-3",
+    slug: "hugging-face-embed",
   },
   4: {
     title: "Prototype 4",
