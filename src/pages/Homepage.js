@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import meImage from '../assets/IMG_0840.jpg';
 import GitHubCalendar from 'react-github-calendar';
 import ReactTooltip from 'react-tooltip';
-import chroma from 'chroma-js';
 
 const customTheme = {
   background: 'transparent',
@@ -23,6 +22,12 @@ const HomePage = () => {
         { name: 'Kaggle', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/kaggle.svg', url: 'https://www.kaggle.com/nishantbhansali' },
         { name: 'Gmail', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/gmail.svg', url: 'mailto:nbhansali06@gmail.com' },
     ];
+
+    const memoizedGitHubCalendar = useMemo(() => (
+        <GitHubCalendar username="nishantb06" theme={customTheme}>
+            <ReactTooltip delayShow={50} html />
+        </GitHubCalendar>
+    ), []); // Empty dependency array means this will only be created once
 
     return (
         <>
@@ -83,9 +88,7 @@ const HomePage = () => {
                                     ))}
                                 </footer>
                             </div>
-                            <GitHubCalendar username="nishantb06" theme={customTheme}>
-                                <ReactTooltip delayShow={50} html />
-                            </GitHubCalendar>
+                            {memoizedGitHubCalendar}
                         </div>
                     </div>
                 </div>
