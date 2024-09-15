@@ -1,0 +1,239 @@
+{
+  "id": "diving-into-nvidia-jetson-nano-developer-kit",
+  "title": "Diving into NVIDIA jetson nano developer kit",
+  "subtitle": "A hands-on experience with the NVIDIA Jetson Nano Developer Kit",
+  "slug": "diving-into-nvidia-jetson-nano-developer-kit",
+  "author": "Nishant Bhansali",
+  "date": "2024-03-16",
+  "tags": ["GPU", "Jetson Nano", "Hardware"],
+  "isShortArticle": false,
+  "schema": [
+    {
+      "Introduction": []
+    },
+    {
+      "Reasons for Purchase": []
+    },
+    {
+      "Unboxing and Setup": [
+        "Preparing the SD card",
+        "Power supply",
+        "External devices"
+      ]
+    },
+    {
+      "Next Steps": []
+    },
+    {
+      "Conclusion": []
+    }
+  ],
+  "content": [
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Diving into NVIDIA jetson nano developer kit"
+    },
+    {
+      "type": "p",
+      "content": "I recently purchased a NVIDIA Jetson Nano developer kit. I wanted to buy this for two reasons specifically :"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "Its been 2 years working as an MLE, I work with GPU's on a daily basis. Its time I touch one for real. Feels good to hold it in my hands. surprisingly most of the volume of the board is occupied by the heatsink. (The thing they use to cool down the GPU , we can see its folded metal sheet, to increase the surface area probably, so that cooling down happens faster. there is also space to attach a fan on top of it.)"
+        },
+        {
+          "type": "li",
+          "content": "I wanted to write Custom GPU kernels. Have always seen this in the Job descriptions of really amazing MLE positions and was thus very curios about it. I still dont know that for what situations would i want to write my own custome GPU kernel and what speedup can i expect from it. I wanted to learn this so that i can contribute to tinygrad as well. To do this its not necessary to own a GPU, but I can be a very compulsive buyer sometimes . Also money spent on learning is not an expenditure , but an investment. I'll definitely get 100x returns from this investment"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "For these reasons , I decided to buy the tiniest commercially available GPU known to mankind."
+    },
+    {
+      "type": "p",
+      "content": "I am in Banglore, so I had to look for NVIDIA distributors here. This is when I came across Fab To Lab . They provide other recreational robotics based hardware also. But, NVIDIA has decided to discontinue the Jetson Dev kit for some reason , so what I have is probably one of the last of it's species. If you want you can look for other smaller GPU's (in the range of 30k). My GPU costed me roughly 22.5k . (+2k for accessories)."
+    },
+    {
+      "type": "p",
+      "content": "Note the difference between a Jetson Module , carrier board  and a Dev kit."
+    },
+    {
+      "type": "p",
+      "content": "Module is just the Chip where the processing units are integated. Analogous to what we like the call the Mother board of our PC's"
+    },
+    {
+      "type": "p",
+      "content": "Carrier board is where the Mother board is mounted , it also has connection for Displays, usb ports and power charging. Dev kit is the combination of the 2 above. But one key difference between a module and the dev kit is that the Module uses NVRAM for RAM, whereas the dev kit used the SD card provided extnally as RAM . For this reason do not use the dev kit in Production environments and applications. The dev kit is just meant for Learning purposes."
+    },
+    {
+      "type": "p",
+      "content": "After unboxing there were 3 things I had to figure out :"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "Power supply"
+        },
+        {
+          "type": "li",
+          "content": "Burning the SD card with the NVIDIA jetson image and booting the device."
+        },
+        {
+          "type": "li",
+          "content": "keyboard, mouse and display connections."
+        }
+      ]
+    },
+    {
+      "type": "h4",
+      "className": "title",
+      "content": "Preparing the SD card :"
+    },
+    {
+      "type": "p",
+      "content": "I purchased a 128 GB san disk Micro sd card separately (1600 Rupees) as suggested in [this](https://youtu.be/BkZ1n_1F-Cg?si=SXZY_1wOx9el6cEA) video. As the SD card was new , I did not have to format it. SD card is used as a hard disk and storage space for the Jetson, and to prepare this disk to be used the Jetson module, you have to burn the Operating system on the card, so that it can be used as a \"bootable disk\"."
+    },
+    {
+      "type": "p",
+      "content": "The instructions given on the getting started page are sufficient for this. I wont write them out separately."
+    },
+    {
+      "type": "blockquote",
+      "content": "To download the image from the [link](https://developer.nvidia.com/jetson-nano-sd-card-image) given in the [getting started page](https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit#write), I had to turn off the VPN i had set up. if not it was stopping due to \"poor internet connection\". (20 min 6.1GB)"
+    },
+    {
+      "type": "img",
+      "src": "/blogs/images/Untitled.png",
+      "alt": "what flashing on etcher looks like (15 min on Mac), validating (15 min) (optional)"
+    },
+    {
+      "type": "p",
+      "content": "After preparing the SD card and inserting it in my Devce , I plugged in the power supply and connected to the display. Here it extracted all the files and got stuck for a bit on the step which stated : `A start job is running for End-user configuration after initial OEM installation`"
+    },
+    {
+      "type": "p",
+      "content": "Surprisingly, disconnecting the power supply and connecting back in did the trick for me , after foolishly waiting for 1.5 hours."
+    },
+    {
+      "type": "h4",
+      "className": "title",
+      "content": "Power supply:"
+    },
+    {
+      "type": "p",
+      "content": "In the documentation it mentions that the device needs 5V ~ 2A power supply. Now the power supply in common India households is roughly 225V , 50Hz (5A) AC current. but our device needs device needs much less Voltage DC current for this. Suprisingly your phone chargers (Adapters to be more specific), can do just the job for you. The power supply will also be written on it if you look more closely. Don't forget to use a B-type cable pin for the device."
+    },
+    {
+      "type": "h4",
+      "className": "title",
+      "content": "External devices :"
+    },
+    {
+      "type": "p",
+      "content": "Had to purchase a mouse and a keyboard that can be connected through the USB port . (I only have bluetooth keyboard and mouses). For the display, I used an HDMI cable connected to my Ultra HD display."
+    },
+    {
+      "type": "p",
+      "content": "That's all"
+    },
+    {
+      "type": "p",
+      "content": "After these steps , it feels good to see the NVIDIA logo pop up on the purple Ubuntu desktop screen. Now onto building projects on this device."
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "Next steps:"
+    },
+    {
+      "type": "p",
+      "content": "Check if the following softwares and packages are installed on the software or not."
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "python3 >3.10"
+        },
+        {
+          "type": "li",
+          "content": "docker"
+        },
+        {
+          "type": "li",
+          "content": "nvidia-smi"
+        },
+        {
+          "type": "li",
+          "content": "git"
+        },
+        {
+          "type": "li",
+          "content": "any text editor"
+        },
+        {
+          "type": "li",
+          "content": "torch"
+        },
+        {
+          "type": "li",
+          "content": "nvcc"
+        },
+        {
+          "type": "li",
+          "content": "increase the swap memory"
+        },
+        {
+          "type": "li",
+          "content": "need to add a static ip address ? once connected to the ethernet"
+        },
+        {
+          "type": "li",
+          "content": "add a wifi network card? wifi usb dongle"
+        },
+        {
+          "type": "li",
+          "content": "ssh @nishantb06:<IP-address{ifconfig} connecting through the data cable"
+        },
+        {
+          "type": "li",
+          "content": "configure SFTP network to transfer files and all from one device to the other"
+        },
+        {
+          "type": "li",
+          "content": "do i need to setup remote desktop using a nano server"
+        },
+        {
+          "type": "li",
+          "content": "install vs code"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "This difference in capabilities between the GPU and the CPU exists because they are designed with different goals in mind. While the CPU is designed to excel at executing a sequence of operations, called a *thread*, as fast as possible and can execute a few tens of these threads in parallel, the GPU is designed to excel at executing thousands of them in parallel (amortizing the slower single-thread performance to achieve greater throughput)."
+    },
+    {
+      "type": "p",
+      "content": "The GPU is specialized for highly parallel computations and therefore designed such that more transistors are devoted to data processing rather than data caching and flow control. The schematic [Figure 1](https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#from-graphics-processing-to-general-purpose-parallel-computing-gpu-devotes-more-transistors-to-data-processing) shows an example distribution of chip resources for a CPU versus a GPU."
+    },
+    {
+      "type": "p",
+      "content": "Figure 1 *The GPU Devotes More Transistors to Data Processing*"
+    },
+    {
+      "type": "img",
+      "src": "https://docs.nvidia.com/cuda/cuda-c-programming-guide/_images/gpu-devotes-more-transistors-to-data-processing.png",
+      "alt": "GPU vs CPU transistor distribution"
+    }
+  ]
+}

@@ -11,6 +11,7 @@ import mobileVITPaperSummary from '../data/blogs/mobile-vit-paper-summary.json';
 import torchServe from '../data/blogs/torchserve.json';
 import theAnnotatedLlama from '../data/blogs/the-annotated-llama.json';
 import workAtSharechat from '../data/blogs/work-at-sharechat.json';
+import jetsonNano from '../data/blogs/jetson-nano.json';
 
 export const BlogContext = createContext();
 
@@ -34,7 +35,8 @@ export const BlogProvider = ({ children }) => {
                 mobileVITPaperSummary,
                 torchServe,
                 theAnnotatedLlama,
-                workAtSharechat
+                workAtSharechat,
+                jetsonNano
             ];
 
             setBlogPosts(posts);
