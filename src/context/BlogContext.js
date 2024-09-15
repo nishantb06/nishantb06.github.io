@@ -12,6 +12,7 @@ import torchServe from '../data/blogs/torchserve.json';
 import theAnnotatedLlama from '../data/blogs/the-annotated-llama.json';
 import workAtSharechat from '../data/blogs/work-at-sharechat.json';
 import jetsonNano from '../data/blogs/jetson-nano.json';
+import sshIntoEc2Instance from '../data/blogs/ssh-into-ec2-instance.json';
 
 export const BlogContext = createContext();
 
@@ -36,7 +37,8 @@ export const BlogProvider = ({ children }) => {
                 torchServe,
                 theAnnotatedLlama,
                 workAtSharechat,
-                jetsonNano
+                jetsonNano,
+                sshIntoEc2Instance
             ];
 
             setBlogPosts(posts);

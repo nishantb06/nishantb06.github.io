@@ -1,0 +1,52 @@
+{
+  "id": "ssh-into-ec2-instance",
+  "title": "SSH into EC2 Instance",
+  "subtitle": "A quick guide to connecting to your Amazon EC2 instance via SSH",
+  "slug": "ssh-into-ec2-instance",
+  "author": "Nishant Bhansali",
+  "date": "2024-03-16",
+  "tags": ["AWS", "EC2", "SSH"],
+  "isShortArticle": true,
+  "schema": [
+    {
+      "Steps": []
+    }
+  ],
+  "content": [
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "SSH into EC2 instance"
+    },
+    {
+      "type": "p",
+      "content": "Create a new keypair file while setting up the instance"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "ssh -i aws-keypair-1.pem ubuntu@172.31.11.69"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "Change the permissions of the keypair file:"
+    },
+    {
+      "type": "pre",
+      "content": [
+        {
+          "type": "code",
+          "content": "chmod 600 aws-keypair-1.pem"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "Note that the IPv4 address used is the public one for that EC2 instance"
+    }
+  ]
+}
