@@ -47,6 +47,42 @@
     {
       "type": "p",
       "content": "Note that the IPv4 address used is the public one for that EC2 instance"
+    },
+    {
+          "type": "p",
+          "content": "Note that stopping the instance won't delete the EBS volume, and you will continue to be billed for it. However, terminating the instance should delete the associated EBS volume as well."
+        },
+        {
+          "type": "p",
+          "content": "When you stop and start an EC2 instance, its public IP address changes. This means you won't be able to SSH into the instance using the same command as before. To overcome this, you can hibernate your instance, but be aware that this feature is not available for all instance types."
+        },
+        {
+          "type": "p",
+          "content": "For a more secure and convenient way to access your EC2 instance, you can add your own public key to the instance's authorized keys. Here's how:"
+        },
+        {
+          "type": "p",
+          "content": "1. SSH into your EC2 instance using the .pem file."
+        },
+        {
+          "type": "p",
+          "content": "2. Navigate to the ~/.ssh directory: cd ~/.ssh"
+        },
+        {
+          "type": "p",
+          "content": "3. Open the authorized_keys file: nano authorized_keys"
+        },
+        {
+          "type": "p",
+          "content": "4. Paste your public key at the end of the file, then save and exit."
+        },
+        {
+        "type": "p",
+      "content": "After doing this, you can SSH into your instance using your own key pair, without needing the .pem file provided by AWS."
+    },
+    {
+      "type": "p",
+      "content": "Important: Be cautious with the .pem file provided by AWS. If shared, it could allow others to access your EC2 instance. By using your own public key as described above, you enhance the security of your instance."
     }
   ]
 }
