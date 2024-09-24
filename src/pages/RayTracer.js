@@ -29,21 +29,21 @@ const RayTracer = () => {
 
       <h2 className="text-2xl font-semibold mb-4">Implementation after chapter 7</h2>
       <img 
-        src="blogs/images/plot_spheres_ch8.png" 
+        src="/blogs/images/plot_spheres_ch8.png" 
         alt="Sphere" 
         className="w-full max-w-xl mx-auto mb-8"
       />
 
       <h3 className="text-xl font-semibold mb-4">Sphere after applying scaling and shearing transformations</h3>
       <img 
-        src="/blog/images/sphere_transformed.png" 
+        src="/blogs/images/sphere_transformed.png" 
         alt="Transformed Sphere" 
         className="w-full max-w-xl mx-auto mb-8"
       />
 
       <h2 className="text-2xl font-semibold mb-4">Implementation after chapter 8</h2>
       <img 
-        src="/blog/images/ray_tracer/pngs/plot_spheres_ch8.png" 
+        src="/blogs/images/shadowed_spheres_ch8.png" 
         alt="Plot Spheres Chapter 8" 
         className="w-full max-w-4xl mx-auto mb-8"
       />
