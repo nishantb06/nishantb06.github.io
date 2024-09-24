@@ -10,6 +10,7 @@ import Writings from './components/Writings';
 import React from 'react';
 import { BlogProvider } from './context/BlogContext';
 import Newspaper from "./pages/Newspaper";
+import RayTracer from "./pages/RayTracer";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
                 <Route path="/prototypes" element={<PrototypesPage />} />
                 <Route path="/prototypes/:id" element={<PrototypeDetail />} />
                 <Route path="/prototypes/newspaper" element={<Newspaper />} />
-                <Route path="/prototypes/image-classifier" element={<Newspaper />} />
+                <Route path="/prototypes/ray-tracer" element={<RayTracer />} />
               </Routes>
             </div>
             <Footer />

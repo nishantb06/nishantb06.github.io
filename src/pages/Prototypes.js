@@ -27,13 +27,13 @@ const CardInformation = {
     slug: "newspaper",
   },
   2: {
-    title: "image classifier",
-    description: "This is the second prototype",
-    image: "https://picsum.photos/seed/2/400/300",
-    slug: "image-classifier",
+    title: "Ray Tracing Engine",
+    description: "Building a ray tracing engine from scratch in C",
+    image: "/blogs/images/plot_spheres_ch8.png",
+    slug: "ray-tracer",
   },
   3: {
-    title: "Hugging Face Embeded space check",
+    title: "HuggingFace Embeded space",
     description: "This is the third prototype",
     image: "https://picsum.photos/seed/3/400/300",
     slug: "hugging-face-embed",
@@ -91,10 +91,10 @@ const PrototypesPage = () => {
                         <StyledTitle className="title is-4">
                           {card.title}
                         </StyledTitle>
-                        <p className="subtitle is-6">{card.description}</p>
+                        <p className="subtitle is-6 mt-2">{card.description}</p>
                       </div>
                     </div>
-                    <div className="content">{card.description}</div>
+                    {/* <div className="content">{card.description}</div> */}
                   </div>
                 </StyledCard>
               </div>
