@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.c188bb95.css",
-    "main.js": "/static/js/main.c4ac8e86.js",
+    "main.js": "/static/js/main.596f4866.js",
     "static/js/453.666d556e.chunk.js": "/static/js/453.666d556e.chunk.js",
     "static/media/annie-spratt-BIn3m_DDSJE-unsplash.jpg": "/static/media/annie-spratt-BIn3m_DDSJE-unsplash.0afccc180f0aaf489773.jpg",
     "static/media/IMG_0840.jpg": "/static/media/IMG_0840.ac1fd992de83ce2b393b.jpg",
     "index.html": "/index.html",
     "main.c188bb95.css.map": "/static/css/main.c188bb95.css.map",
-    "main.c4ac8e86.js.map": "/static/js/main.c4ac8e86.js.map",
+    "main.596f4866.js.map": "/static/js/main.596f4866.js.map",
     "453.666d556e.chunk.js.map": "/static/js/453.666d556e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c188bb95.css",
-    "static/js/main.c4ac8e86.js"
+    "static/js/main.596f4866.js"
   ]
 }
