@@ -6,7 +6,11 @@ const RayTracer = () => {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold mb-4">3D Ray Tracer</h1>
       <h3 className="text-2xl mb-4">Implementation of the Ray tracing challenge book by James Buck</h3>
-      
+      <a href="https://github.com/nishantb06/ray_tracing_challenge_c" target="_blank" rel="noopener noreferrer" className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+        View on GitHub
+      </a>
+      <div />
+      <div />
       <img 
         src="https://imgs.search.brave.com/xnFM2mwRtzt7ZILyoZLWoltEAPZ0v2iAk6gDH-WeyU8/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL1Mv/YXBsdXMtbWVkaWEv/dmMvODRhNzFlMTAt/NTA0YS00MTcyLWJl/ZGYtMjM0MTEwZDFh/MTk3Ll9DUjAsNDE5/LDIyNTAsMjI1MF9Q/VDBfU1gzMDBfXy5q/cGc"
         alt="Cover Photo"
