@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import meImage from '../assets/IMG_0840.jpg';
+import meImage from '../assets/nandiHills.JPG';
 import GitHubCalendar from 'react-github-calendar';
 import ReactTooltip from 'react-tooltip';
 
