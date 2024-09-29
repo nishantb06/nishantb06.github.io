@@ -40,17 +40,19 @@ const HomePage = () => {
                                 <div className="card-content">
                                     <h1 className="title is-3">Hi, I'm Nishant, a Machine learning engineer</h1>
                                     <p>
-                                        I'm working as a Machine Learning Engineer at Sharechat, working remotely from
-                                        Ahmedabad, India. I have majorly worked on solving Computer Vision and Digital Image Processing based problems, and
+                                        I'm working as a Machine Learning Engineer at Quizizz, Bangalore, India. Before this I was a part of Sharechat, where I majorly worked on solving Computer Vision and Digital Image Processing based problems, and
                                         that's where I would say my expertise lies. Be it recent transformer architectures or archaic Image processing
                                         algorithms, I have my hands dirtied by almost everything vision based. My work at Sharechat has been around Image
                                         Enhancement and Image Quality assessment.
                                     </p>
                                     <p>
                                         I love working on open source projects, having contributed to Pytorch Lightning and Pytorch Ignite in the past. I am
-                                        deeply fascinated by deep learning systems also. Other than this I like to participate in Kaggle Competitions as it
-                                        forces me to stay up to date with current trends in the industry. Rapid experimentation and deploying models in production
-                                        are a few things that I am currently learning right now.
+                                        deeply fascinated by deep learning systems also. Over the years, I would say my expertise lies in building end to end ML systems.
+                                        I have been fortunate enought to train Computer Vision models, write pipelines and actively maintain them, which are now catering to the 300M userbase of Sharechat.
+                                        I think of myself as an ML Generalist, capable of working on backend (Python, Go , Javascript), frontend (React) and ML (Pytorch), Cloud (AWS, GCP) and DevOps. 
+                                    </p>
+                                    <p>
+                                        Proud of this blog I wrote a while back, have a look! <a href="https://nishantbhansali.com/writings/blogs/the-annotated-llama">The annotated Llama</a>
                                     </p>
                                     <p>
                                         I am a huge sports buff. Played Basketball for roughly 10 years and currently exploring surfing and Kick-boxing!
@@ -69,6 +71,7 @@ const HomePage = () => {
                                     <ul>
                                         <li>Bronze medal in Kaggle HubMap+HPA Medical Image Segmentation Competition (80/1175 participants). <Link to="#">Link</Link></li>
                                         <li>Survey Paper on Vision Transformers for Edge Devices</li>
+                                        <li>Started working at Quizizz @15th July 2024</li>
                                     </ul>
                                 </div>
                             </div>
