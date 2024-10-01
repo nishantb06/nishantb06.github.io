@@ -1,0 +1,48 @@
+{
+  "id": "writing-better-classes",
+  "title": "Writing better Classes",
+  "subtitle": "Tips for creating more effective and maintainable classes",
+  "slug": "writing-better-classes",
+  "author": "Nishant Bhansali",
+  "date": "2024-05-11",
+  "tags": ["object-oriented design", "best practices"],
+  "isShortArticle": true,
+  "schema": [
+    {
+      "Main Content": [
+        "Class Naming",
+        "Single Responsibility Principle",
+        "Method Organization",
+        "Class Cohesion"
+      ]
+    }
+  ],
+  "content": [
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "How I think about writing better classes"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "If the class name has adjectives/weasel words like \"Super\" , \"Manager\" or \"Processor\" , that is a good indication that your class is doing too much. You need to break it down into smaller components. By this logic, your class name should be the only hint needed to understand what that class is responsible for."
+        },
+        {
+          "type": "li",
+          "content": "**Single Responsibily Principle** : An instance of a class should have only one reason to change."
+        },
+        {
+          "type": "li",
+          "content": "Private methods that are used internally by public methods should be listed just below the private method. This makes the entire code read like a newspaper article"
+        },
+        {
+          "type": "li",
+          "content": "Classes should be cohesive! Classes should have a small number of attributes and each of the methods should manipulate one or more attributes. Ideally each method will manipulate every attribute. When methods start to become less and less cohesive and the number of attributes keep on increasing, it is time to split the class into smaller ones"
+        }
+      ]
+    }
+  ]
+}

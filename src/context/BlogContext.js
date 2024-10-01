@@ -13,6 +13,7 @@ import theAnnotatedLlama from '../data/blogs/the-annotated-llama.json';
 import workAtSharechat from '../data/blogs/work-at-sharechat.json';
 import jetsonNano from '../data/blogs/jetson-nano.json';
 import sshIntoEc2Instance from '../data/blogs/ssh-into-ec2-instance.json';
+import writingBetterClasses from '../data/blogs/writing-better-classes.json';
 
 export const BlogContext = createContext();
 
@@ -38,7 +39,8 @@ export const BlogProvider = ({ children }) => {
                 theAnnotatedLlama,
                 workAtSharechat,
                 jetsonNano,
-                sshIntoEc2Instance
+                sshIntoEc2Instance,
+                writingBetterClasses
             ];
 
             setBlogPosts(posts);
