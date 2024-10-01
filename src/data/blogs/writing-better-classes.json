@@ -13,7 +13,8 @@
         "Class Naming",
         "Single Responsibility Principle",
         "Method Organization",
-        "Class Cohesion"
+        "Class Cohesion",
+        "Dependency Injection Principle"
       ]
     }
   ],
@@ -41,6 +42,10 @@
         {
           "type": "li",
           "content": "Classes should be cohesive! Classes should have a small number of attributes and each of the methods should manipulate one or more attributes. Ideally each method will manipulate every attribute. When methods start to become less and less cohesive and the number of attributes keep on increasing, it is time to split the class into smaller ones"
+        },
+        {
+          "type": "li",
+          "content": "Lets say while writing tests for a `Portfolio` class, we were to make them dependent on the `tokyoStockExchange` class, then we would have to change our tests each time based on the changing `tokyoStockExChange` class. Instead we should write a `StockExchange` interface and have all the Stock Exchanges implement that Interface. This is **Dependency Injection Principle**. Our code should only be dependednt on Abstractions and not concrete implementations"
         }
       ]
     }
