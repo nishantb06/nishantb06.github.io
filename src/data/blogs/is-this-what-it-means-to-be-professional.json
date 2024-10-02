@@ -1,0 +1,65 @@
+{
+  "id": "is-this-what-it-means-to-be-professional",
+  "title": "Is this what it means to be professional?",
+  "subtitle": "Reflections on professionalism and personal growth",
+  "slug": "is-this-what-it-means-to-be-professional",
+  "author": "Nishant Bhansali",
+  "date": "2024-05-12",
+  "tags": ["professionalism", "personal growth", "communication"],
+  "isShortArticle": true,
+  "schema": [
+    {
+      "Main Content": [
+        "Definition of Professionalism",
+        "A Recent Experience",
+        "Self-Reflection",
+        "Lessons Learned"
+      ]
+    }
+  ],
+  "content": [
+    {
+      "type": "h2",
+      "className": "title",
+      "content": ""
+    },
+    {
+      "type": "p",
+      "content": "To me, being professional means understanding your client's needs, delivering quality results on time. If unable to do so, communicate this well to stakeholders of your work."
+    },
+    {
+      "type": "h4",
+      "className": "title",
+      "content": "A Recent Experience"
+    },
+    {
+      "type": "p",
+      "content": "Very recently, in a Friday morning standup meeting, one of the senior members was saying how he was working on a crucial project which had to be done by Monday morning. After the standup he asks me, \"Nishant tujhe golang aata hai?\" I replied with \"Haan\". He was surprised because he didn't know that I knew Golang."
+    },
+    {
+      "type": "p",
+      "content": "He quickly explained the project and told me to work on one half of the project and told me to do some RCA, ask doubts and questions to other people in the company and tell him if I would be able to deliver my tasks by 2pm."
+    },
+    {
+      "type": "p",
+      "content": "The truth was that I wasn't extremely confident in Golang. My entire life I have believed in getting on the horse first and then learning how to ride it. It's ok if I fall down."
+    },
+    {
+      "type": "p",
+      "content": "I did my best, duplicated the project in my local, bugged my colleagues for pointers on how to do this task, but wasn't able to come up with a clear roadmap by 4 pm!"
+    },
+    {
+      "type": "p",
+      "content": "When I finally had to tell him this, he said \"koi baat nahi koi pressure nahi hai\". Felt bad to let him down. I know if I was in his place I would have appreciated any little help that I could get."
+    },
+    {
+      "type": "h4",
+      "className": "title",
+      "content": ""
+    },
+    {
+      "type": "p",
+      "content": "Hope to evolve soon in the future and not let shit like this happen."
+    }
+  ]
+}

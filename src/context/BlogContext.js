@@ -14,6 +14,7 @@ import workAtSharechat from '../data/blogs/work-at-sharechat.json';
 import jetsonNano from '../data/blogs/jetson-nano.json';
 import sshIntoEc2Instance from '../data/blogs/ssh-into-ec2-instance.json';
 import writingBetterClasses from '../data/blogs/writing-better-classes.json';
+import isThisWhatItMeansToBeProfessional from '../data/blogs/is-this-what-it-means-to-be-professional.json';
 
 export const BlogContext = createContext();
 
@@ -40,7 +41,8 @@ export const BlogProvider = ({ children }) => {
                 workAtSharechat,
                 jetsonNano,
                 sshIntoEc2Instance,
-                writingBetterClasses
+                writingBetterClasses,
+                isThisWhatItMeansToBeProfessional
             ];
 
             setBlogPosts(posts);
