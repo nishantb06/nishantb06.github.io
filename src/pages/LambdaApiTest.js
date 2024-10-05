@@ -15,11 +15,12 @@ const LambdaApiTest = () => {
         const requestOptions = {
             method: "GET",
             redirect: "follow",
-            mode: 'no-cors' // Add this line
+            // mode: 'no-cors' // Add this line
         };
 
         try {
             const res = await fetch("https://vng8vbic4f.execute-api.ap-south-1.amazonaws.com/default/testFunction", requestOptions);
+            console.log(res);
             const result = await res.text();
             setResponse(result);
             console.log(result); // Keep the console.log for debugging
@@ -38,7 +39,7 @@ const LambdaApiTest = () => {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Lambda API Test</h1>
-            <button 
+            <button class="button"
                 onClick={fetchData}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4"
                 disabled={loading}
