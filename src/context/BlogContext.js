@@ -15,6 +15,7 @@ import jetsonNano from '../data/blogs/jetson-nano.json';
 import sshIntoEc2Instance from '../data/blogs/ssh-into-ec2-instance.json';
 import writingBetterClasses from '../data/blogs/writing-better-classes.json';
 import isThisWhatItMeansToBeProfessional from '../data/blogs/is-this-what-it-means-to-be-professional.json';
+import awsLambdaApiGateway from '../data/blogs/aws-lambda-api-gateway.json';
 
 export const BlogContext = createContext();
 
@@ -42,7 +43,8 @@ export const BlogProvider = ({ children }) => {
                 jetsonNano,
                 sshIntoEc2Instance,
                 writingBetterClasses,
-                isThisWhatItMeansToBeProfessional
+                isThisWhatItMeansToBeProfessional,
+                awsLambdaApiGateway
             ];
 
             setBlogPosts(posts);

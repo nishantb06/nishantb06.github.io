@@ -1,0 +1,108 @@
+{
+  "id": "aws-lambda-api-gateway",
+  "title": "AWS Lambda  X  API Gateway",
+  "subtitle": "Host any piece of code in minutes for cheap",
+  "slug": "aws-lambda-api-gateway",
+  "author": "Nishant Bhansali",
+  "date": "2024-05-11",
+  "tags": ["aws", "lambda", "api-gateway"],
+  "isShortArticle": false,
+  "schema": [
+    {
+      "Main Content": []
+    }
+  ],
+  "content": [
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "AWS Lambda"
+    },
+    {
+      "type": "p",
+      "content": "AWS lambda functions are powerful way to host any simple functionality you want to expose if"
+    },
+    {
+      "type": "ul",
+      "content": [
+        {
+          "type": "li",
+          "content": "you know the function will not be accessed often"
+        },
+        {
+          "type": "li",
+          "content": "You dont want to deployment on EC2 or EKS because it's such a simple piece of code that it's not worth the headache"
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "content": "For these reason you should choose to host on Lambda as an instance will be created by AWS only when the function is actually called from the client, this keeps your costs minimal, and can get you started immediately"
+    },
+    {
+      "type": "h2",
+      "className": "title",
+      "content": "API Gateway"
+    },
+    {
+      "type": "p",
+      "content": "API gateway is a service provided by AWS which allows you to expose various resources in the AWS ecosystem as HTTP/ REST api’s. These can be public or Private (on internal network)"
+    },
+    {
+      "type": "p",
+      "content": "For us it is one of the best ways to expose our Lambda functions to the rest of the world. "
+    },
+    {
+      "type": "h3",
+      "className": "title",
+      "content": "How to create a Lambda and expose it via API Gateway"
+    },
+    {
+      "type": "p",
+      "content": "Create a simple Lambda function"
+    },
+    {
+      "type": "img",
+      "src": "/blogs/images/lambda-diagram.png",
+      "alt": "Lambda Diagram"
+    },
+    {
+      "type": "img",
+      "src": "/blogs/images/createlambda.png",
+      "alt": "Creating Lambda"
+    },
+    {
+      "type": "img",
+      "src": "/blogs/images/created-lambda.png",
+      "alt": "Create Lambda"
+    },
+    {
+      "type": "p",
+      "content": "Add a trigger to the Lambda function"
+    },
+    {
+      "type": "img",
+      "src": "/blogs/images/addtrigger.png",
+      "alt": "Add Trigger"
+    },
+    {
+      "type": "img",
+      "src": "/blogs/images/addingtrigger.png",
+      "alt": "Adding Trigger"
+    },
+    {
+      "type": "p",
+      "content": "Create a REST api endpoint to it , (with CORS enabled)"
+    },
+    {
+      "type": "img",
+      "src": "/blogs/images/gatewayconfig.png",
+      "alt": "Gateway Config"
+    },
+    {
+      "type": "img",
+      "src": "/blogs/images/gatewayconfig2.png",
+      "alt": "Gateway Config 2"
+    }
+  ]
+}
