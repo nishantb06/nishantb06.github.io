@@ -11,6 +11,7 @@ import React from 'react';
 import { BlogProvider } from './context/BlogContext';
 import Newspaper from "./pages/Newspaper";
 import RayTracer from "./pages/RayTracer";
+import LambdaApiTest from "./pages/LambdaApiTest";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
                 <Route path="/prototypes/:id" element={<PrototypeDetail />} />
                 <Route path="/prototypes/newspaper" element={<Newspaper />} />
                 <Route path="/prototypes/ray-tracer" element={<RayTracer />} />
+                <Route path="/prototypes/lambda-api-test" element={<LambdaApiTest />} />
               </Routes>
             </div>
             <Footer />

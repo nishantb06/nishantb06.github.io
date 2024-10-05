@@ -39,10 +39,10 @@ const CardInformation = {
     slug: "hugging-face-embed",
   },
   4: {
-    title: "Prototype 4",
+    title: "Lambda Api Test",
     description: "This is the fourth prototype",
     image: "https://picsum.photos/seed/4/400/300",
-    slug: "prototype-4",
+    slug: "lambda-api-test",
   },
   5: {
     title: "Prototype 5",
