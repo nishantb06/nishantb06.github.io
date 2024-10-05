@@ -104,5 +104,10 @@
       "src": "/blogs/images/gatewayconfig2.png",
       "alt": "Gateway Config 2"
     }
+    ,
+    {
+      "type": "p",
+      "content": "You can test my test Lambda function exposed via API Gateway [here](https://nishantbhansali.com/prototypes/lambda-api-test)"
+    }
   ]
 }
