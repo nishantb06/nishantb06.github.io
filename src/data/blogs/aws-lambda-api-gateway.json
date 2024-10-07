@@ -103,8 +103,12 @@
       "type": "img",
       "src": "/blogs/images/gatewayconfig2.png",
       "alt": "Gateway Config 2"
-    }
-    ,
+    },
+    {
+      "type": "img",
+      "src": "/blogs/images/cors-meme.jpeg",
+      "alt": "CORS-Meme"
+    },
     {
       "type": "p",
       "content": "You can test my test Lambda function exposed via API Gateway [here](https://nishantbhansali.com/prototypes/lambda-api-test)"
