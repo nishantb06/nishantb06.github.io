@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import meImage from '../assets/nandiHills.JPG';
 import GitHubCalendar from 'react-github-calendar';
@@ -28,6 +28,39 @@ const HomePage = () => {
             <ReactTooltip delayShow={50} html />
         </GitHubCalendar>
     ), []); // Empty dependency array means this will only be created once
+
+    const [email, setEmail] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitMessage, setSubmitMessage] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        setSubmitMessage('');
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby7XWCzbfpWjKyeSOlrNNTYigINF_RKe_c3opZUY2pn3sP683o2OvOFNXeTRju0QutZ/exec'; // Replace with your deployed script URL
+
+        try {
+            const response = await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'email': email
+                })
+            });
+
+            setEmail('');
+            setSubmitMessage('Thank you for subscribing!');
+        } catch (error) {
+            console.error('Error!', error.message);
+            setSubmitMessage('Oops! Something went wrong. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <>
@@ -77,7 +110,7 @@ const HomePage = () => {
                             </div>
                         </div>
                         <div className="column is-3">
-                            <div className="card">
+                            <div className="card mb-4">
                                 <div className="card-image">
                                     <figure className="image">
                                         <img src={meImage} alt="Nishant Bhansali" />
@@ -91,6 +124,46 @@ const HomePage = () => {
                                     ))}
                                 </footer>
                             </div>
+
+                            {/* New email subscription box */}
+                            <div className="card mb-4">
+                                <div className="card-content">
+                                    <h3 className="title is-5">Get Notified</h3>
+                                    <p className="subtitle is-6 mb-3">Stay updated with new blog posts!</p>
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="field">
+                                            <div className="control">
+                                                <input 
+                                                    className="input" 
+                                                    type="email" 
+                                                    placeholder="Your email"
+                                                    value={email}
+                                                    onChange={(e) => setEmail(e.target.value)}
+                                                    required
+                                                    disabled={isSubmitting}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="field">
+                                            <div className="control">
+                                                <button 
+                                                    className={`button is-info is-inverted is-light is-fullwidth ${isSubmitting ? 'is-loading' : ''}`} 
+                                                    type="submit"
+                                                    disabled={isSubmitting}
+                                                >
+                                                    Subscribe
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    {submitMessage && (
+                                        <p className={`mt-2 has-text-${submitMessage.includes('Oops') ? 'danger' : 'success'}`}>
+                                            {submitMessage}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
                             {memoizedGitHubCalendar}
                         </div>
                     </div>
