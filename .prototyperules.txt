@@ -1,0 +1,7 @@
+Steps to add a new prototype:
+1. Add a route in src/App.js as "/prototypes/new-prototype" , choose a short but distinct slug, separated with hyphens.
+2. Create a new page in src/pages/NewPrototype.js
+3. In CardInformation in Prototypes.js, add the title, description, image, and slug in the list of prototypes.
+4. make changes in the prototype page , make sure to use bulma css for styling as used throughout the website.
+5. any media to be added will be in /blogs/images/<image-name>.png/
+
