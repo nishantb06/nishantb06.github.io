@@ -78,7 +78,7 @@ const Writings = () => {
                             <Link 
                                 to={`/writings/tags/${encodeURIComponent(tagName)}`} 
                                 key={index} 
-                                className={`tag is-medium is-hoverable is-warning is-light ${tag === tagName ? 'is-active' : ''}`}
+                                className={`tag is-small is-hoverable is-warning is-light ${tag === tagName ? 'is-active' : ''}`}
                             >
                                 {tagName}
                             </Link>
@@ -109,7 +109,7 @@ const Writings = () => {
             </div>
             <style jsx>{`
                 .tag.is-active {
-                    background-color: #5d7638 ;
+                    background-color: #0f164a ;
                     color: #ffffff;
                 }
                 .blog-title-link {
