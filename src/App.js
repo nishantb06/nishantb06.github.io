@@ -12,6 +12,7 @@ import { BlogProvider } from './context/BlogContext';
 import Newspaper from "./pages/Newspaper";
 import RayTracer from "./pages/RayTracer";
 import LambdaApiTest from "./pages/LambdaApiTest";
+import ReadingStack from "./pages/ReadingStack";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
                 <Route path="/prototypes/newspaper" element={<Newspaper />} />
                 <Route path="/prototypes/ray-tracer" element={<RayTracer />} />
                 <Route path="/prototypes/lambda-api-test" element={<LambdaApiTest />} />
+                <Route path="/prototypes/reading-stack" element={<ReadingStack />} />
               </Routes>
             </div>
             <Footer />

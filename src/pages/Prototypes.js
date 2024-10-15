@@ -45,10 +45,10 @@ const CardInformation = {
     slug: "lambda-api-test",
   },
   5: {
-    title: "Prototype 5",
-    description: "This is the fifth prototype",
-    image: "https://picsum.photos/seed/5/400/300",
-    slug: "prototype-5",
+    title: "Reading Stack",
+    description: "Chrome Extension to keep track of blogs",
+    image: "/blogs/images/readingstack-preview.png",
+    slug: "reading-stack",
   },
   6: {
     title: "Prototype 6",
