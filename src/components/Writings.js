@@ -62,7 +62,7 @@ const Writings = () => {
                             className={activeTab === 'Short articles' ? 'is-active' : 'has-text-black'}
                             onClick={() => setActiveTab('Short articles')}
                         >
-                            Short articles
+                            Articles
                         </Link>
                     </p>
                     <div className="pb-4"></div>

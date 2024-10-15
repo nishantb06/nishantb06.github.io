@@ -26,6 +26,8 @@ const BlogDetails = () => {
     };
 
     const blog = blogPosts.find(post => post.slug === slug);
+    console.log(blog);
+    const isShortArticle = blog.isShortArticle;
 
     useEffect(() => {
         if (blog) {
@@ -82,7 +84,7 @@ const BlogDetails = () => {
                     <ul className="container is-size-12">
                         <li><Link to="/" className="has-text-grey"></Link></li>
                         <li><Link to="/about" className="has-text-grey">Home</Link></li>
-                        <li><Link to="/writings" className="has-text-grey">Blogs</Link></li>
+                        <li><Link to="/writings" className="has-text-grey">{isShortArticle ? 'Articles' : 'Blogs'}</Link></li>
                         <li><Link to="#" className="has-text-black">{blog.title}</Link></li>
                     </ul>
                 </nav>
