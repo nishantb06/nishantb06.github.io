@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { BlogContext } from '../context/BlogContext';
 import DynamicElement from './DynamicElement';
 import TableOfContents from './TableOfContents';
@@ -17,6 +17,7 @@ const BlogDetails = () => {
     const [blogContent, setBlogContent] = useState([]);
     const [activeSection, setActiveSection] = useState('');
     const contentRef = useRef(null);
+    const navigate = useNavigate();
 
     const toggleMenu = (menu) => {
         setActiveMenus(prevState => ({
@@ -73,6 +74,12 @@ const BlogDetails = () => {
         marginTop: '0rem',
     };
 
+    const handleWritingsClick = (e) => {
+        e.preventDefault();
+        const activeTab = isShortArticle ? 'Short articles' : 'Blogs';
+        navigate('/writings', { state: { activeTab } });
+    };
+
     if (loading) return <div className="text-center">Loading...</div>;
     if (error) return <div className="text-center text-red-500">{error}</div>;
     if (!blog) return <div className="text-center">Blog not found</div>;
@@ -83,8 +90,16 @@ const BlogDetails = () => {
                 <nav className="breadcrumb has-succeeds-separator">
                     <ul className="container is-size-12">
                         <li><Link to="/" className="has-text-grey"></Link></li>
-                        <li><Link to="/about" className="has-text-grey">Home</Link></li>
-                        <li><Link to="/writings" className="has-text-grey">{isShortArticle ? 'Articles' : 'Blogs'}</Link></li>
+                        <li><Link to="/" className="has-text-grey">Home</Link></li>
+                        <li>
+                            <Link 
+                                to="/writings" 
+                                className="has-text-grey" 
+                                onClick={handleWritingsClick}
+                            >
+                                {isShortArticle ? 'Articles' : 'Blogs'}
+                            </Link>
+                        </li>
                         <li><Link to="#" className="has-text-black">{blog.title}</Link></li>
                     </ul>
                 </nav>

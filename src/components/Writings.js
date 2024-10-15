@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useState, useContext, useEffect } from 'react';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { BlogContext } from '../context/BlogContext';
 
 const Writings = () => {
@@ -7,9 +7,16 @@ const Writings = () => {
     const [activeTab, setActiveTab] = useState('Blogs');
     const [searchTerm, setSearchTerm] = useState('');
     const { tag } = useParams();
+    const location = useLocation();
 
     // Sort function for blog posts
     const sortByDate = (a, b) => new Date(b.date) - new Date(a.date);
+
+    useEffect(() => {
+        if (location.state && location.state.activeTab) {
+            setActiveTab(location.state.activeTab);
+        }
+    }, [location]);
 
     const filteredPosts = tag
         ? blogPosts.filter(post => 
@@ -51,14 +58,12 @@ const Writings = () => {
                     </div>
                     <p className="panel-tabs">
                         <Link 
-                            // to="/writings/blogs"
                             className={activeTab === 'Blogs' ? 'is-active' : 'has-text-black'}
                             onClick={() => setActiveTab('Blogs')}
                         >
                             Blogs
                         </Link>
                         <Link 
-                            // to="/writings/short-articles"
                             className={activeTab === 'Short articles' ? 'is-active' : 'has-text-black'}
                             onClick={() => setActiveTab('Short articles')}
                         >
