@@ -88,7 +88,7 @@ const Writings = () => {
                         <div key={index} className="px-6 py-5">
                             <Link 
                                 to={`/writings/blogs/${post.slug}`} 
-                                className="title is-3 has-text-weight-medium blog-title-link"
+                                className="title is-4 has-text-weight-medium blog-title-link"
                             >
                                 {post.title}
                             </Link>
@@ -117,7 +117,7 @@ const Writings = () => {
                     transition: transform 0.2s ease-in-out;
                 }
                 .blog-title-link:hover {
-                    transform: scale(1.05);
+                    transform: scale(1.02);
                 }
             `}</style>
         </section>
