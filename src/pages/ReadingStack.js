@@ -79,6 +79,9 @@ const ReadingStack = () => {
                             <div className="buttons">
                                 <a href="https://github.com/nishantb06/readinglist" className="button is-info">View on GitHub</a>
                             </div>
+                            <div className="buttons">
+                                <a href="https://youtu.be/5g2C41GErRQ?si=pRPlxv_zxqQ4wdJG" className="button is-info">Demo on Youtube</a>
+                            </div>
                         </div>
                     </div>
                 </div>
