@@ -85,7 +85,7 @@ const HomePage = () => {
                                         I think of myself as an ML Generalist, capable of working on backend (Python, Go , Javascript), frontend (React) and ML (Pytorch), Cloud (AWS, GCP) and DevOps. 
                                     </p>
                                     <p>
-                                        Proud of this blog I wrote a while back, have a look! <a href="https://nishantbhansali.com/writings/blogs/the-annotated-llama">The annotated Llama</a>
+                                        Proud of this blog I wrote a while back, have a look! <a href="https://nishantbhansali.com/writings/blogs/the-annotated-llama">The Annotated Llama</a>
                                     </p>
                                     <p>
                                         I am a huge sports buff. Played Basketball for roughly 10 years and currently exploring surfing and Kick-boxing!
