@@ -71,6 +71,15 @@ const ReadingStack = () => {
                             <p>If you have any questions, feel free to reach out or open an issue.</p>
 
                             <p className="has-text-weight-bold">Happy reading!</p>
+
+                            {/* New video section */}
+                            <h2 className="title is-3">Demo Video</h2>
+                            <div className="video-container">
+                                <video controls width="100%">
+                                    <source src="/blogs/reading-stack-video.mov" type="video/quicktime" />
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
                         </div>
                     </div>
                     <div className="column">
