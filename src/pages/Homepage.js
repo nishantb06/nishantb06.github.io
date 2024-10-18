@@ -73,7 +73,7 @@ const HomePage = () => {
                                 <div className="card-content">
                                     <h1 className="title is-3">Hi, I'm Nishant, a Machine learning engineer</h1>
                                     <p>
-                                        I'm working as a Machine Learning Engineer at Quizizz, Bangalore, India. Before this I was a part of Sharechat, where I majorly worked on solving Computer Vision and Digital Image Processing based problems, and
+                                        I'm working as a Machine Learning Engineer at Quizizz, Bengluru, India. Before this I was a part of Sharechat, where I majorly worked on solving Computer Vision and Digital Image Processing based problems, and
                                         that's where I would say my expertise lies. Be it recent transformer architectures or archaic Image processing
                                         algorithms, I have my hands dirtied by almost everything vision based. My work at Sharechat has been around Image
                                         Enhancement and Image Quality assessment.
