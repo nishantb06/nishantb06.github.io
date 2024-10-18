@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import meImage from '../assets/nandiHills.JPG';
 import GitHubCalendar from 'react-github-calendar';
 import ReactTooltip from 'react-tooltip';
 
@@ -113,7 +112,7 @@ const HomePage = () => {
                             <div className="card mb-4">
                                 <div className="card-image">
                                     <figure className="image">
-                                        <img src={meImage} alt="Nishant Bhansali" />
+                                        <img src="/blogs/images/nandiHills.JPG" alt="Nishant Bhansali" />
                                     </figure>
                                 </div>
                                 <footer className="card-footer">
