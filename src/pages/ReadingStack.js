@@ -74,7 +74,7 @@ const ReadingStack = () => {
                             <h2 className="title is-3">Demo Video</h2>
                             <div className="video-container">
                                 <video controls width="100%">
-                                    <source src="/blogs/reading-stack-video.mov" />
+                                    <source src="/blogs/images/reading-stack-video.mov" />
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
